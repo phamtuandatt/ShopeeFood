@@ -1,0 +1,208 @@
+﻿@model ShopeeFood_Web.Models.CustomerModel
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/css_management_profile_user_shopee.css" />
+
+<div class="container" style="padding-top:75px">
+    <!-- LEFT -->
+    <div class="now-navigation-profile">
+        <div class="header-profile">
+            <div class="row align-items-center">
+                <div class="col-3">
+                    <img class="avatar-circle" src="https://images.foody.vn/usr/g1825/18244862/avt/s200x200/beauty-upload-api-foody-avatar-2d03099d-e7ec-49cf-8e37-c2aa6c719c87-191126163011.jpg" alt="Đạt Phạm">
+                </div>
+                <div class="col txt-bold font15">Đạt Phạm</div>
+            </div>
+        </div>
+        <div class="navigation-profile" style="text-decoration: none; color:black">
+            <a class="item-navigation active" title="Cập nhật tài khoản" href="#">
+                <div class="row">
+                    <div class="col-2">
+                        <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                        </svg>
+                    </div>
+                    <div class="col">Cập nhật tài khoản</div>
+                    <div class="col-2">
+                        <i class="icon-arrow-thin right"></i>
+                    </div>
+                </div>
+            </a>
+            <a style="text-decoration: none; color:black" class="item-navigation" title="Cập nhật tài khoản" href="https://icons.getbootstrap.com/icons/cart-check-fill/">
+                <div class="row">
+                    <div class="col-2">
+                        <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                        </svg>
+                    </div>
+                    <div class="col">Thông tin tài khoản</div>
+                    <div class="col-2">
+                        <i class="icon-arrow-thin right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- RIGHT -->
+    <div class="now-detail-profile">
+        <div class="header-user-profile">Thông tin người dùng</div>
+        <div class="content-user-profile">
+            <div class="user-profile-update">
+                <div class="title-user">Tải ảnh đại diện</div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="user-avatar-image">
+                            <img src="https://images.foody.vn/usr/g1825/18244862/avt/s200x200/beauty-upload-api-foody-avatar-2d03099d-e7ec-49cf-8e37-c2aa6c719c87-191126163011.jpg" alt="" id="avatar_user">
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="form-group">
+                            <span>Tải lên từ</span>
+                            <div class="custom-file-image">
+                                <input type="file" id="validatedCustomFile" class="input-custom" required="" hidden="" accept="image/*">
+                                <label class="label-custom" for="validatedCustomFile">Chọn</label>
+                                <span class="font-italic font13">Chấp nhận GIF, JPEG, PNG, BMP với kích thước tối đa 5.0 MB</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-blue-4" type="button">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="user-profile-update">
+                <form>
+                    <div class="title-user">Thay đổi thông tin</div>
+                    <div class="row form-group align-items-center">
+                        <div class="col-3 txt-bold">Tên</div>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <input name="name" placeholder="Tên" type="text" class="form-control" value="@Model.CustomerName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group align-items-center">
+                        <div class="col-3 txt-bold">Giới tính</div>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <select name="gender" class="custom-select">
+                                    <option value="0">Không chọn</option>
+                                    <option value="1">Nam</option>
+                                    <option value="2">Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group align-items-center">
+                        <div class="col-3 txt-bold">Email</div>
+                        <div class="col-8">
+                            <div id="update_email" class="input-group">
+                                <button onclick="add_div(1)" id="up_email" style="border:0.5px solid #0288d1 " type="button" class="btn btn-none-bg">Cập nhật mail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group align-items-center">
+                        <div id="old_passowrd" class="col-3 txt-bold">Mật khẩu</div>
+                        <div class="col-8">
+                            <div id="change_password" class="input-group">
+                                <span id="old_pass_1" style="margin-right: 100px;" class="show-pass">********</span>
+                                <button onclick="add_div(2)" id="old_pass_2" type="button" class="change-pass">Đổi mật khẩu</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="change_pw_"></div>
+                    <div class="row">
+                        <div class="col-3">
+                            <a href="~/User/Profile" class="btn btn-blue-4 btn-block"> Lưu thay đổi </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr />
+            <div class="user-profile-update">
+                <div class="title-user">Quản lý số điện thoại</div>
+                <div class="list-phone">
+                    <div class="list-phone-row">
+                        <div class="row align-items-center">
+                            <div class="col-3 txt-bold">@Model.Phone</div>
+                            <div class="col-9">
+                                <span class="phone-verified">
+                                    <svg style="margin-right: 5px;" class="txt-green font16" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                    </svg>Số điện thoại đã được xác thực
+                                </span>
+
+                            </div>
+                            <div class="col-7 btn-update-phone-number">
+                                <button class="btn btn-blue-4" type="button">Cập nhật số điện thoại</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Create function add div into div
+    function add_div(arae) {
+        if (arae == 1) {
+            // Add input
+            var input_ = document.createElement('input');
+            input_.className = 'form-control';
+            input_.setAttribute('name', 'email');
+            input_.id = 'update_email';
+            // Remove input
+            document.getElementById('up_email').remove();
+            document.getElementById('update_email').appendChild(input_);
+        }
+        else {
+            // Remove element & change text
+            document.getElementById('old_passowrd').innerHTML = 'Mật khẩu mới'
+            document.getElementById('old_pass_1').remove();
+            document.getElementById('old_pass_2').remove();
+
+            // Add elemet new_password
+            var new_pw = document.createElement('input');
+            new_pw.className = 'form-control';
+            new_pw.setAttribute('name', 'new_pw');
+            new_pw.setAttribute('type', 'password');
+
+            document.getElementById('change_password').appendChild(new_pw);
+
+            // Add div confirm password
+            var _change_pw = document.createElement('div');
+            _change_pw.className = 'row form-group align-items-center';
+
+            var _change_pw_left = document.createElement('div');
+            _change_pw_left.className = 'col-3 txt-bold';
+            _change_pw_left.innerHTML = 'Xác nhận mật khẩu';
+
+            var _change_pw_right = document.createElement('div');
+            _change_pw_right.className = 'col-8';
+
+            var _change_pw_input_group = document.createElement('div');
+            _change_pw_input_group.className = 'input-group';
+
+            var _change_pw_input_group_input = document.createElement('input');
+            _change_pw_input_group_input.className = 'form-control';
+            _change_pw_input_group_input.setAttribute('name', 'confirm_pw');
+            _change_pw_input_group_input.setAttribute('type', 'password');
+
+            _change_pw_input_group.appendChild(_change_pw_input_group_input);
+
+            _change_pw_right.appendChild(_change_pw_input_group);
+
+            _change_pw.appendChild(_change_pw_left);
+            _change_pw.appendChild(_change_pw_right);
+
+            document.getElementById('change_pw_').appendChild(_change_pw);
+        }
+
+    }
+</script>
+

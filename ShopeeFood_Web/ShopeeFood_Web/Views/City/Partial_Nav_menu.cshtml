@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.CityModel>
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/css_home_page.css" />
+
+
+@foreach (var item in Model)
+{
+    @*<a class="dropdown-item" href="~/Shop/ShopCategory_Home?cityId=@item.CityId">@item.CityName</a>*@
+
+    <a class="dropdown-item" href="~/Home/HomePageShopeeFood?cityId=@item.CityId&bussinessId=0">@item.CityName</a>
+}
+
+
+

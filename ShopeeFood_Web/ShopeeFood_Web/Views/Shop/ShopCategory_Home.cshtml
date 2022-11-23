@@ -1,0 +1,414 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.ShopModel>
+
+@{
+    ViewData["Title"] = "ShopCategory_Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/css_home_page.css" />
+
+<style>
+    .container-fluid {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+</style>
+
+<div id="scroll" class="now-banner ver_vi" style="position: fixed; top: 70px;">
+    <div class="container">
+        <div class="now-search">
+            <!-- Title -->
+            <div>
+                <h1 class="title">Đặt Đồ ăn, giao hàng từ 20'...</h1>
+                <div class="local">có 73337 địa điểm ở TP. HCM từ 00:00 - 23:59</div>
+            </div>
+            <!-- Search -->
+            <div class="form-search">
+                <div class="input-group">
+                    <input type="text" id="txtSearchHome" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
+                    <a href="">
+                        <button type="button" class="btn btn-primary btn-search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
+                                <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z" />
+                                <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z" />
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <!-- List filter-->
+            <div class="category-list-filter">
+                <a href="">
+                    <span class="category-item ">All</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">All</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">All</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">All</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">All</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">Đồ ăn</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">Đồ uống</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">Đồ chay</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">Bánh kem</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">Bánh kem</span>
+                </a>
+                <a href="">
+                    <span class="category-item ">Bánh kem</span>
+                </a>
+            </div>
+            <!-- Footer -->
+            <div>
+                <div style="margin-top: 30px; font-size:1.3rem !important">
+                    Sử dụng App ShopeeFood để có nhiều giảm giá <br />
+                    và trải nghiệm tốt hơn
+                </div>
+                <a><img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" width="35%" style="margin-top: 20px; border: 0.5px solid white; border-radius: 10px;" /></a>
+                <a><img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" width="35%" style="margin-top: 20px;border: 0.5px solid white; border-radius: 10px;" /></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="contain-main-home clearfix">
+    <div class="container">
+        <div class="main-right-home" id="flux">
+            <div class="user-get-local">
+                <div class="row align-items-center no-gutters pointer">
+                    <div class="col-autos">
+                        <span style="color: #0288d1; font-weight: bold;">Đồ ăn</span>
+                        <i class="fas fa-long-arrow-alt-right txt-gray-7 ml-2 font12"></i>
+                    </div>
+                    <div class="col pl-2 pr-2 txt-elipsis">307/12 Nguyễn Văn Trỗi, Phường 1, Tân Bình, Thành phố Hồ Chí Minh, Việt Nam</div>
+                    <div class="col-autos">
+                        <span class="pl-2 pr-2 link" data-toggle="modal">
+                            <i class="fas fa-angle-right txt-gray-7"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="now-list-restaurant deal-tab">
+                <div class="title-wrapper">
+                    <h2 class="title">Ưu đãi</h2>
+                    <a class="view-all-deal" href="~/Shop/ShopCategory">
+                        <span class="icon-list-deal">
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                        </span>Xem tất cả
+                    </a>
+                </div>
+
+                <div class="list-restaurant">
+                    @foreach (var item in Model)
+                    {
+                        <div class="now-loading-restaurant  ">
+                            <div class="box-loading">
+                                <div class="box-thumbnail"></div>
+                                <div class="box-line-df"></div>
+                                <div class="box-line-lgx"></div>
+                                <div class="box-line-lg"></div>
+                            </div>
+                        </div>
+                        <div class="item-restaurant">
+                            <a target="_blank" class="item-content" href="">
+                                <div class="img-restaurant">
+                                    <div class="tag-preferred">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                    </div>
+                                    <img src="@item.ShopImage" class="">
+                                </div>
+                                <div class="info-restaurant">
+                                    <div class="info-basic-res">
+                                        <h4 class="name-res" title="@item.ShopName">@item.ShopName</h4>
+                                        <div class="address-res" title="@item.Address">@item.Address</div>
+                                    </div>
+                                    <p class="content-promotion"><i class="fas fa-tag"></i> Flash Sale</p>
+                                    <div class="opentime-status">
+                                        <span class="stt online" title="Mở cửa" style="color: rgb(35, 152, 57); background-color: rgb(35, 152, 57);"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <div class="txt-center mt-2">
+                    <button class="btn-none btn-load-more link">
+                        <span class="pr-1">Xem thêm</span><i class="fas fa-redo font12 "></i>
+                    </button>
+                </div>
+            </div>
+            <div class="now-list-restaurant deal-tab">
+                <div class="title-wrapper">
+                    <h2 class="title">Ưu đãi</h2>
+                    <a class="view-all-deal" href="~/Shop/ShopCategory">
+                        <span class="icon-list-deal">
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                        </span>Xem tất cả
+                    </a>
+                </div>
+
+                <div class="list-restaurant">
+                    @foreach (var item in Model)
+                    {
+                        <div class="now-loading-restaurant  ">
+                            <div class="box-loading">
+                                <div class="box-thumbnail"></div>
+                                <div class="box-line-df"></div>
+                                <div class="box-line-lgx"></div>
+                                <div class="box-line-lg"></div>
+                            </div>
+                        </div>
+                        <div class="item-restaurant">
+                            <a target="_blank" class="item-content" href="">
+                                <div class="img-restaurant">
+                                    <div class="tag-preferred">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                    </div>
+                                    <img src="@item.ShopImage" class="">
+                                </div>
+                                <div class="info-restaurant">
+                                    <div class="info-basic-res">
+                                        <h4 class="name-res" title="@item.ShopName">@item.ShopName</h4>
+                                        <div class="address-res" title="@item.Address">@item.Address</div>
+                                    </div>
+                                    <p class="content-promotion"><i class="fas fa-tag"></i> Flash Sale</p>
+                                    <div class="opentime-status">
+                                        <span class="stt online" title="Mở cửa" style="color: rgb(35, 152, 57); background-color: rgb(35, 152, 57);"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <div class="txt-center mt-2">
+                    <button class="btn-none btn-load-more link">
+                        <span class="pr-1">Xem thêm</span><i class="fas fa-redo font12 "></i>
+                    </button>
+                </div>
+            </div>
+            <div class="now-list-restaurant deal-tab">
+                <div class="title-wrapper">
+                    <h2 class="title">Ưu đãi</h2>
+                    <a class="view-all-deal" href="~/Shop/ShopCategory">
+                        <span class="icon-list-deal">
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                        </span>Xem tất cả
+                    </a>
+                </div>
+
+                <div class="list-restaurant">
+                    @foreach (var item in Model)
+                    {
+                        <div class="now-loading-restaurant  ">
+                            <div class="box-loading">
+                                <div class="box-thumbnail"></div>
+                                <div class="box-line-df"></div>
+                                <div class="box-line-lgx"></div>
+                                <div class="box-line-lg"></div>
+                            </div>
+                        </div>
+                        <div class="item-restaurant">
+                            <a target="_blank" class="item-content" href="">
+                                <div class="img-restaurant">
+                                    <div class="tag-preferred">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                    </div>
+                                    <img src="@item.ShopImage" class="">
+                                </div>
+                                <div class="info-restaurant">
+                                    <div class="info-basic-res">
+                                        <h4 class="name-res" title="@item.ShopName">@item.ShopName</h4>
+                                        <div class="address-res" title="@item.Address">@item.Address</div>
+                                    </div>
+                                    <p class="content-promotion"><i class="fas fa-tag"></i> Flash Sale</p>
+                                    <div class="opentime-status">
+                                        <span class="stt online" title="Mở cửa" style="color: rgb(35, 152, 57); background-color: rgb(35, 152, 57);"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <div class="txt-center mt-2">
+                    <button class="btn-none btn-load-more link">
+                        <span class="pr-1">Xem thêm</span><i class="fas fa-redo font12 "></i>
+                    </button>
+                </div>
+            </div>
+            <div class="now-list-restaurant deal-tab">
+                <div class="title-wrapper">
+                    <h2 class="title">Ưu đãi</h2>
+                    <a class="view-all-deal" href="~/Shop/ShopCategory">
+                        <span class="icon-list-deal">
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                        </span>Xem tất cả
+                    </a>
+                </div>
+
+                <div class="list-restaurant">
+                    @foreach (var item in Model)
+                    {
+                        <div class="now-loading-restaurant  ">
+                            <div class="box-loading">
+                                <div class="box-thumbnail"></div>
+                                <div class="box-line-df"></div>
+                                <div class="box-line-lgx"></div>
+                                <div class="box-line-lg"></div>
+                            </div>
+                        </div>
+                        <div class="item-restaurant">
+                            <a target="_blank" class="item-content" href="">
+                                <div class="img-restaurant">
+                                    <div class="tag-preferred">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                    </div>
+                                    <img src="@item.ShopImage" class="">
+                                </div>
+                                <div class="info-restaurant">
+                                    <div class="info-basic-res">
+                                        <h4 class="name-res" title="@item.ShopName">@item.ShopName</h4>
+                                        <div class="address-res" title="@item.Address">@item.Address</div>
+                                    </div>
+                                    <p class="content-promotion"><i class="fas fa-tag"></i> Flash Sale</p>
+                                    <div class="opentime-status">
+                                        <span class="stt online" title="Mở cửa" style="color: rgb(35, 152, 57); background-color: rgb(35, 152, 57);"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <div class="txt-center mt-2">
+                    <button class="btn-none btn-load-more link">
+                        <span class="pr-1">Xem thêm</span><i class="fas fa-redo font12 "></i>
+                    </button>
+                </div>
+            </div>
+            <div class="now-list-restaurant deal-tab">
+                <div class="title-wrapper">
+                    <h2 class="title">Ưu đãi</h2>
+                    <a class="view-all-deal" href="~/Shop/ShopCategory">
+                        <span class="icon-list-deal">
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                            <span class="square"></span>
+                        </span>Xem tất cả
+                    </a>
+                </div>
+
+                <div class="list-restaurant">
+                    @foreach (var item in Model)
+                    {
+                            <div class="now-loading-restaurant  ">
+                                <div class="box-loading">
+                                    <div class="box-thumbnail"></div>
+                                    <div class="box-line-df"></div>
+                                    <div class="box-line-lgx"></div>
+                                    <div class="box-line-lg"></div>
+                                </div>
+                            </div>
+                            <div class="item-restaurant">
+                                <a target="_blank" class="item-content" href="">
+                                    <div class="img-restaurant">
+                                        <div class="tag-preferred">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                            </svg>
+                                        </div>
+                                        <img src="@item.ShopImage" class="">
+                                    </div>
+                                    <div class="info-restaurant">
+                                        <div class="info-basic-res">
+                                            <h4 class="name-res" title="@item.ShopName">@item.ShopName</h4>
+                                            <div class="address-res" title="@item.Address">@item.Address</div>
+                                        </div>
+                                        <p class="content-promotion"><i class="fas fa-tag"></i> Flash Sale</p>
+                                        <div class="opentime-status">
+                                            <span class="stt online" title="Mở cửa" style="color: rgb(35, 152, 57); background-color: rgb(35, 152, 57);"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                    }
+                </div>
+
+                <div class="txt-center mt-2">
+                    <button class="btn-none btn-load-more link">
+                        <span class="pr-1">Xem thêm</span><i class="fas fa-redo font12 "></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="background-color:#ebebeb;position: relative;" class="container-fluid">
+    <div class="container">
+        <div class="now-container-coporation">
+            <h4 class="title">
+                <span>Đơn hàng của bạn sẽ được bảo quản như thế nào?</span>
+            </h4>
+            <span><p class="font15"> ShopeeFood sẽ bảo quản đơn của bạn bằng túi &amp; thùng để chống nắng mưa, giữ nhiệt... trên đường đi một cách tốt nhất. </p></span>
+            <img src="https://shopeefood.vn/app/assets/img/Box-food-preservation-footer.png?82adfd2ec19091256d09a94dac77aaba" alt="food preservation">
+        </div>
+        <div class="now-container-coporation img-right">
+            <h4 class="title"><span>Ứng dụng Shopee Partner</span></h4>
+            <span><p class="font14">- <b>Ứng dụng Shopee Partner</b> là ứng dụng quản lý đơn hàng cho các nhà hàng đối tác của dịch vụ đặt món tận nơi </p><p class="font14"> - <b>ShopeeFood.vn</b> luôn sẵn sàng hợp tác với các nhà hàng, quán ăn, cafe... để mở rộng kinh doanh cũng như gia tăng khách hàng. Hãy kết nối vào hệ thống đặt và giao hàng để giảm bớt chi phí quản lý, vận hành, marketing, công nghệ... <br> Đăng ký tham gia: <b><a href="" target="_blank">tại đây</a></b></p></span>
+            <div class="bg-corporation">
+                <img src="https://shopeefood.vn/app/assets/img/banner-phone-reg-merchant.png?d657e88bd087afc6919b1c6c6da0dc49" alt="NowMerchant App" title="NowMerchant App" width="294px">
+            </div>
+        </div>
+        <div class="now-container-coporation img-right">
+            <h4 class="title">
+                <a href="">
+                    <span><span style="color: #EE4D2D;font-weight: bold;">ShopeeFood.vn</span> Hợp tác nhân viên giao nhận - ShopeeFood Driver</span>
+                </a>
+            </h4>
+            <span><p class="font15">Giúp bạn tăng thu nhập trong thời gian rảnh rỗi</p><p><span style="color: #EE4D2D;font-weight: bold;">ShopeeFood</span> tìm kiếm hợp tác với các cá nhân để thực hiện việc giao hàng, chúng tôi sẽ cung cấp ứng dụng (app), 1 số dụng cụ cần thiết để bạn có thể tiếp nhận &amp; giao hàng, kiếm thêm thu nhập <br>Đăng ký tham gia <a href="" style="color: #4D77A2; font-weight:bold">tại đây</a> hoặc gửi Email qua <a href="" style="color: #4D77A2; font-weight:bold">tuyendung@gofast.vn</a> - hoặc gọi qua số điện thoại (028) 7109 9179. </p></span>
+            <div class="bg-corporation">
+                <img src="https://shopeefood.vn/app/assets/img/bg-deliverynow-dat-mon-truc-tuyen-giao-hang-tan-noi.png?0a045d11888296eb26473f6126cad3f4" class="bg-deliverynow" alt="bg-deliverynow-dat-mon-truc-tuyen-giao-hang-tan-noi" title="bg-deliverynow-dat-mon-truc-tuyen-giao-hang-tan-noi" width="170px" data-change-lang="" style="width: 170px;">
+            </div>
+        </div>
+        <br><br><hr>
+    </div>
+    <br>
+</div>
+

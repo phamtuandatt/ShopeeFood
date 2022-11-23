@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.CityDetail>
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/css_home_page.css" />
+
+
+<div class="sub_header">
+    <!-- LOGO -->
+    <a href="~/Home/HomePageShopeeFood" style="width: 150px;height: 80px;cursor: pointer;position: absolute;display: block;">
+        <img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt="Logo Shopee" class="logo" style="margin-right: 50px; width: 150px;" />
+    </a>
+
+    <!-- DROPDOWN -->
+    <div style="margin: 0 0 0 200px" class="dropdown">
+        <!-- Show Partial City -->
+        <button type="button" class="btn btn-outline dropdown-toggle" data-toggle="dropdown">
+            TP.HCM
+        </button>
+        <div id="partial_zone" class="dropdown-menu"></div>
+
+        <!-- NAVARBAR LEFT -->
+        <div id="myDIV" class="main-nav col-auto">
+            @foreach (var item in Model)
+            {
+                <a class="nav-item" href="~/Shop/ShopCategory_Home?cityId=@item.CityId&bussinessId=@item.BusinesId"> @item.BusinessName </a>
+            }
+        </div>
+
+        <!-- Open The Modal -->
+        <span style="margin-top: 35px;" class="icon icon-search-dark" id="myBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+        </span>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-search-form">
+                    <span class="sub-title">Đặt Đồ ăn, giao hàng từ 20'... có 73298 địa điểm ở TP. HCM từ 00:00 - 23:59</span>
+                    <form>
+                        <input type="text" class="search-input" name="search-input" autocomplete="off" autofocus>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- DROPDOWN RIGHT --> <!-- - LOGIN - REGISTER - USE PARTIAL VIEW -->
+        <div id="Login" style="display: inline-block;position: absolute;margin-left: 25px;margin-top: 10px;padding: 0;"></div>
+    </div>
+</div>
+
+
+<script>
+    $('#partial_zone').load('/City/Partial_Nav_menu')
+
+    $('#Login').load('/Home/Check_Login')
+</script>

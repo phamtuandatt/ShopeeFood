@@ -1,0 +1,181 @@
+﻿@using ShopeeFood_Web.Models
+@model IEnumerable<ShopeeFood_Web.Models.ShopModel>
+
+@{
+    ViewData["Title"] = "ShopCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/css/css_productCategory.css" />
+
+<div class="container" style="padding-top: 100px; " id="tableContainer">
+    <!-- Header -->
+    <div class="header-res-collection">
+        <h2>Danh sách các sản phẩm đang được ưu đãi </h2>
+    </div>
+    <!-- Filter -->
+    <div class="now-search-filter">
+        <div class="nav-filter clearfix">
+            <!-- Filter Left -->
+            <div class="list-filter" onclick="showFitler()">
+                <div id="showFilter" class="item-filter">
+                    <span class="dropdown-toggle">Khu vực</span>
+                    <div class="container-box-filter">
+                        <form method="post" action="">
+                            @foreach (var item in ViewData["CityDistrict"] as IEnumerable<CityDistrictModel>)
+                            {
+                                <div class="custom-checkbox">
+                                    <input class="checkbox" onclick="add_div()" type="checkbox" value="@item.CityDistrictId" data-id="@item.CityDistrictId" data-text="@item.CityDistricName" name="district" id="@item.CityDistricName">
+                                    <label style="margin-left: 15px;cursor: pointer;" for="@item.CityDistricName">@item.CityDistricName</label>
+                                </div>
+                            }
+                            <input id="button" type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Filter Right -->
+            <div class="float-right">
+                <div class="result">
+                    246810 Kết quả
+                </div>
+                <select class="filter-sort">
+                    <option value="0">Tất cả</option>
+                    <option value="1">Giảm nhiều nhất</option>
+                    <option value="2">Mới nhất</option>
+                    <option value="3">Sắp hết hạn</option>
+                    <option value="4">Không phí dịch vụ</option>
+                    <option value="5">Ưu đãi gần tôi</option>
+                </select>
+            </div>
+        </div>
+        <div id="tag-filter" class="tag-filter" style="margin-bottom:5px">
+        </div>
+    </div>
+
+    <!-- Product Category-->
+    <div class="now-list-restaurant">
+        <div class="list-restaurant" id="list-restaurant">
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div style="margin-left: auto; margin-right: auto; width: fit-content;padding:5px">
+
+        <ul class="pagination" id="pagination_">
+            <li class="">
+                <a class="" href="#">
+                    <img src="~/Image/rewind-button.png" class="icon icon-paging-pre" />
+                </a>
+            </li>
+            <li class="active">
+                <a class="pag" href="#">1</a>
+            </li>
+            <li class="">
+                <a class="pag" href="#">2</a>
+            </li>
+            <li class="">
+                <a class="pag" href="#">3</a>
+            </li>
+            <li class="">
+                <a class="pag" href="#">
+                    <img src="~/Image/rewind-button_2.png" class="icon icon-paging-next" />
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<!-- Show filter -->
+<script>
+    // Show filter
+    function showFitler() {
+        var element = document.getElementById('showFilter');
+        if (element.className == "item-filter") {
+            element.classList.add("show");
+        } else {
+            element.classList.remove("show");
+
+        }
+    }
+
+    // Create function add div into div
+    function add_div() {
+        // Get total checkbox checked
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        // Check exists div
+        var element = document.getElementById('tag-filter');
+        // true -> exists
+        if (element.contains(document.getElementById('widget-tag'))) {
+            if (checkboxes.length <= 0) {
+                // Remove div
+                document.getElementById('widget-tag').remove();
+            } else {
+                // Change text
+                document.getElementById('key-word').innerText = '(' + checkboxes.length + ')';
+            }
+        }
+        // false -> not exists
+        else {
+            // add div
+            var divv = document.createElement('div');
+            divv.className = 'widget-tag';
+            divv.innerText = 'Khu vực: ';
+            divv.id = 'widget-tag';
+
+            var spann_1 = document.createElement('span');
+            spann_1.classList.add('key-word');
+            spann_1.innerText = '(1)';
+            spann_1.id = 'key-word';
+
+            var spann_2 = document.createElement('span');
+            spann_2.classList.add('btn-delete-tag')
+            spann_2.innerText = 'x';
+            spann_2.onclick = function () {
+                $.ajax({
+                    url: "@Url.Action("ShopCategory", "Shop")",
+                    type: "GET",
+                    success: function (response) {
+                        document.getElementById('widget-tag').remove();
+                        $('#list-restaurant').load('/Shop/PartialViewShopCategory')
+                        $('.checkbox').each(function () { //loop through each checkbox
+                            this.checked = false; //deselect all checkboxes with class "checkbox1"
+                        });
+                    }
+                })
+            };
+
+            divv.appendChild(spann_1);
+            divv.appendChild(spann_2);
+
+            document.getElementById('tag-filter').appendChild(divv);
+        }
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    const button = document.querySelector('#button');
+    button.addEventListener('click', (event) => {
+        event.preventDefault()
+        let checkboxes = document.querySelectorAll('input[name="district"]:checked');
+        let output = [];
+        checkboxes.forEach((checkbox) => {
+            output.push(checkbox.value);
+        });
+        $.ajax({
+            url: "@Url.Action("PartialViewShopCategory", "Shop")",
+            type: "POST",
+            data: { 'check_district': output },
+            success: function (response) {
+                $('#list-restaurant').load('/Shop/PartialViewShopCategory')
+            }
+        })
+    });
+</script>
+
+<script>
+    $('#list-restaurant').load('/Shop/PartialViewShopCategory')
+</script>

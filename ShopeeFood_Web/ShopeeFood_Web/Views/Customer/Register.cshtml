@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+<style>
+    .btn-danger {
+        background-color: #ee4d2d;
+    }
+
+    .btn-success {
+        background-color: #329900;
+    }
+
+    .btn-facebook {
+        background-color: #187caa;
+    }
+
+    .btn-gmail {
+        background-color: #ff5252;
+    }
+
+    .title-header {
+        padding: 20px;
+        font-weight: 700px;
+        text-align: center;
+    }
+
+    .btn-gmail
+    .btn-facebook:hover {
+        
+    }
+
+    .contents {
+        background-color: #fff;
+        width: 850px;
+    }
+    .information {
+        width: 750px;
+        margin:auto;
+    }
+</style>
+
+<div style="padding-top:80px" class="container">
+    <div style="width: 950px;margin: auto; padding-top:50px; font-size: 15px; font-weight: 700;">
+        <div class="contents">
+            <div style="padding: 50px 0 35px 0; width: 750px; margin: auto;" class="title-header row">
+                <h4>Đăng ký</h4>
+            </div>
+            <div style="width: 750px; margin: auto; color: #ebebeb;" class="row">
+                <div style="margin: 0 0 10px 0; " class="btn btn-success">SỐ ĐIỆN THOẠI</div>
+                <div style="margin: 0 0 10px 0; color: #ebebeb;" class="btn btn-facebook">FACEBOOK</div>
+                <div style="margin: 0 0 10px 0; color: #ebebeb;" class="btn btn-gmail">GMAIL</div>
+            </div>
+            <br />
+            <p> </p>
+            <div style=" width: 750px; margin: auto; color: #464646; font-size: 12px;" class="title-header row">
+                <h6>Điền đầy đủ thông tin để đăng ký tài khoản</h6>
+            </div>
+
+            <div class="information">
+                <div style="" class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label style="padding: 5px 0 5px 20px;" class="control-label" for="UserName">Họ tên</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="UserName" name="username" placeholder="Họ và tên">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label style="padding: 5px 0 5px 20px;" class="control-label" for="Address">Địa chỉ</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="Address" name="Address" placeholder="Địa chỉ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="" class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label style="padding: 5px 0 5px 20px;" class="control-label" for="Phone">Số điện thoại</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Số điện thoại">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label style="padding: 5px 0 5px 20px;" class="control-label" for="Sex">Giới tính</label>
+                            <div style="margin-top:6px" class="col-md-10">
+                                <input type="radio" id="male" name="Sex" value="Nam" checked>
+                                <label for="male">&nbsp;Nam</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="radio" id="female" name="Sex" value="Nữ">
+                                <label for="female">&nbsp;Nữ</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="" class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label style="padding: 5px 0 5px 20px;" class="control-label" for="Email">Email</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="Email" name="Email" placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label style="padding: 5px 0 5px 20px;" class="control-label" for="Password">Mật khẩu đăng nhập</label>
+                            <div class="col">
+                                <input type="password" class="form-control" id="Password" name="Password" placeholder="Mật khẩu đăng nhập">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:30px 0 30px 0" class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-right:20px; margin-bottom:10px; float: right;">
+                            <a style="width: 150px;" class="btn btn-secondary" href="~/User/Login">HỦY</a>
+                        </div>
+                        <div class="form-group" style="margin-right:10px; margin-bottom:10px; float: right;">
+                            <input style="width: 150px;" class="btn btn-danger" type="button" value="ĐĂNG KÝ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

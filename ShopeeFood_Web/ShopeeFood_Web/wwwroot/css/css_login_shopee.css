@@ -1,0 +1,100 @@
+﻿body {
+    padding:0;
+    margin:0;
+}
+
+.clearfix:after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.now-login {
+    width: 600px;
+    margin: auto;
+    clear: both;
+    padding-top: 130px;
+    padding-bottom: 30px;
+}
+
+    .now-login .contents {
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 5px;
+    }
+
+    .now-login .title {
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 17px;
+    }
+
+    .now-login .login-via {
+        margin-bottom: 35px;
+    }
+
+        .now-login .login-via .item.phone {
+            background-color: #329900;
+        }
+
+        .now-login .login-via .fab, .now-login .login-via .fas {
+            position: absolute;
+            top: 5px;
+            left: 7px;
+            background-color: #fff;
+            border-radius: 50%;
+            font-size: 15px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .now-login .login-via .item {
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            width: 100%;
+            position: relative;
+            margin-bottom: 10px;
+            padding: 7px 0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            .now-login .login-via .item.fb {
+                background-color: #187caa;
+            }
+
+        .now-login .login-via .fa-facebook-f {
+            color: #187caa;
+        }
+
+        .now-login .login-via .item.plus {
+            background-color: #ff5252;
+        }
+
+.text {
+    font-size: 12px;
+    color: #464646;
+    text-align: center;
+}
+
+.float-right {
+    float: right !important;
+    margin-left: 225px;
+}
+
+.form-group {
+    display: inline-flex;
+    padding-bottom: 10px
+}
+
+.now-login .login-mess-policy {
+    text-align: center;
+    color: #707070;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 200;
+}

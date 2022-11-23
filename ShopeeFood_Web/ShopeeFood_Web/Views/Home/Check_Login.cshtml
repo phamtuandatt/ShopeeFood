@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/css_home_page.css" />
+
+@{
+    if (ViewBag.UserName == null)
+    {
+        <a href="~/Customer/Login" class="btn btn-outline-danger" style="padding: 7px 25px 7px 25px;margin: 13px 0 0 30px;"> ĐĂNG NHẬP </a>
+    }
+    else
+    {
+        <div class="image">
+            <div style="float: left;margin-left: 20px;margin-top: 2px;width: 250px;">
+                <button type="button" style="background-color: transparent;" class="btn btn-outline dropdown-toggle" data-toggle="dropdown">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAFwAXAMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAHAgMEBQYIAQD/xAA9EAABAwIEAgcGAggHAAAAAAABAgMEABEFBhIhMUEHEyJRYXGRFDJCgaHBUrEWIyQzgrLR8BUmc6LC4fH/xAAZAQADAQEBAAAAAAAAAAAAAAABAwQCAAX/xAAhEQADAAMAAgIDAQAAAAAAAAAAAQIDESESMQRBEzJxBf/aAAwDAQACEQMRAD8AM2uvC5amdVJUragAaxfFo+EYZIxCYqzEdGpXee4DxJ2rm7OGccSzNOW7JfWiOCeqYQohKE+VE3p0mOM5YgsNkhD8uy7HuSSAfr6UC0guOJSOKjb1raM62yVHYck/uz8tyT/fjanS9Kw5YS6hxyP+B1PZPkQeyfEVussZeHUJsi54k1fTstM+zqU/1aEEWutQApLy6ZR+BUumCZjMToKp+FdYtls/tEc9pyP42+JPiOHMbXqzylmebljEUyYi1OxFkdexq7LifsRyP2vVZOgTcsYgjFMKWdCFBSurUCLX+Y9fyvU/EEYZi8Q4pgyUxpNtciENkEfEpvfa210b6b/hANOmlSJqlxWmdE4bPj4jBYmw3Osjvthbau8H71KChQ96HpC15YU0es6pDpU2Fj3LkhSR/ElSv4/InehVZZofBr29NA0sKoHFZekKVtSdVJUdq44q8z5fgZnwleG4kF9WVBbbjZsppYvZQv4EjyNAT/BIcDOkvDhLcdg4eXFOSCkBSggb7C/xG3yrovVYXoLdHqW5ecMdVIA9oPWEd9i72vrpoU9IZE7Zd5bxCEiUWo0KWysJBK16lIUCAfeuU3savcxKeQlpbEBEl0X0hwCydr9x7relSnmWWXmirhqHImrZDzbyTpSvSFWutBSfMX4jxFT7K9GUwRmXiulGLZfEUqQSl0aLDf3Tbf8AMVlc65PTlnTPw8r9mkLsphA1BCuIsDy4+VGaK0hIuOdQMZitTkIjvISpHWBVlC/C9DycvaA5VLxZiehjE2xKnQXG3mFyEJfZS62pIe0khSk32JF0jbkB3UWEqoJ53xH/AABzCoWHobRPDwkK0n3d1pBuNwVXtfjYHwoqZZxVOMYPGmAk9YgKubXNx4c+IPiDVE1tbZNkhS9Iu0qpwGo6TS9VaFFYTSVK2ry9JUdq4IkqoFCWMu9KLyivS0Zi23Ty0O8L+A1JPyoyYviTGFwnJMlelCBfz8K58zPJVOxB+U778hZWfI8PpQfeDJ9bDPi0uTHfj9S2S0skLdACi2eXZuOO/pUmNNxNTSG4TaHxsCp5AbSkX43ClHhyt/1gcj51bfabw/GHNL7abNvng4PHuP50Qo2LQmkdlerwSL3qdrx4yyblyaCM6Q0CvY86H3Shm6bhCIjODyAzJfcILmhKiEjjYEEcSKv1z5E1WloFpvv50KelBwDH48cG4Yjg/NRN/wAhXR2hd8nZnPa5EvEvbZbzj75dS444s3Uogg/bhR/6NFp/RiIlJuA2LeHaV/Wuf4qdNyBftW9RRN6MsxexyE4fIWOodIDZPwqvw8jT99EOdyGJJpwGmG1Xp2tCitNIUdqWabWLpI764AG+kTF1z8V9nSoiMwSLA+8RxP29awElan3lE89/KtNmNlTUuQHRZxCl6h46zWYTZKCo7k0JHVxaJeV20Kx+K26OyvUn/aaNGExQmO3sPdFBzBmicdg9WLkOp+u33o1tSGojY69xDaR8S1BI9TSsvsZiel0nstBIJtQa6S0q/Sdbir2W0kD5E/1ooS824LFbP7Yl9X4Y413+Y2+tDjNuIt49IC0xQ0hF9JJus/YeVHFjvy3oTn+Vila30zsQi2k/EPrVhFNlGxKVDtJI5GqlTTsf4SpHEKHKrDDlqlOdndWk3A5cLn03plS0axZZpcOgci4svGstxZbv74amnfFSTa/zFj860VZjo9gHD8tMpIILyy8Qe8gD/jWoooXXsryKH/SLmiZAlN4Rhaih1bYLy0e/dR7KUnkdvqKIRFB3pNHsec/aWt3FNMup52UOyP5Qa1Ol1ics1S8Z+zPZrSxHxNcWO6Xg00G3nb3C3QLLI/ivWXKSXAOQqzlO6lKTsSNieO/nUOMguub8BWZW2PyUscd+iRFQpCg4lRC+NwbWqZdS1anCVK71G5pKEgU8kVVMpHhZMrp9Pha1KsK+Ar21bEtnwbBO9OMNNNrKkJCVKSUkja4IsR6U1wpaFWrmk/YVdy9y9B2ylj0XHII9nbDDrACFx9V9A5Ed6flyrQAUA8s4uvCMYizELIShYDg/Eg+8PT6gUfwkEXG45Gp8kKXw9X4md5Z1XtFc/wBltSr2AFybXoE57kFWNrUhWp8gAm9ylR7/ABHAAbbUdcRTeI7ZRSQkm4rnnNjSWMwymUE6W3SBc77AbnxpFF+Mix8KfmqaixihPWEanVmyU/8AtEDA+jyCiFGedTPmOOshyw/VN3JAA2BPMn3uXjUDJ7LbGErxAJCn+vCO0NgARw5g7mx4jlatMzFckTC+Z0xC2XylGhwWtZz3gRZZsm3avsTTI2kT5tVT2V07KGCuPqhNNzMNlX/UrUVuIcuTbUlQ1AbJuQeKwBexrFYthczBsQdgT29D7dr2NwoHgoHmD/e9FrLj6sUygnEHhocBU42htStLSgbHRckpBBIIva3ACst0isoVBwl+1nEOSI2oc0IUNIPlc06Ke9EXyMU+DpfRg7eNfWpzSK80inHnbEgV7alW2r4VwBbXGugsr4giXl3DnnFjrFR0hfmBY/lXPzXGj9kAf5Pwz/TV/MaVm/VFn+e3+V/w/9k=" alt="" width="50px" height="50px" />
+                    <span style="padding-top: 11px;padding-left: 20px;display: inherit;">@ViewBag.UserName</span>
+                </button>
+                <div class="dropdown-menu">
+                    <div style="display: flex;padding: 5px">
+                        <svg style="float: left;width: 50px;margin-left: 8px; color: green;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                            <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z" />
+                            <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z" />
+                        </svg><a class="dropdown-item" href="#">GIỎ HÀNG</a>
+                    </div>
+
+                    <div style="display: flex;padding: 5px">
+                        <svg style="float: left;width: 50px;margin-left: 8px; color: #e2963b;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg><a class="dropdown-item" href="~/Customer/Profile">CẬP NHẬT THÔNG TIN</a>
+                    </div>
+                    <div style="display: flex;padding: 5px">
+                        <svg style="float: left;width: 50px;margin-left: 8px; color: #6d6f71;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                        </svg><a class="dropdown-item" href="~/Customer/Logout">ĐĂNG XUẤT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

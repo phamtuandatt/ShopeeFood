@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ShopeeFood_Web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/css_home_page.css" />
+
+</head>
+<body>
+    <!-- Wrapper -->
+    <div class="wrapper">
+        <!-- Header -->
+        <div id="header" class="header">
+            <div class="sub_header">
+                <!-- LOGO -->  
+                <a href="~/Home/HomePageShopeeFood" style="width: 150px;height: 80px;cursor: pointer;position: absolute;display: block;">
+                    <img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt="Logo Shopee" class="logo" style="margin-right: 50px; width: 150px;" />
+                </a>
+                <!-- DROPDOWN -->
+                <div style="margin: 0 0 0 200px" class="dropdown">
+                    <!-- Show Partial City -->
+                    <button type="button" class="btn btn-outline dropdown-toggle" data-toggle="dropdown">
+                        TP.HCM
+                    </button>
+                    <div id="partial_zone" class="dropdown-menu"></div>
+
+                    <!-- NAVARBAR LEFT -->
+                    <div id="myDIV" class="main-nav col-auto"></div>
+                    <!-- Open The Modal -->
+                    <span style="margin-top: 35px;" class="icon icon-search-dark" id="myBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </span>
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <div class="modal-search-form">
+                                <span class="sub-title">Đặt Đồ ăn, giao hàng từ 20'... có 73298 địa điểm ở TP. HCM từ 00:00 - 23:59</span>
+                                <form>
+                                    <input type="text" class="search-input" name="search-input" autocomplete="off" autofocus>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DROPDOWN RIGHT --> <!-- - LOGIN - REGISTER - USE PARTIAL VIEW -->
+                    <div id="Login" style="display: inline-block;position: absolute;margin-left: 25px;margin-top: 10px;padding: 0;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="container-fluid" style="background-color:#ebebeb">
+            <main role="main" class="">
+                @RenderBody()
+            </main>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="main-footer" style="position: relative;">
+            <div class="container">
+                <div class="container-inner">
+                    <div class="block-footer">
+                        <p style="font-weight: bold;">Công ty</p>
+                        <ul class="menu-footer">
+                            <li class="menu-item"><a href="">Giới thiệu</a></li>
+                            <li class="menu-item"><a href="https://help.shopeefood.vn/" target="_blank" rel="noopener noreferrer">Trung tâm Trợ giúp</a></li>
+                            <li class="menu-item"><a href="">Quy chế</a></li>
+                            <li class="menu-item"><a href="/terms-of-service">Điều khoản sử dụng</a></li>
+                            <li class="menu-item"><a href="">Bảo mật thông tin</a></li>
+                            <li class="menu-item"><a href="/adjustment-of-claims">Giải quyết khiếu nại</a></li>
+                            <li class="menu-item"><a href="">Liên hệ</a></li>
+                            <li class="menu-item"><a href="/tuyen-dung">Hợp tác nhân viên giao nhận</a></li>
+                            <li class="menu-item"><a href="">Đăng ký quán</a></li>
+                            <li class="menu-item"><a href="https://merchant.shopeefood.vn/edu/">ShopeeFood Uni</a></li>
+                            <li class="menu-item"><a href="https://shopee.vn/blog/" target="_blank" rel="noopener noreferrer">Shopee Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="block-footer">
+                        <p style="font-weight:bold ">Ứng dụng ShopeeFood</p>
+                        <img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" width="70%" style="margin: 5px;" />
+                        <img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" width="70%" style="margin: 5px;" />
+                        <img src="https://shopeefood.vn/app/assets/img/Huawei-gallery-vn.png?a17f5e9f3500255a52ec23de20dc115a" width="70%" style="margin: 5px;" />
+                    </div>
+                    <div class="block-footer txt-center">
+                        <div class="logo-footer">
+                            <a class="link" href="/">
+                                <img id="delivery-footer-logo" src="https://shopeefood.vn/app/assets/img/Logo-ShopeefoodVN.png?a233b36c37415f85f46c25a6cd0963aa" alt="Đặt món trực tuyến giao hàng tận nơi" title="Đặt món trực tuyến giao hàng tận nơi" width="100">
+                            </a>
+                        </div>
+                        <p class="font12">© 2022  ShopeeFood</p>
+                        <ul class="social-ico">
+                            <li style="list-style: none;">
+                                <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.facebook.com/shopeefoodvn" title="Facebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                    </svg>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.instagram.com/shopeefood_vn/" title="Instagram">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="block-last">
+                        <p style="font-weight: bold;">Địa chỉ công ty</p>
+                        <span>
+                            <p>Công Ty Cổ Phần Foody</p>
+                            <p>Lầu G, Tòa nhà Jabes 1,</p>
+                            <p>số 244 đường Cống Quỳnh, phường Phạm Ngũ Lão, Quận 1, TPHCM</p>
+                            <p>Giấy CN ĐKDN số: 0311828036</p>
+                            <p>do Sở Kế hoạch và Đầu tư TP.HCM cấp ngày 11/6/2012,</p>
+                            <p>sửa đổi lần thứ 23, ngày 10/12/2020</p>
+                            <p>Số điện thoại: 1900 2042</p>
+                            <p>Email: <a href="mailto:support@shopeefood.vn"> support@shopeefood.vn</a></p>
+                        </span>
+                        <span class="registered">
+                            <a target="_blank" rel="noopener noreferrer nofollow" href="http://online.gov.vn/HomePage/WebsiteDisplay.aspx?DocId=22747" title="ĐÃ ĐĂNG KÝ BỘ CÔNG THƯƠNG">
+                                <img alt="ĐÃ ĐĂNG KÝ BỘ CÔNG THƯƠNG" src="https://shopeefood.vn/app/assets/img/gov_seals1.jpg?4534b28245a7aad9805fbddc90f873d8">
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Show modal -->
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+        // Get the <span> element that closes the modal
+        span = document.getElementsByClassName("close")[0];
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- Active nav -->
+    <script>
+        var header = document.getElementById("myDIV");
+        var btns = header.getElementsByClassName("nav-item");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function () {
+                var current = document.getElementsByClassName("active");
+                if (current.length > 0) {
+                    current[0].className = current[0].className.replace(" active", "");
+                }
+                this.className += " active";
+            });
+        }
+    </script>
+
+    <!-- Scroll -->
+    <script>
+        window.onscroll = function () { scrolling() };
+
+        function scrolling() {
+            var elementId = document.getElementById('scroll');
+
+            var element = document.getElementById('flux').offsetHeight;
+
+            if (document.documentElement.scrollTop >= element - 770) {
+                elementId.style.position = "absolute";
+                elementId.style.top = element - 700 + "px";
+            }
+            else {
+                elementId.style.position = "fixed";
+                elementId.style.top = "70px";
+            }
+        }
+    </script>
+
+    <!-- Show Partial View -->
+   <script>
+        $('#myDIV').load('/City/Partial_CityDetial')
+
+        $('#partial_zone').load('/City/Partial_Nav_menu')
+
+        $('#Login').load('/Home/Check_Login')
+
+        //$('#header').load('/Home/Header')
+    </script>
+    <script>
+        $('#flux').load("/Shop/ShopCategory_Home_By_City")
+    </script>
+ 
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
