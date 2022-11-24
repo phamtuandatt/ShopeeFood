@@ -22,5 +22,9 @@ namespace OA_Service.IServices
         void SaveChange();
 
         Customer CheckLogin(string email, string password);
+
+        Customer CheckExisted_Customer(string email);
+
+        Customer GetCusByEmail(string email);
     }
 }

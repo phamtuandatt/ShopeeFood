@@ -11,7 +11,7 @@ using ShopeeFood_Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text; 
 using System.Threading.Tasks;
 
 namespace ShopeeFood_Web
@@ -90,7 +90,7 @@ namespace ShopeeFood_Web
                     var sendMailService = context.RequestServices.GetService<SendMailService>();
 
                     var mailContent = new MailContent();
-                    mailContent.To = "dat16072001@gmail.com";
+                    mailContent.To = "phamtuandat16072001@gmail.com";
                     mailContent.Title = "TEST MAIL SERVICE";
                     mailContent.Content = "TEST THANH CONG";
 

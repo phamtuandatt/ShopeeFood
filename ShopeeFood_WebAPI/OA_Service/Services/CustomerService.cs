@@ -18,6 +18,11 @@ namespace OA_Service.Services
             _customerRepository = customerRepository;
         }
 
+        public Customer CheckExisted_Customer(string email)
+        {
+            return _customerRepository.Check_Existed(c => c.Email == email);
+        }
+
         public Customer CheckLogin(string email, string password)
         {
             return _customerRepository.CheckLogin(c => c.Email == email && c.Password == password);
@@ -36,6 +41,11 @@ namespace OA_Service.Services
         public IEnumerable<Customer> GetAll()
         {
             return _customerRepository.GetAll();
+        }
+
+        public Customer GetCusByEmail(string email)
+        {
+            return _customerRepository.GetObject(c => c.Email == email);
         }
 
         public void Insert(Customer Entity)

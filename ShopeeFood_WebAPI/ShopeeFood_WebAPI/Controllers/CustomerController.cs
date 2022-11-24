@@ -42,22 +42,29 @@ namespace ShopeeFood_WebAPI.Controllers
             return customerService.CheckLogin(email, password);
         }
 
+        [Route("GetCusByEmail")]
+        [HttpGet("GetCusByEmail")]
+        public Customer GetCusByEmail(string email)
+        {
+            return customerService.GetCusByEmail(email);
+        }
+
+        //string name, string address, string sex, string email, string phone, string password
         [Route("AddCustomer")]
         [HttpPost("AddCustomer")]
-        public bool AddCustomer(string name, string address, string sex, string email, string phone, string password)
+        public bool AddCustomer(Customer customer)
         {
             try
             {
-                Customer customer = new Customer();
-                customer.CustomerName = name;
-                customer.CustomerAddress = address;
-                customer.Sex = sex;
-                customer.Email = email;
-                customer.Phone = phone;
-                customer.Password = password;
+                Customer cus = new Customer();
+                cus.CustomerName = customer.CustomerName;
+                cus.CustomerAddress = customer.CustomerAddress;
+                cus.Sex = customer.Sex;
+                cus.Email = customer.Email;
+                cus.Phone = customer.Phone;
+                cus.Password = customer.Password;
 
-
-                customerService.Insert(customer);
+                customerService.Insert(cus);
                 customerService.SaveChange();
 
                 return true;
@@ -68,5 +75,16 @@ namespace ShopeeFood_WebAPI.Controllers
                 throw;
             }
         }
+
+        [Route("CheckExistedCustomer")]
+        [HttpGet("CheckExistedCustomer")]
+        public Customer CheckExistedCustomer(string email)
+        {
+            Customer cus = customerService.CheckExisted_Customer(email);
+            
+            return cus;
+        }
+
+        
     }
 }

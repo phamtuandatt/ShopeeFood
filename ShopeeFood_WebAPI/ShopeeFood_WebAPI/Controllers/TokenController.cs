@@ -71,34 +71,5 @@ namespace ShopeeFood_WebAPI.Controllers
             return await _context.Customers.FirstOrDefaultAsync(user => user.Email == email && user.Password == password);
         }
 
-        // Function Generate_JSonWebToken
-        public string GenerateJWT(Customer customerModel)
-        {
-            // Get Key
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            // Create Claim
-            var claim = new Claim[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, customerModel.CustomerName),
-                new Claim(JwtRegisteredClaimNames.Sub, customerModel.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
-
-            // Setting Token
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issure"],
-                audience: _configuration["Jwt:Audience"],
-                claim,
-                expires: DateTime.Now.AddMinutes(5),
-                signingCredentials: credentials
-            );
-
-            // Encode_Token
-            var encode_token = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return encode_token;
-        }
     }
 }

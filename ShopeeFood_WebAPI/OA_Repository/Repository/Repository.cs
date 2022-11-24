@@ -25,6 +25,11 @@ namespace OA_Repository.Repository
             return entity.FirstOrDefault(_entity);
         }
 
+        public T Check_Existed(Func<T, bool> _entity)
+        {
+            return entity.FirstOrDefault(_entity);
+        }
+
         public void Delete(int Id)
         {
             entity.Remove(Get(Id));
@@ -38,6 +43,11 @@ namespace OA_Repository.Repository
         public IEnumerable<T> GetAll()
         {
             return entity.AsEnumerable();
+        }
+
+        public T GetObject(Func<T, bool> _entity)
+        {
+            return entity.FirstOrDefault(_entity);
         }
 
         public IEnumerable<T> GetShop_City_BussinessType(Func<T, bool> _entity)

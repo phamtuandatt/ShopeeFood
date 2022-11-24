@@ -24,6 +24,9 @@ using NuGet.Common;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using NuGet.ProjectModel;
+using ShopeeFood_Web.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Encodings.Web;
 
 namespace ShopeeFood_Web.Controllers
 {
@@ -31,10 +34,12 @@ namespace ShopeeFood_Web.Controllers
     {
         private IConfiguration _config;
         string baseUrl = "https://localhost:5001/api/Customer/GetCustomers";
+        readonly SendMailService sendMailService;
 
-        public CustomerController(IConfiguration configuration)
+        public CustomerController(IConfiguration configuration, SendMailService sendMailService)
         {
             _config = configuration;
+            this.sendMailService = sendMailService;
         }
 
         [HttpGet]
@@ -52,7 +57,7 @@ namespace ShopeeFood_Web.Controllers
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync("https://localhost:5001/api/Token/", content))
-                { 
+                {
                     string token = await response.Content.ReadAsStringAsync();
                     if (token == "Invalid credentials")
                     {
@@ -102,6 +107,107 @@ namespace ShopeeFood_Web.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            ViewBag.Existed = HttpContext.Session.GetString("Existed");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(CustomerModel customer)
+        {
+            if (await CheckExistedCus(customer.Email))
+            {
+                // Customer Existed
+                HttpContext.Session.SetString("Existed", "Tài khoản email đã được sử dụng \nHãy sử dụng tài khoản Email khác !");
+
+                return RedirectToAction("Register", "Customer");
+            }
+            else
+            {
+                // Customer Not Existed
+                using (var httpClient = new HttpClient())
+                {
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
+                        Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync("https://localhost:5001/api/Customer/AddCustomer/", content))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Login", "Customer");
+                        }
+                        return RedirectToAction("Register", "Customer");
+                    }
+                }
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            // Get Customer by Email
+            var cus = await GetCusByEmail(email);
+            string token = "";
+
+            // Generate Token and Send Email for user
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(cus),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync("https://localhost:5001/api/Token/", content))
+                {
+                    token = await response.Content.ReadAsStringAsync();
+
+                    HttpContext.Session.SetString("JWToken_ResetPassword", token);
+                }
+            }
+
+            // When Click Email, Get Token pass CustomerControllerAPI to Authorize
+            var urls = Url.Action(action: "ResetPassword", controller: "Customer", values: null, protocol: Request.Scheme);
+
+            MailContent mailContent = new MailContent();
+            mailContent.To = "phamtuandat16072001@gmail.com";
+            mailContent.Title = "RESET PASSOWRD";
+            mailContent.Content = $"Hãy nhấn vào <a href='{ HtmlEncoder.Default.Encode(urls) }'> đây </a>để lấy lại mật khẩu !";
+
+            await sendMailService.SendMail(mailContent);
+
+            // If success -> Navigation Action ForgotPassword_Message
+            return RedirectToAction("ForgotPassword_Message", "Customer");
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(string email, string password)
+        {
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword_Message()
+        {
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("username");
+            return RedirectToAction("HomePageShopeeFood", "Home");
+        }
+
         public async Task<string> RefreshToken(CustomerModel customer)
         {
             using (var httpClient = new HttpClient())
@@ -117,24 +223,19 @@ namespace ShopeeFood_Web.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Register()
+        public async Task<bool> CheckExistedCus(string email)
         {
-            return View();
-        }
+            using (HttpClient client = new HttpClient())
+            {
+                string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/CheckExistedCustomer?email={email}");
+                var res = JsonConvert.DeserializeObject<CustomerModel>(json);
 
-        [HttpPost]
-        public IActionResult Register(CustomerModel customer)
-        {
-
-
-            return RedirectToAction("Login", "Customer");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Remove("username");
-            return RedirectToAction("HomePageShopeeFood", "Home");
+                if (res != null)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
 
         public async Task<CustomerModel> GetCustomer(string email, string password)
@@ -199,6 +300,16 @@ namespace ShopeeFood_Web.Controllers
                 }
                 return null;
             }
+        }
+
+        public async Task<CustomerModel> GetCusByEmail(string email)
+        {
+            var url = baseUrl;
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/GetCusByEmail?email={email}");
+            var res = JsonConvert.DeserializeObject<CustomerModel>(json);
+
+            return res;
         }
     }
 }

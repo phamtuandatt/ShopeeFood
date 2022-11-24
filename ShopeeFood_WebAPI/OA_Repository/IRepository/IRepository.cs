@@ -24,5 +24,9 @@ namespace OA_Repository.IRepository
         T CheckLogin(Func<T, bool> entity);
 
         IEnumerable<T> GetShop_City_BussinessType(Func<T, bool> entity);
+
+        T Check_Existed(Func<T, bool> entity);
+
+        T GetObject(Func<T, bool> entity);
     }
 }
