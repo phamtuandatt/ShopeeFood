@@ -27,6 +27,7 @@ using NuGet.ProjectModel;
 using ShopeeFood_Web.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Encodings.Web;
+using System.IO;
 
 namespace ShopeeFood_Web.Controllers
 {
@@ -70,13 +71,17 @@ namespace ShopeeFood_Web.Controllers
 
                 // Get Customer
                 var cus = await GetCustomer(customer.Email, customer.Password);
-                HttpContext.Session.SetString("username", cus.CustomerName);
-                HttpContext.Session.SetString("image", cus.Avata + "");
-                HttpContext.Session.SetString("customerId", cus.CustomerId + "");
-                HttpContext.Session.SetString("email", cus.Email);
-                HttpContext.Session.SetString("password", cus.Password);
+                if (cus != null)
+                {
+                    HttpContext.Session.SetString("username", cus.CustomerName);
+                    HttpContext.Session.SetString("image", cus.Avata + "");
+                    HttpContext.Session.SetString("customerId", cus.CustomerId + "");
+                    HttpContext.Session.SetString("email", cus.Email);
+                    HttpContext.Session.SetString("password", cus.Password);
 
-                return RedirectToAction("HomePageShopeeFood", "Home");
+                    return RedirectToAction("HomePageShopeeFood", "Home");
+                }
+                return View();
             }
         }
 
@@ -87,11 +92,8 @@ namespace ShopeeFood_Web.Controllers
             var pw = HttpContext.Session.GetString("password");
 
             var customer = await GetCustomer(email, pw);
-            if (customer != null)
-            {
-                return View(customer);
-            }
-            else
+
+            if (customer == null)
             {
                 CustomerModel cus = new CustomerModel();
                 cus.Email = HttpContext.Session.GetString("email");
@@ -102,9 +104,68 @@ namespace ShopeeFood_Web.Controllers
                 HttpContext.Session.SetString("JWToken", refreshToken);
 
                 var cusNew = await GetCustomer(email, pw);
+                
 
                 return View(cusNew);
             }
+            return View(customer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(CustomerModel customer)
+        {
+            int cusId = int.Parse(HttpContext.Session.GetString("customerId"));
+            var cus = await GetCusById(cusId);
+            customer.CustomerAddress = cus.CustomerAddress;
+            customer.Phone = cus.Phone;
+
+            // Customer Not Existed
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync($"https://localhost:5001/api/Customer/UpdateCustomer?id={cusId}&", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Login", "Customer");
+                    }
+                    return RedirectToAction("Register", "Customer");
+                }
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CustomerAccountPartial()
+        {
+            int id = int.Parse(HttpContext.Session.GetString("customerId"));
+            var cus =  await GetCusById(id);
+
+            return PartialView(cus);
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult >CustomerAddressPartial()
+        //{
+        //    int id = int.Parse(HttpContext.Session.GetString("customerId"));
+        //    var cus = await GetCusAddressById(id);
+        //    return PartialView(cus);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> CustomerAddress()
+        {
+            int id = int.Parse(HttpContext.Session.GetString("customerId"));
+            var cus = await GetCusAddressById(id);
+            return View(cus);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CustomerAddress(CustomerAddressModel customer)
+        {
+            int id = int.Parse(HttpContext.Session.GetString("customerId"));
+            var cus = await GetCusAddressById(id);
+            return View(cus);
         }
 
         [HttpGet]
@@ -117,7 +178,7 @@ namespace ShopeeFood_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(CustomerModel customer)
         {
-            if (await CheckExistedCus(customer.Email))
+            if (await IsCustomerExisted(customer.Email))
             {
                 // Customer Existed
                 HttpContext.Session.SetString("Existed", "Tài khoản email đã được sử dụng \nHãy sử dụng tài khoản Email khác !");
@@ -172,10 +233,19 @@ namespace ShopeeFood_Web.Controllers
             // When Click Email, Get Token pass CustomerControllerAPI to Authorize
             var urls = Url.Action(action: "ResetPassword", controller: "Customer", values: null, protocol: Request.Scheme);
 
+            //Fetching Email Body Text from EmailTemplate File.  
+            string FilePath = "D:\\Demo\\1_ShopeeFood\\ShopeeFood_Web\\ShopeeFood_Web\\MailTemplates\\MailTemplate.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+
+            //Repalce [_link_content] = urls   
+            MailText = MailText.Replace("[_link_content]", urls);
+
             MailContent mailContent = new MailContent();
             mailContent.To = "phamtuandat16072001@gmail.com";
             mailContent.Title = "RESET PASSOWRD";
-            mailContent.Content = $"Hãy nhấn vào <a href='{ HtmlEncoder.Default.Encode(urls) }'> đây </a>để lấy lại mật khẩu !";
+            mailContent.Content = MailText;
 
             await sendMailService.SendMail(mailContent);
 
@@ -190,9 +260,15 @@ namespace ShopeeFood_Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult ResetPassword(string email, string password)
+        public async Task<IActionResult> ResetPassword(string email, string password)
         {
-
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/ResetPassword?email={email}&password={password}");
+            var res = JsonConvert.DeserializeObject<CustomerModel>(json);
+            if (res != null)
+            {
+                return RedirectToAction("Login", "Customer");
+            }
             return View();
         }
 
@@ -223,11 +299,11 @@ namespace ShopeeFood_Web.Controllers
             }
         }
 
-        public async Task<bool> CheckExistedCus(string email)
+        public async Task<bool> IsCustomerExisted(string email)
         {
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/CheckExistedCustomer?email={email}");
+                string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/IsCustomerExistedtomer?email={email}");
                 var res = JsonConvert.DeserializeObject<CustomerModel>(json);
 
                 if (res != null)
@@ -310,6 +386,28 @@ namespace ShopeeFood_Web.Controllers
             var res = JsonConvert.DeserializeObject<CustomerModel>(json);
 
             return res;
+        }
+
+        public async Task<CustomerModel> GetCusById(int id)
+        {
+            var url = baseUrl;
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/GetCustomer_1?id={id}");
+            var res = JsonConvert.DeserializeObject<CustomerModel>(json);
+
+            return res;
+        }
+
+        public async Task<IEnumerable<CustomerAddressModel>> GetCusAddressById(int id)
+        {
+            var url = baseUrl;
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync($"https://localhost:5001/api/CustomerAddress/GetAll");
+            var res = JsonConvert.DeserializeObject<IEnumerable<CustomerAddressModel>>(json).ToList();
+
+            var model = res.Where(adr => adr.CustomerId == id).ToList();
+
+            return model;
         }
     }
 }

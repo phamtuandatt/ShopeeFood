@@ -39,18 +39,13 @@ namespace ShopeeFood_Web.Controllers
             {
                 string json = await client.GetStringAsync("https://localhost:5001/api/CityDetail/GetAll");
                 var res = JsonConvert.DeserializeObject<List<CityDetail>>(json).ToList();
-                List<CityDetail> cityDetails = new List<CityDetail>();
-                foreach (var item in res)
-                {
-                    if (item.CityId == cityId)
-                    {
-                        cityDetails.Add(item);
-                    }
-                }
+
+                var cityDetails = res.Where(ct => ct.CityId == cityId).ToList();
 
                 return PartialView("Partial_CityDetial", cityDetails);
+
+
             }
         }
-
     }
 }

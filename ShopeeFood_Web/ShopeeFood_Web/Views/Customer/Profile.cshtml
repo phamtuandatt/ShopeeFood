@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="navigation-profile" style="text-decoration: none; color:black">
-            <a class="item-navigation active" title="Cập nhật tài khoản" href="#">
+            <a id="account" onclick="ReloadPartial(0)" class="item-navigation active" title="Cập nhật tài khoản" href="~/Customer/Profile">
                 <div class="row">
                     <div class="col-2">
                         <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </a>
-            <a style="text-decoration: none; color:black" class="item-navigation" title="Cập nhật tài khoản" href="https://icons.getbootstrap.com/icons/cart-check-fill/">
+            <a id="address" onclick="ReloadPartial(1)" style="text-decoration: none; color:black" class="item-navigation" title="Cập nhật tài khoản" href="~/Customer/CustomerAddress">
                 <div class="row">
                     <div class="col-2">
                         <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
@@ -48,104 +48,50 @@
         </div>
     </div>
     <!-- RIGHT -->
+
     <div class="now-detail-profile">
         <div class="header-user-profile">Thông tin người dùng</div>
-        <div class="content-user-profile">
-            <div class="user-profile-update">
-                <div class="title-user">Tải ảnh đại diện</div>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="user-avatar-image">
-                            <img src="https://images.foody.vn/usr/g1825/18244862/avt/s200x200/beauty-upload-api-foody-avatar-2d03099d-e7ec-49cf-8e37-c2aa6c719c87-191126163011.jpg" alt="" id="avatar_user">
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="form-group">
-                            <span>Tải lên từ</span>
-                            <div class="custom-file-image">
-                                <input type="file" id="validatedCustomFile" class="input-custom" required="" hidden="" accept="image/*">
-                                <label class="label-custom" for="validatedCustomFile">Chọn</label>
-                                <span class="font-italic font13">Chấp nhận GIF, JPEG, PNG, BMP với kích thước tối đa 5.0 MB</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-blue-4" type="button">Cập nhật</button>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div class="user-profile-update">
-                <form>
-                    <div class="title-user">Thay đổi thông tin</div>
-                    <div class="row form-group align-items-center">
-                        <div class="col-3 txt-bold">Tên</div>
-                        <div class="col-8">
-                            <div class="input-group">
-                                <input name="name" placeholder="Tên" type="text" class="form-control" value="@Model.CustomerName">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group align-items-center">
-                        <div class="col-3 txt-bold">Giới tính</div>
-                        <div class="col-8">
-                            <div class="input-group">
-                                <select name="gender" class="custom-select">
-                                    <option value="0">Không chọn</option>
-                                    <option value="1">Nam</option>
-                                    <option value="2">Nữ</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group align-items-center">
-                        <div class="col-3 txt-bold">Email</div>
-                        <div class="col-8">
-                            <div id="update_email" class="input-group">
-                                <button onclick="add_div(1)" id="up_email" style="border:0.5px solid #0288d1 " type="button" class="btn btn-none-bg">Cập nhật mail</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group align-items-center">
-                        <div id="old_passowrd" class="col-3 txt-bold">Mật khẩu</div>
-                        <div class="col-8">
-                            <div id="change_password" class="input-group">
-                                <span id="old_pass_1" style="margin-right: 100px;" class="show-pass">********</span>
-                                <button onclick="add_div(2)" id="old_pass_2" type="button" class="change-pass">Đổi mật khẩu</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="change_pw_"></div>
-                    <div class="row">
-                        <div class="col-3">
-                            <a href="~/User/Profile" class="btn btn-blue-4 btn-block"> Lưu thay đổi </a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <hr />
-            <div class="user-profile-update">
-                <div class="title-user">Quản lý số điện thoại</div>
-                <div class="list-phone">
-                    <div class="list-phone-row">
-                        <div class="row align-items-center">
-                            <div class="col-3 txt-bold">@Model.Phone</div>
-                            <div class="col-9">
-                                <span class="phone-verified">
-                                    <svg style="margin-right: 5px;" class="txt-green font16" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                    </svg>Số điện thoại đã được xác thực
-                                </span>
-
-                            </div>
-                            <div class="col-7 btn-update-phone-number">
-                                <button class="btn btn-blue-4" type="button">Cập nhật số điện thoại</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="partial_zone_customer" class="content-user-profile">
         </div>
     </div>
+
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    function ReloadPartial(option) {
+        if (option == 0) {
+            const button = document.getElementById('#account');
+            button.addEventListener('click', (event) => {
+                event.preventDefault()
+                $.ajax({
+                    url: "@Url.Action("CustomerAccountPartial", "Customer")",
+                    type: "GET",
+                    success: function (response) {
+                        $('#partial_zone_customer').load('/Customer/CustomerAccountPartial')
+                    }
+                })
+            });
+        }
+        else {
+            const button = document.getElementById('#account');
+            button.addEventListener('click', (event) => {
+                event.preventDefault()
+                $.ajax({
+                    url: "@Url.Action("CustomerAddressPartial", "Customer")",
+                    type: "GET",
+                    success: function (response) {
+                        $('#partial_zone_customer').load('/Customer/CustomerAddressPartial')
+                    }
+                })
+            });
+        }
+    }
+</script>
+
+<script>
+    $('#partial_zone_customer').load('/Customer/CustomerAccountPartial')
+</script>
 
 <script>
     // Create function add div into div
@@ -154,7 +100,8 @@
             // Add input
             var input_ = document.createElement('input');
             input_.className = 'form-control';
-            input_.setAttribute('name', 'email');
+            input_.setAttribute('name', 'Email');
+            input_.setAttribute('placeholder', 'Email');
             input_.id = 'update_email';
             // Remove input
             document.getElementById('up_email').remove();
@@ -169,8 +116,9 @@
             // Add elemet new_password
             var new_pw = document.createElement('input');
             new_pw.className = 'form-control';
-            new_pw.setAttribute('name', 'new_pw');
+            new_pw.setAttribute('name', 'Password');
             new_pw.setAttribute('type', 'password');
+            new_pw.setAttribute('placeholder', 'Mật khẩu');
 
             document.getElementById('change_password').appendChild(new_pw);
 
@@ -192,6 +140,7 @@
             _change_pw_input_group_input.className = 'form-control';
             _change_pw_input_group_input.setAttribute('name', 'confirm_pw');
             _change_pw_input_group_input.setAttribute('type', 'password');
+            _change_pw_input_group_input.setAttribute('placeholder', 'Xác nhận mật khẩu');
 
             _change_pw_input_group.appendChild(_change_pw_input_group_input);
 
@@ -206,3 +155,15 @@
     }
 </script>
 
+<script>
+    function chooseFile(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#avatar_user').attr('src', e.target.result);
+                $('#choose_file').attr('value', e.target.result);
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>

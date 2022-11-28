@@ -38,6 +38,22 @@ namespace OAData.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomerAddresses",
+                columns: table => new
+                {
+                    CustomerAddressId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    RemmemberName = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(10)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomerAddresses", x => x.CustomerAddressId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -97,13 +113,13 @@ namespace OAData.Migrations
                         column: x => x.BusinessId,
                         principalTable: "BusinessTypes",
                         principalColumn: "BusinesId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_CityDetails_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "CityId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,7 +129,7 @@ namespace OAData.Migrations
                     CityDistrictId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CityDistricName = table.Column<string>(type: "nvarchar(20)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: true)
+                    CityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,7 +139,7 @@ namespace OAData.Migrations
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "CityId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -395,6 +411,9 @@ namespace OAData.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CityDetails");
+
+            migrationBuilder.DropTable(
+                name: "CustomerAddresses");
 
             migrationBuilder.DropTable(
                 name: "Deliveries");

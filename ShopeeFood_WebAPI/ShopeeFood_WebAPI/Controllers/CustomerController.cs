@@ -5,6 +5,7 @@ using OA_Data.Entities;
 using OA_Service.IServices;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace ShopeeFood_WebAPI.Controllers
@@ -78,13 +79,56 @@ namespace ShopeeFood_WebAPI.Controllers
 
         [Route("CheckExistedCustomer")]
         [HttpGet("CheckExistedCustomer")]
-        public Customer CheckExistedCustomer(string email)
+        public Customer IsCustomerExisted(string email)
         {
-            Customer cus = customerService.CheckExisted_Customer(email);
+            Customer cus = customerService.IsCustomerExisted(email);
             
             return cus;
         }
 
-        
+
+        //string name, string address, string sex, string phone, string email, int id
+        [Route("UpdateCustomer")]
+        [HttpPut("UpdateCustomer")]
+        public bool UpdateCustomer(int id, Customer customer)
+        {
+            if (id != customer.CustomerId)
+            {
+                return false;
+            }
+
+            customerService.Update(customer);
+            try
+            {
+                customerService.SaveChange();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;   
+                throw;
+            }
+        }
+
+
+        [Route("ResetPassword")]
+        [HttpPut("ResetPassword")]
+        public Customer ResetPassword(string email, string password)
+        {
+            var customer = GetCusByEmail(email);
+            customer.Password = password;
+
+            customerService.Update(customer);
+            try
+            {
+                customerService.SaveChange();
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw;
+            }
+        }
     }
 }

@@ -1,0 +1,75 @@
+﻿@model ShopeeFood_Web.Models.CustomerModel
+
+<link rel="stylesheet" href="~/css/css_management_profile_user_shopee.css" />
+
+@using (Html.BeginForm())
+{
+    <hr />
+    <div class="user-profile-update">
+        <div class="title-user">Thay đổi thông tin</div>
+        <div class="row form-group align-items-center">
+            <div class="col-3 txt-bold">Tên</div>
+            <div class="col-8">
+                <div class="input-group">
+                    <input name="CustomerName" placeholder="Tên" type="text" class="form-control" value="@Model.CustomerName">
+                </div>
+            </div>
+        </div>
+        <div class="row form-group align-items-center">
+            <div class="col-3 txt-bold">Giới tính</div>
+            <div class="col-8">
+                <div class="input-group">
+                    <select id="Sex" name="Sex" class="custom-select">
+                        <option value="1">Nam</option>
+                        <option value="2">Nữ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group align-items-center">
+            <div class="col-3 txt-bold">Email</div>
+            <div class="col-8">
+                <div id="update_email" class="input-group">
+                    <button onclick="add_div(1)" id="up_email" style="border:0.5px solid #0288d1 " type="button" class="btn btn-none-bg">Cập nhật mail</button>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group align-items-center">
+            <div id="old_passowrd" class="col-3 txt-bold">Mật khẩu</div>
+            <div class="col-8">
+                <div id="change_password" class="input-group">
+                    <span id="old_pass_1" style="margin-right: 100px;" class="show-pass">********</span>
+                    <button onclick="add_div(2)" id="old_pass_2" type="button" class="change-pass">Đổi mật khẩu</button>
+                </div>
+            </div>
+        </div>
+        <div id="change_pw_"></div>
+        <div class="row">
+            <div class="col-3">
+                <button class="btn btn-blue-4 btn-block" type="submit">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+}
+<hr />
+<div class="user-profile-update">
+    <div class="title-user">Quản lý số điện thoại</div>
+    <div class="list-phone">
+        <div class="list-phone-row">
+            <div class="row align-items-center">
+                <div class="col-3 txt-bold">@Model.Phone</div>
+                <div class="col-9">
+                    <span class="phone-verified">
+                        <svg style="margin-right: 5px;" class="txt-green font16" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                        </svg>Số điện thoại đã được xác thực
+                    </span>
+
+                </div>
+                <div class="col-7 btn-update-phone-number">
+                    <button class="btn btn-blue-4" type="button">Cập nhật số điện thoại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

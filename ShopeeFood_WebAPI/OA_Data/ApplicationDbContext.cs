@@ -43,6 +43,8 @@ namespace OA_Repository
 
         public DbSet<CityDistrict> CityDistricts { get; set; }
 
+        public DbSet<CustomerAddress> CustomerAddresses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

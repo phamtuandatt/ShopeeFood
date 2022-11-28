@@ -73,6 +73,8 @@ namespace ShopeeFood_WebAPI
 
             services.AddTransient<ICityDistrictService, CityDistrictService>();
 
+            services.AddTransient<ICustomerAddressService, CustomerAddressService>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(option =>
                 {

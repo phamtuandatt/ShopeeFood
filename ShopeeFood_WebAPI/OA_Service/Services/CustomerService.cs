@@ -18,7 +18,7 @@ namespace OA_Service.Services
             _customerRepository = customerRepository;
         }
 
-        public Customer CheckExisted_Customer(string email)
+        public Customer IsCustomerExisted(string email)
         {
             return _customerRepository.Check_Existed(c => c.Email == email);
         }

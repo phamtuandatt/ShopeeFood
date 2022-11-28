@@ -125,6 +125,28 @@ namespace OAData.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("OA_Data.Entities.CustomerAddress", b =>
+                {
+                    b.Property<int>("CustomerAddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerAddressId"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("RemmemberName")
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("CustomerAddressId");
+
+                    b.ToTable("CustomerAddresses");
+                });
+
             modelBuilder.Entity("OA_Data.Entities.Delivery", b =>
                 {
                     b.Property<int>("EmpId")

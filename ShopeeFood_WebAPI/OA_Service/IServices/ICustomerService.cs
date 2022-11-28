@@ -23,7 +23,7 @@ namespace OA_Service.IServices
 
         Customer CheckLogin(string email, string password);
 
-        Customer CheckExisted_Customer(string email);
+        Customer IsCustomerExisted(string email);
 
         Customer GetCusByEmail(string email);
     }
