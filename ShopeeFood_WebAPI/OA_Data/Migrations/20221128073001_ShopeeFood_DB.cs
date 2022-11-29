@@ -46,7 +46,8 @@ namespace OAData.Migrations
                     CustomerId = table.Column<int>(type: "int", nullable: true),
                     RemmemberName = table.Column<string>(type: "nvarchar(20)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(10)", nullable: true)
+                    Phone = table.Column<string>(type: "nvarchar(10)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(20)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -88,6 +88,7 @@ namespace ShopeeFood_Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
+            HttpContext.Session.Remove("Status");
             var email = HttpContext.Session.GetString("email");
             var pw = HttpContext.Session.GetString("password");
 
@@ -145,27 +146,92 @@ namespace ShopeeFood_Web.Controllers
         }
 
         //[HttpGet]
-        //public async Task<IActionResult >CustomerAddressPartial()
+        //public async Task<IActionResult> CustomerAddressPartial()
         //{
         //    int id = int.Parse(HttpContext.Session.GetString("customerId"));
         //    var cus = await GetCusAddressById(id);
         //    return PartialView(cus);
         //}
 
+
+        // BẮt lỗi không cho người dùng nhập ký tự đặc biệt vào textbox
+
         [HttpGet]
         public async Task<IActionResult> CustomerAddress()
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
             var cus = await GetCusAddressById(id);
+            ViewBag.Status = HttpContext.Session.GetString("Status");
+     
             return View(cus);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CustomerAddress(CustomerAddressModel customer)
+        [ActionName("DeleteCustomerAddressAsync")]
+        public async Task<IActionResult> DeleteCustomerAddressAsync(int CustomerAddressId)
+        {
+            // GetAssync -> Get status when excute API
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"https://localhost:5001/api/CustomerAddress/DeleteCustomerAddress?CustomerAddressId={CustomerAddressId}"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpContext.Session.SetString("Status", "Delete customer address complete !");
+                        return RedirectToAction("CustomerAddress", "Customer");
+                    }
+                    HttpContext.Session.SetString("Status", "Delete unsuccessful !");
+                    return RedirectToAction("CustomerAddress", "Customer");
+                }
+            }
+        }
+
+        [HttpPost]
+        [ActionName("EditCustomerAddressAsync")]
+        public async Task<IActionResult> EditCustomerAddressAsync(CustomerAddressModel customer)
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
-            var cus = await GetCusAddressById(id);
-            return View(cus);
+            customer.CustomerId = id;
+
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync("https://localhost:5001/api/CustomerAddress/UpdateCustomerAddress/", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpContext.Session.SetString("Status", "Update address successful !");
+                        return RedirectToAction("CustomerAddress", "Customer");
+                    }
+                    HttpContext.Session.SetString("Status", "Update unsuccessful !");
+                    return RedirectToAction("CustomerAddress", "Customer");
+                }
+            }
+        }
+
+        [HttpPost]
+        [ActionName("AddCustomerAddressAsync")]
+        public async Task<IActionResult> AddCustomerAddressAsync(CustomerAddressModel customer) 
+        {
+            int id = int.Parse(HttpContext.Session.GetString("customerId"));
+            customer.CustomerId = id;
+
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync("https://localhost:5001/api/CustomerAddress/AddCustomerAddress/", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpContext.Session.SetString("Status", "Add new address successful !");
+                        return RedirectToAction("CustomerAddress", "Customer");
+                    }
+                    HttpContext.Session.SetString("Status", "Create unsuccessful !");
+                    return RedirectToAction("CustomerAddress", "Customer");
+                }
+            }
         }
 
         [HttpGet]

@@ -26,5 +26,8 @@ namespace OA_Data.Entities
 
         [Column(TypeName = "nvarchar(10)")]
         public string Phone { get; set; }
+
+        [Column(TypeName = "nvarchar(20)")]
+        public string Name { get; set; }
     }
 }

@@ -9,6 +9,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
 <link rel="stylesheet" href="~/css/css_management_profile_user_shopee.css" />
 
 <div class="container" style="padding-top:75px">
@@ -23,7 +26,7 @@
             </div>
         </div>
         <div class="navigation-profile" style="text-decoration: none; color:black">
-            <a id="account" onclick="ReloadPartial(0)" class="item-navigation active" title="Cập nhật tài khoản" href="~/Customer/Profile">
+            <a id="account" onclick="ReloadPartial(0)" class="item-navigation" style="color: black;font-weight: bold;" title="Cập nhật tài khoản" href="~/Customer/Profile">
                 <div class="row">
                     <div class="col-2">
                         <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
@@ -36,7 +39,7 @@
                     </div>
                 </div>
             </a>
-            <a id="address" onclick="ReloadPartial(1)" style="text-decoration: none; color:black" class="item-navigation" title="Cập nhật tài khoản" href="~/Customer/CustomerAddress">
+            <a id="address" onclick="ReloadPartial(1)" class="item-navigation active" title="Cập nhật tài khoản" href="~/Customer/CustomerAddress">
                 <div class="row">
                     <div class="col-2">
                         <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
@@ -51,98 +54,260 @@
             </a>
         </div>
     </div>
-    <!-- RIGHT -->
 
-    <div style="height:1000px" class="now-detail-profile">
+    <!-- RIGHT -->
+    <div style="height:1000px; float: left; margin-left: 50px; min-height: 700px;" class="now-detail-profile">
         <div class="header-user-profile">Thông tin người dùng</div>
         <div id="partial_zone_customer" class="content-user-profile">
-            <table class="table">
-                <thead>
+            <table id="myTable" class="table">
+                <tr>
+                    <th style="color: #959595;font-size: small;width: 25px;">MÃ</th>
+                    <th style="color: #959595;font-size: small;width: 125px;">TÊN GỢI NHỚ</th>
+                    <th style="color: #959595;font-size: small;width: 160px;">TÊN KHÁCH HÀNG</th>
+                    <th style="color: #959595;font-size: small;width: 400px;">ĐỊA CHỈ</th>
+                    <th style="color: #959595;font-size: small;width: 150px;">SỐ ĐIỆN THOẠI</th>
+                    <th style="color: #959595"></th>
+                </tr>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CustomerAddressId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CustomerId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.RemmemberName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Address)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Phone)
-                        </th>
-                        <th></th>
+                        <td>
+                            <span data-id="@item.CustomerAddressId">@item.CustomerAddressId</span>
+                        </td>
+                        <td>
+                            <span data-id="@item.RemmemberName">@item.RemmemberName </span>
+                        </td>
+                        <td>
+                            <span data-id="@item.Name">@item.Name </span>
+                        </td>
+                        <td>
+                            <span data-id="@item.Address">@item.Address </span>
+                        </td>
+                        <td>
+                            <span data-id="@item.Phone">@item.Phone </span>
+                        </td>
+                        <td>
+                            <span style="cursor:pointer" data-id="@item.CustomerAddressId" data-bs-toggle="modal" data-bs-target="#exampleModal" class="openModelEdit" id="openModelEdit">
+                                SỬA
+                            </span>
+                            <span style="cursor:pointer" data-id="@item.CustomerAddressId" data-bs-toggle="modal" data-bs-target="#exampleModal_3" class="openModal" id="openModal">
+                                XÓA
+                            </span>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CustomerAddressId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CustomerId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RemmemberName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Address)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phone)
-                            </td>
-                            <td>
-                                <span class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    SỬA
-                                </span>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                }
             </table>
+            <button style="float:right" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal_2">THÊM</button>
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
-        <div style="width: fit-content;" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">CẬP NHẬT THÔNG TIN</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- CHỈNH SỬA -->
+@using (Html.BeginForm("EditCustomerAddressAsync", "Customer", FormMethod.Post))
+{
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div id="partial_add_address" style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
+            <div style="width: 1000px" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">CẬP NHẬT THÔNG TIN</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table style="border:white" id="myTable" class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group" style="margin-bottom:10px">
+                                            <label style="font-size: smaller;" class="control-label" for="RemmemberName">Tên gợi nhớ</label>
+                                            <div class="col">
+                                                <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;"
+                                                   type="text" class="form-control" id="RemmemberName" name="RemmemberName" placeholder="Tên gợi nhớ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group" style="margin-bottom:10px">
+                                            <label style="font-size: smaller;" class="control-label" for="Name">Tên khách hàng</label>
+                                            <div class="col">
+                                                <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;"
+                                                   type="text" class="form-control" id="Name" name="Name" placeholder="Tên khách hàng">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group" style="margin-bottom:10px">
+                                            <label style="font-size: smaller;" class="control-label" for="Phone">Số điện thoại</label>
+                                            <div class="col">
+                                                <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;"
+                                                   type="text" class="form-control" id="Phone" name="Phone" placeholder="Số điện thoại">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group" style="margin-bottom:10px">
+                                            <label style="font-size: smaller;" class="control-label" for="Address">Địa chỉ</label>
+                                            <div class="col">
+                                                <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;"
+                                                   type="text" class="form-control" id="Address" name="Address" placeholder="Địa chỉ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;"
+                           type="hidden" class="form-control" id="CustomerAddressId" name="CustomerAddressId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div style="width: 750px; margin: auto;" class="row">
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label style="font-size: smaller;" class="control-label" for="UserName">Tên gợi nhớ</label>
-                            <div class="col">
-                                <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="UserName" name="username" placeholder="Họ và tên">
+        </div>
+    </div>
+}
+
+<!-- THÊM ĐỊA CHỈ MỚI -->
+@using (Html.BeginForm("AddCustomerAddressAsync", "Customer", FormMethod.Post))
+{
+    <div class="modal fade" id="exampleModal_2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
+            <div style="width: fit-content" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">THÊM ĐỊA CHỈ MỚI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="width: 750px; margin: auto;" class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label style="font-size: smaller;" class="control-label" for="Name">Tên khách hàng</label>
+                                <div class="col">
+                                    <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="name" name="Name" placeholder="Tên khách hàng">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label style="font-size: smaller;" class="control-label" for="Phone">Số điện thoại</label>
+                                <div class="col">
+                                    <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="Address" name="Phone" placeholder="Số điện thoại">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-9 col-sm-12 col-xs-12">
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label style="font-size: smaller;" class="control-label" for="UserName">Địa chỉ</label>
-                            <div class="col">
-                                <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="UserName" name="username" placeholder="Họ và tên">
+                    <div style="width: 750px; margin: auto;" class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label style="font-size: smaller;" class="control-label" for="RemmemberName">Tên gợi nhớ</label>
+                                <div class="col">
+                                    <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="name" name="RemmemberName" placeholder="Tên gợi nhớ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-12 col-xs-12">
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label style="font-size: smaller;" class="control-label" for="Address">Địa chỉ</label>
+                                <div class="col">
+                                    <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="Address" name="address" placeholder="Địa chỉ">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" formmethod="post" class="btn btn-primary">THÊM</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+<!-- XÓA -->
+@using (Html.BeginForm("DeleteCustomerAddressAsync", "Customer", FormMethod.Post))
+{
+    <div class="modal fade" id="exampleModal_3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
+            <div style="width: 500px;" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">XÓA ĐỊA CHỈ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa địa chỉ không ?
+                    <div class="col">
+                        <input type="hidden" class="form-control" id="customerAddressId" name="CustomerAddressId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" formmethod="post" class="btn btn-danger">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).on("click", ".openModelEdit", function () {
+        var eventId = $(this).data('id');
+
+        // Gets table
+        var oTable = document.getElementById('myTable');
+
+        // Gets rows of table
+        var rowLength = oTable.rows.length;
+
+        // Loops through rows
+        for (i = 0; i < rowLength; i++) {
+            // Gets cells of current row
+            var oCells = oTable.rows.item(i).cells;
+
+            if (oCells.item(0).innerText == eventId) {
+                document.getElementById('CustomerAddressId').value = oCells.item(0).innerText;
+                document.getElementById('RemmemberName').value = oCells.item(1).innerText;
+                document.getElementById('Name').value = oCells.item(2).innerText;
+                document.getElementById('Phone').value = oCells.item(4).innerText;
+                document.getElementById('Address').value = oCells.item(3).innerText;
+                break;
+            }
+        }
+    });
+
+</script>
+
+<script>
+    $(document).on("click", ".openModal", function () {
+        var eventId = $(this).data('id');
+        document.getElementById('customerAddressId').value = eventId;
+    });
+</script>
 
 
+<script>
+    var msg = "@((string)ViewBag.Status)";
 
+    if (msg != null && msg != "") {
+        swal({
+            title: "Message",
+            text: msg,
+            icon: "success",
+        });
+    }
+</script>

@@ -142,6 +142,9 @@ namespace OAData.Migrations
                     b.Property<string>("RemmemberName")
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("CustomerAddressId");
 
                     b.ToTable("CustomerAddresses");
