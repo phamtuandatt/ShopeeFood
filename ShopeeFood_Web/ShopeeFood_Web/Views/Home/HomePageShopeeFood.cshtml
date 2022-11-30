@@ -2,7 +2,21 @@
     ViewData["Title"] = "HomePageShopeeFood";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link rel="stylesheet" href="~/css/css_home_page.css" />
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+*@
+@*<link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link> 
+<script src="Your jQuery source path"></script> 
+<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>*@
+
+@*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js"></script>
+<link rel="Stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" />
+*@
+<script type="text/javascript" src="~/js/autocomplete.js" ></script>
+<script type="text/javascript" src="~/js/autocomplete.min.js" ></script>
+
 
 <style>
     .container-fluid {
@@ -21,19 +35,20 @@
                 <div class="local">có 73337 địa điểm ở TP. HCM từ 00:00 - 23:59</div>
             </div>
             <!-- Search -->
-            <div class="form-search">
-                <div class="input-group">
-                    <input type="text" id="txtSearchHome" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
-                    <a href="">
-                        <button type="button" class="btn btn-primary btn-search">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
+            @using (Html.BeginForm("SearchShops", "Shop", FormMethod.Get))
+            {
+                <div class="form-search">
+                    <div class="input-group">
+                        <input type="text" id="txtKeyword" name="condition" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
+                        <button type="submit" class="btn btn-primary btn-search">
+                            <svg xmlns="http://www.w3.org/20000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
                                 <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z" />
                                 <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z" />
                             </svg>
                         </button>
-                    </a>
+                    </div>
                 </div>
-            </div>
+            }
             <!-- List filter-->
             <div class="category-list-filter">
                 <a href="~/Shop/ShopCategory">
@@ -132,6 +147,48 @@
     </div>
     <br>
 </div>
+
+@section scripts {
+    <script>
+        $.noConflict();
+        $("#txtKeyword").autocomplete({
+            source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
+        });
+        //var common = {
+        //    init: function () {
+        //        common.registerEvent();
+        //    },
+        //    registerEvent: function () {
+        //        $('#txtKeyword').autocomplete({
+        //            source: function (request, respose) {
+        //                $.ajax({
+        //                    url: "/Shop/ListShopAsync",
+        //                    dataType: "json",
+        //                    data: { q: request.term },
+        //                    success: function (res) {
+        //                        respose(res.data);
+        //                    }
+        //                });
+        //            },
+        //            focus: function (event, ui) {
+        //                $('#txtKeyword').val(ui.item.label);
+        //                return false;
+        //            },
+        //            select: function (event, ui) {
+        //                $('#txtKeyword').val(ui.item.label);
+        //                return false;
+        //            }
+        //        })
+        //            .autocomplete("instance")._renderItem = function (ul, item) {
+        //                return $("<li>").append(" < a > " + item.label + " < /a>")
+        //                    };
+        //            }
+        //    }
+        //    common.init;
+    </script>
+}
+
+
 
 
 

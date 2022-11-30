@@ -4,9 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ShopeeFood_Web</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
     <link rel="stylesheet" href="~/css/css_home_page.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>   
 
 </head>
 <body>
@@ -15,7 +24,7 @@
         <!-- Header -->
         <div id="header" class="header">
             <div class="sub_header">
-                <!-- LOGO -->  
+                <!-- LOGO -->
                 <a href="~/Home/HomePageShopeeFood" style="width: 150px;height: 80px;cursor: pointer;position: absolute;display: block;">
                     <img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt="Logo Shopee" class="logo" style="margin-right: 50px; width: 150px;" />
                 </a>
@@ -60,7 +69,7 @@
                 @RenderBody()
             </main>
         </div>
-        
+
         <!-- Footer -->
         <footer class="main-footer" style="position: relative;">
             <div class="container">
@@ -137,6 +146,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
     <!-- Show modal -->
     <script>
         // Get the modal
@@ -197,19 +209,15 @@
     </script>
 
     <!-- Show Partial View -->
-   <script>
+    <script>
         $('#myDIV').load('/City/Partial_CityDetial')
 
         $('#partial_zone').load('/City/Partial_Nav_menu')
 
         $('#Login').load('/Home/Check_Login')
 
-        //$('#header').load('/Home/Header')
-    </script>
-    <script>
         $('#flux').load("/Shop/ShopCategory_Home_By_City")
     </script>
- 
 
     @RenderSection("Scripts", required: false)
 </body>

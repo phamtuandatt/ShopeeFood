@@ -100,7 +100,7 @@ a {
 }
 /* RIGHT*  */
 .now-detail-profile {
-    float: left;
+    float: right;
     margin: 50px;
     width: 770px;
     min-height: 428px;

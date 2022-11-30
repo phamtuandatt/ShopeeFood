@@ -5,18 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
 <link rel="stylesheet" href="~/css/css_management_profile_user_shopee.css" />
 
 <div class="container" style="padding-top:75px">
     <!-- LEFT -->
-    <div class="now-navigation-profile">
+    <div style="width:390px" class="now-navigation-profile">
         <div class="header-profile">
             <div class="row align-items-center">
                 <div class="col-3">
@@ -56,12 +49,12 @@
     </div>
 
     <!-- RIGHT -->
-    <div style="height:1000px; float: left; margin-left: 50px; min-height: 700px;" class="now-detail-profile">
+    <div style="float: left; margin-left: 50px; min-height: 600px;" class="now-detail-profile">
         <div class="header-user-profile">Thông tin người dùng</div>
         <div id="partial_zone_customer" class="content-user-profile">
             <table id="myTable" class="table">
                 <tr>
-                    <th style="color: #959595;font-size: small;width: 25px;">MÃ</th>
+                    <th style="color: #959595;font-size: small;width: 25px; display:none">MÃ</th>
                     <th style="color: #959595;font-size: small;width: 125px;">TÊN GỢI NHỚ</th>
                     <th style="color: #959595;font-size: small;width: 160px;">TÊN KHÁCH HÀNG</th>
                     <th style="color: #959595;font-size: small;width: 400px;">ĐỊA CHỈ</th>
@@ -71,7 +64,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td style="display:none">
                             <span data-id="@item.CustomerAddressId">@item.CustomerAddressId</span>
                         </td>
                         <td>
@@ -101,9 +94,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- CHỈNH SỬA -->
 @using (Html.BeginForm("EditCustomerAddressAsync", "Customer", FormMethod.Post))
@@ -206,7 +196,7 @@
                             <div class="form-group" style="margin-bottom:10px">
                                 <label style="font-size: smaller;" class="control-label" for="Phone">Số điện thoại</label>
                                 <div class="col">
-                                    <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="Address" name="Phone" placeholder="Số điện thoại">
+                                    <input style="border-radius: 0; border-bottom: 1px solid black; border-left: none; border-right: none; border-top: none;" type="text" class="form-control" id="Phone" name="Phone" placeholder="Số điện thoại" onfocusout ="formValidate()">
                                 </div>
                             </div>
                         </div>
@@ -264,6 +254,7 @@
     </div>
 }
 
+<!-- Pass value into Modal -->
 <script>
     $(document).on("click", ".openModelEdit", function () {
         var eventId = $(this).data('id');
@@ -289,9 +280,9 @@
             }
         }
     });
-
 </script>
 
+<!-- Pass Id into Modal -->
 <script>
     $(document).on("click", ".openModal", function () {
         var eventId = $(this).data('id');
@@ -299,7 +290,7 @@
     });
 </script>
 
-
+<!-- Show Message -->
 <script>
     var msg = "@((string)ViewBag.Status)";
 

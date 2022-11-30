@@ -9,7 +9,7 @@
 
 <div class="container" style="padding-top:75px">
     <!-- LEFT -->
-    <div class="now-navigation-profile">
+    <div style="width:390px" class="now-navigation-profile">
         <div class="header-profile">
             <div class="row align-items-center">
                 <div class="col-3">
@@ -48,8 +48,7 @@
         </div>
     </div>
     <!-- RIGHT -->
-
-    <div class="now-detail-profile">
+    <div style="width:870px; float: right; margin: 35px 0 50px 0;" class="now-detail-profile">
         <div class="header-user-profile">Thông tin người dùng</div>
         <div id="partial_zone_customer" class="content-user-profile">
             <!--PartialView-->
@@ -58,7 +57,6 @@
 
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
     function ReloadPartial(option) {
         if (option == 0) {
@@ -166,5 +164,17 @@
             }
             reader.readAsDataURL(fileInput.files[0]);
         }
+    }
+</script>
+
+<script>
+    var msg = "@((string)ViewBag.Status_account)";
+
+    if (msg != null && msg != "") {
+        swal({
+            title: "Message",
+            text: msg,
+            icon: "success",
+        });
     }
 </script>

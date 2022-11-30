@@ -90,14 +90,18 @@ namespace ShopeeFood_WebAPI.Controllers
         //string name, string address, string sex, string phone, string email, int id
         [Route("UpdateCustomer")]
         [HttpPut("UpdateCustomer")]
-        public bool UpdateCustomer(int id, Customer customer)
+        public bool UpdateCustomer(Customer customer)
         {
-            if (id != customer.CustomerId)
-            {
-                return false;
-            }
+            Customer cus = new Customer();
+            cus.CustomerId = customer.CustomerId;
+            cus.CustomerName = customer.CustomerName;
+            cus.CustomerAddress = customer.CustomerAddress;
+            cus.Sex = customer.Sex;
+            cus.Phone = customer.Phone;
+            cus.Email = customer.Email;
+            cus.Password = customer.Password;
 
-            customerService.Update(customer);
+            customerService.Update(cus);
             try
             {
                 customerService.SaveChange();

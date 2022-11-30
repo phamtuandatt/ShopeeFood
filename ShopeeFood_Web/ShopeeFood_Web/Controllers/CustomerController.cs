@@ -81,6 +81,7 @@ namespace ShopeeFood_Web.Controllers
 
                     return RedirectToAction("HomePageShopeeFood", "Home");
                 }
+                ViewBag.Status_Login = "Login failed - Email or Password is not valid !";
                 return View();
             }
         }
@@ -89,6 +90,7 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IActionResult> Profile()
         {
             HttpContext.Session.Remove("Status");
+            ViewBag.Status_account = HttpContext.Session.GetString("Status_account");
             var email = HttpContext.Session.GetString("email");
             var pw = HttpContext.Session.GetString("password");
 
@@ -145,16 +147,39 @@ namespace ShopeeFood_Web.Controllers
             return PartialView(cus);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> CustomerAddressPartial()
-        //{
-        //    int id = int.Parse(HttpContext.Session.GetString("customerId"));
-        //    var cus = await GetCusAddressById(id);
-        //    return PartialView(cus);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CustomerAccountPartial(CustomerModel customer)
+        {
+            int id = int.Parse(HttpContext.Session.GetString("customerId"));
+            customer.CustomerId = id;
+            if (customer.Password == null)
+            {
+                string pas = HttpContext.Session.GetString("password");
+                customer.Password = pas;
+            }
+            if (customer.Email == null)
+            {
+                string email = HttpContext.Session.GetString("email");
+                customer.Email = email;
+            }
 
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync($"https://localhost:5001/api/Customer/UpdateCustomer/", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpContext.Session.SetString("Status_account", "Update information successful !");
+                        return RedirectToAction("Profile", "Customer");
+                    }
+                    HttpContext.Session.SetString("Status_account", "Update unsuccessful !");
+                    return RedirectToAction("Profile", "Customer");
+                }
+            }
+        }
 
-        // BẮt lỗi không cho người dùng nhập ký tự đặc biệt vào textbox
 
         [HttpGet]
         public async Task<IActionResult> CustomerAddress()

@@ -52,7 +52,5 @@ namespace ShopeeFood_WebAPI.Controllers
         {
             return shopService.Get_Shop_By_CityId_CityDistrictId(cityId, cityDistrictId);
         }
-
-
     }
 }

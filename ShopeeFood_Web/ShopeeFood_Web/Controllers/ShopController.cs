@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using ShopeeFood_Web.Models;
 using System.Collections.Generic;
 using System.Configuration;
@@ -175,6 +176,7 @@ namespace ShopeeFood_Web.Controllers
         }
 
         // Get Information Shop
+        [HttpGet]
         public async Task<IActionResult> ShopDetails(int ShopId)
         {
             using (HttpClient client = new HttpClient())
@@ -229,6 +231,155 @@ namespace ShopeeFood_Web.Controllers
                 return PartialView(model);
             }
         }
+
+        [HttpGet]
+        [ActionName("SearchShops")]
+        public async Task<IActionResult> SearchShops(string condition)
+        {
+            var lstShop = await SearchShop_NameAsync(condition);
+
+            // Tạo partial View hiển thị danh sách cửa hàng lstShop
+            // Khi thực hiện chọn khu vực thì chỉ tìm kiếm trong lstShop 
+
+            return View(lstShop);
+        }
+
+        public async Task<IActionResult> SearchShopPartial(string[] check_district)
+        {
+            var busnessId = int.Parse(HttpContext.Session.GetString("BusinessId"));
+            var cityId = int.Parse(HttpContext.Session.GetString("CityId"));
+
+            // Thao tác tương tự như PartialViewShopCategory
+            string condition = HttpContext.Session.GetString("Condition");
+
+            var lstShop = await SearchShop_NameAsync(condition);
+
+            var lst_checked = "";
+            for (int i = 0; i < check_district.Length; i++)
+            {
+                lst_checked += check_district[i] + " ";
+            }
+            if (lst_checked.Count() > 0)
+            {
+                HttpContext.Session.SetString("Check_District", lst_checked.Trim());
+            }
+            var lst = HttpContext.Session.GetString("Check_District");
+
+            if (lst != null && lst.Length > 0)
+            {
+                if (cityId != 0)
+                {
+                    if (busnessId != 0)
+                    {
+                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
+
+                        var lst_checkeds = lst.Split(" ");
+
+                        foreach (var item in lstShop)
+                        {
+                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
+                            if (!string.IsNullOrEmpty(itemMatched))
+                            {
+                                lst_Shop_District.Add(item);
+                            }
+                        }
+                        return PartialView(lst_Shop_District);
+                    }
+                    else
+                    {
+                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
+
+                        var lst_checkeds = lst.Split(" ");
+
+                        foreach (var item in lstShop)
+                        {
+                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
+                            if (!string.IsNullOrEmpty(itemMatched))
+                            {
+                                lst_Shop_District.Add(item);
+                            }
+                        }
+                        return PartialView(lst_Shop_District);
+                    }
+                }
+                else
+                {
+                    if (busnessId != 0)
+                    {
+                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
+
+                        var lst_checkeds = lst.Split(" ");
+
+                        var lst_Shop = await Get_Shop_By_City(1);
+
+                        foreach (var item in lst_Shop)
+                        {
+                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
+                            if (!string.IsNullOrEmpty(itemMatched))
+                            {
+                                lst_Shop_District.Add(item);
+                            }
+                        }
+                        return PartialView(lst_Shop_District);
+                    }
+                    else
+                    {
+                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
+
+                        var lst_checkeds = lst.Split(" ");
+
+                        var lst_Shop = await Get_Shop_By_City(1);
+
+                        foreach (var item in lst_Shop)
+                        {
+                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
+                            if (!string.IsNullOrEmpty(itemMatched))
+                            {
+                                lst_Shop_District.Add(item);
+                            }
+                        }
+                        return PartialView(lst_Shop_District);
+                    }
+                }
+            }
+            else
+            {
+                if (cityId != 0)
+                {
+                    if (busnessId != 0)
+                    {
+                        var lst_Shop = await Get_Shop_By_City(cityId);
+
+                        return PartialView(lst_Shop);
+                    }
+                    else
+                    {
+                        var lst_Shop = await Get_Shop_By_City(cityId);
+
+                        return PartialView(lst_Shop);
+                    }
+                }
+                else
+                {
+                    if (busnessId != 0)
+                    {
+                        var lst_Shop = await Get_Shop_By_City(1);
+
+                        return PartialView(lst_Shop);
+                    }
+                    else
+                    {
+                        var lst_Shop = await Get_Shop_By_City(1);
+
+                        return PartialView(lst_Shop);
+                    }
+                }
+
+            }
+
+            return PartialView(lstShop);
+        }
+
 
 
         // ------------------------------------------------------------------------------------
@@ -307,5 +458,23 @@ namespace ShopeeFood_Web.Controllers
                 return res;
             }
         }
+
+        public async Task<IEnumerable<ShopModel>> SearchShop_NameAsync(string condition)
+        {
+            HttpContext.Session.Remove("Condition");
+            HttpContext.Session.SetString("Condition", condition);
+            
+            int cityId = int.Parse(HttpContext.Session.GetString("CityId"));
+
+            var res = await Get_Shop_By_City(cityId);
+
+            var lst_CityDistricts = await GetCityDistrict(cityId);
+            ViewData["CityDistrict"] = lst_CityDistricts;
+
+            var list = res.Where(name => name.ShopName.Contains(condition)).ToList();
+            
+            return list;
+        }
+
     }
 }

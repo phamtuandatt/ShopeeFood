@@ -24,7 +24,7 @@
     .now-detail-restaurant .detail-restaurant-info {
         color: #252525;
         float: right;
-        width: 600px;
+        width: 745px;
         padding-bottom: 15px;
     }
 
@@ -488,8 +488,8 @@
 .QRcode {
     position: absolute;
     top: 55px;
-    right: -80px;
-    width: 340px;
+    right: 0;
+    width: 435px;
     color: #fff;
     text-align: center;
     padding-top: 5px;
