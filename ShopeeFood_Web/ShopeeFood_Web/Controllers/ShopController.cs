@@ -68,7 +68,7 @@ namespace ShopeeFood_Web.Controllers
 
                         var lst_checkeds = lst.Split(" ");
 
-                        var lst_Shop = await Get_Shop_By_City(cityId);
+                        var lst_Shop = await GetShopByCity(cityId);
 
                         foreach (var item in lst_Shop)
                         {
@@ -86,7 +86,7 @@ namespace ShopeeFood_Web.Controllers
 
                         var lst_checkeds = lst.Split(" ");
 
-                        var lst_Shop = await Get_Shop_By_City(cityId);
+                        var lst_Shop = await GetShopByCity(cityId);
 
                         foreach (var item in lst_Shop)
                         {
@@ -107,7 +107,7 @@ namespace ShopeeFood_Web.Controllers
 
                         var lst_checkeds = lst.Split(" ");
 
-                        var lst_Shop = await Get_Shop_By_City(1);
+                        var lst_Shop = await GetShopByCity(1);
 
                         foreach (var item in lst_Shop)
                         {
@@ -125,7 +125,7 @@ namespace ShopeeFood_Web.Controllers
 
                         var lst_checkeds = lst.Split(" ");
 
-                        var lst_Shop = await Get_Shop_By_City(1);
+                        var lst_Shop = await GetShopByCity(1);
 
                         foreach (var item in lst_Shop)
                         {
@@ -145,13 +145,13 @@ namespace ShopeeFood_Web.Controllers
                 {
                     if (busnessId != 0)
                     {
-                        var lst_Shop = await Get_Shop_By_City(cityId);
+                        var lst_Shop = await GetShopByCity(cityId);
 
                         return PartialView(lst_Shop);
                     }
                     else
                     {
-                        var lst_Shop = await Get_Shop_By_City(cityId);
+                        var lst_Shop = await GetShopByCity(cityId);
 
                         return PartialView(lst_Shop);
                     }
@@ -160,13 +160,13 @@ namespace ShopeeFood_Web.Controllers
                 {
                     if (busnessId != 0)
                     {
-                        var lst_Shop = await Get_Shop_By_City(1);
+                        var lst_Shop = await GetShopByCity(1);
 
                         return PartialView(lst_Shop);
                     }
                     else
                     {
-                        var lst_Shop = await Get_Shop_By_City(1);
+                        var lst_Shop = await GetShopByCity(1);
 
                         return PartialView(lst_Shop);
                     }
@@ -201,7 +201,7 @@ namespace ShopeeFood_Web.Controllers
         }
 
         // Show Shop in CityId = 1
-        public async Task<IActionResult> ShopCategory_Home_By_City()
+        public async Task<IActionResult> ShopCategoryHomeByCity()
         {
             var cityId = HttpContext.Session.GetString("CityId");
             var businessId = HttpContext.Session.GetString("BusinessId");
@@ -236,24 +236,33 @@ namespace ShopeeFood_Web.Controllers
         [ActionName("SearchShops")]
         public async Task<IActionResult> SearchShops(string condition)
         {
-            var lstShop = await SearchShop_NameAsync(condition);
+            if (condition == null)
+            {
+                var lstShops = await SearchShopNameAsync(HttpContext.Session.GetString("Condition"));
+                HttpContext.Session.Remove("Check_District");
+                return View(lstShops);
+            }
+            else
+            {
+                var lstShop = await SearchShopNameAsync(condition);
 
-            // Tạo partial View hiển thị danh sách cửa hàng lstShop
-            // Khi thực hiện chọn khu vực thì chỉ tìm kiếm trong lstShop 
+                // Tạo partial View hiển thị danh sách cửa hàng lstShop
+                // Khi thực hiện chọn khu vực thì chỉ tìm kiếm trong lstShop 
 
-            return View(lstShop);
+                return View(lstShop);
+            }
+            
         }
 
         public async Task<IActionResult> SearchShopPartial(string[] check_district)
         {
-            var busnessId = int.Parse(HttpContext.Session.GetString("BusinessId"));
             var cityId = int.Parse(HttpContext.Session.GetString("CityId"));
 
             // Thao tác tương tự như PartialViewShopCategory
             string condition = HttpContext.Session.GetString("Condition");
 
-            var lstShop = await SearchShop_NameAsync(condition);
-
+            var lstShop = await SearchShopNameAsync(condition);
+            
             var lst_checked = "";
             for (int i = 0; i < check_district.Length; i++)
             {
@@ -263,121 +272,29 @@ namespace ShopeeFood_Web.Controllers
             {
                 HttpContext.Session.SetString("Check_District", lst_checked.Trim());
             }
+
             var lst = HttpContext.Session.GetString("Check_District");
 
             if (lst != null && lst.Length > 0)
             {
-                if (cityId != 0)
+                List<ShopModel> lst_Shop_District = new List<ShopModel>();
+
+                var lst_checkeds = lst.Split(" ");
+
+                foreach (var item in lstShop)
                 {
-                    if (busnessId != 0)
+                    var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
+                    if (!string.IsNullOrEmpty(itemMatched))
                     {
-                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
-
-                        var lst_checkeds = lst.Split(" ");
-
-                        foreach (var item in lstShop)
-                        {
-                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
-                            if (!string.IsNullOrEmpty(itemMatched))
-                            {
-                                lst_Shop_District.Add(item);
-                            }
-                        }
-                        return PartialView(lst_Shop_District);
-                    }
-                    else
-                    {
-                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
-
-                        var lst_checkeds = lst.Split(" ");
-
-                        foreach (var item in lstShop)
-                        {
-                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
-                            if (!string.IsNullOrEmpty(itemMatched))
-                            {
-                                lst_Shop_District.Add(item);
-                            }
-                        }
-                        return PartialView(lst_Shop_District);
+                        lst_Shop_District.Add(item);
                     }
                 }
-                else
-                {
-                    if (busnessId != 0)
-                    {
-                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
-
-                        var lst_checkeds = lst.Split(" ");
-
-                        var lst_Shop = await Get_Shop_By_City(1);
-
-                        foreach (var item in lst_Shop)
-                        {
-                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
-                            if (!string.IsNullOrEmpty(itemMatched))
-                            {
-                                lst_Shop_District.Add(item);
-                            }
-                        }
-                        return PartialView(lst_Shop_District);
-                    }
-                    else
-                    {
-                        List<ShopModel> lst_Shop_District = new List<ShopModel>();
-
-                        var lst_checkeds = lst.Split(" ");
-
-                        var lst_Shop = await Get_Shop_By_City(1);
-
-                        foreach (var item in lst_Shop)
-                        {
-                            var itemMatched = lst_checkeds.FirstOrDefault(t => t == item.CityDistricId.ToString());
-                            if (!string.IsNullOrEmpty(itemMatched))
-                            {
-                                lst_Shop_District.Add(item);
-                            }
-                        }
-                        return PartialView(lst_Shop_District);
-                    }
-                }
+                return PartialView(lst_Shop_District);
             }
             else
             {
-                if (cityId != 0)
-                {
-                    if (busnessId != 0)
-                    {
-                        var lst_Shop = await Get_Shop_By_City(cityId);
-
-                        return PartialView(lst_Shop);
-                    }
-                    else
-                    {
-                        var lst_Shop = await Get_Shop_By_City(cityId);
-
-                        return PartialView(lst_Shop);
-                    }
-                }
-                else
-                {
-                    if (busnessId != 0)
-                    {
-                        var lst_Shop = await Get_Shop_By_City(1);
-
-                        return PartialView(lst_Shop);
-                    }
-                    else
-                    {
-                        var lst_Shop = await Get_Shop_By_City(1);
-
-                        return PartialView(lst_Shop);
-                    }
-                }
-
+                return PartialView(lstShop);
             }
-
-            return PartialView(lstShop);
         }
 
 
@@ -406,20 +323,20 @@ namespace ShopeeFood_Web.Controllers
         }
 
         // Get Shop when pass cityId
-        public async Task<IEnumerable<ShopModel>> Get_Shop_By_City(int cityId)
+        public async Task<IEnumerable<ShopModel>> GetShopByCity(int cityId)
         {
             var url = baseUrl;
             HttpClient client = new HttpClient();
-            string json =  await client.GetStringAsync ($"https://localhost:5001/api/Shop/Get_Shop_By_CityId?cityId={cityId}");
+            string json =  await client.GetStringAsync ($"https://localhost:5001/api/Shop/GetShopByCityId?cityId={cityId}");
             var res = JsonConvert.DeserializeObject<List<ShopModel>>(json).ToList();
 
             return res;
         }
 
         // Get Shop By DistrictId
-        public async Task<IEnumerable<ShopModel>> Get_Shop_By_City_District(int cityId, string[] check_district)
+        public async Task<IEnumerable<ShopModel>> GetShopByCityDistrict(int cityId, string[] check_district)
         {
-            var lst_Shop = await Get_Shop_By_City(cityId);
+            var lst_Shop = await GetShopByCity(cityId);
             List<ShopModel> lst_Shop_District = new List<ShopModel>();
             foreach (var item in lst_Shop)
             {
@@ -452,6 +369,9 @@ namespace ShopeeFood_Web.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
+                var config = "https://localhost:5001/api/";//get data from config
+                var endpoint = "CityDistrict/GetDistrictByCity?cityId=";
+
                 string json = await client.GetStringAsync($"https://localhost:5001/api/CityDistrict/GetDistrictByCity?cityId={cityId}");
                 var res = JsonConvert.DeserializeObject<List<CityDistrictModel>>(json).ToList();
 
@@ -459,20 +379,20 @@ namespace ShopeeFood_Web.Controllers
             }
         }
 
-        public async Task<IEnumerable<ShopModel>> SearchShop_NameAsync(string condition)
+        public async Task<IEnumerable<ShopModel>> SearchShopNameAsync(string condition)
         {
             HttpContext.Session.Remove("Condition");
             HttpContext.Session.SetString("Condition", condition);
             
             int cityId = int.Parse(HttpContext.Session.GetString("CityId"));
 
-            var res = await Get_Shop_By_City(cityId);
+            var res = await GetShopByCity(cityId);
 
             var lst_CityDistricts = await GetCityDistrict(cityId);
             ViewData["CityDistrict"] = lst_CityDistricts;
 
-            var list = res.Where(name => name.ShopName.Contains(condition)).ToList();
-            
+            var list = res.Where(name => name.ShopName.ToUpper().Contains(condition.ToUpper())).ToList();
+
             return list;
         }
 

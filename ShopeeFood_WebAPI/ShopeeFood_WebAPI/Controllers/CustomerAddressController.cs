@@ -19,7 +19,6 @@ namespace ShopeeFood_WebAPI.Controllers
             this.customerAddressService = customerAddressService;
         }
 
-        [Route("GetAll")]
         [HttpGet("GetAll")]
         public IEnumerable<CustomerAddress> GetAll()
         {
@@ -27,7 +26,7 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
         //string name, string address, string sex, string email, string phone, string password
-        [Route("AddCustomerAddress")]
+
         [HttpPost("AddCustomerAddress")]
         public bool AddCustomerAddress(CustomerAddress customer)
         {
@@ -52,7 +51,7 @@ namespace ShopeeFood_WebAPI.Controllers
             }
         }
 
-        [Route("DeleteCustomerAddress")]
+
         [HttpDelete("DeleteCustomerAddress")]
         public bool DeleteCustomerAddress(int CustomerAddressId)
         {
@@ -70,7 +69,7 @@ namespace ShopeeFood_WebAPI.Controllers
             }
         }
 
-        [Route("UpdateCustomerAddress")]
+
         [HttpPut("UpdateCustomerAddress")]
         public bool UpdateCustomerAddress(CustomerAddress customer)
         {

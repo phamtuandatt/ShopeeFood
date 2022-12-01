@@ -21,21 +21,21 @@ namespace ShopeeFood_WebAPI.Controllers
             this.customerService = customerService;
         }
 
-        [Route("GetCustomers")]
+
         [HttpGet("GetCustomers")]
         public IEnumerable<Customer> GetCustomers()
         {
             return customerService.GetAll();
         }
 
-        [Route("GetCustomer_1")]
+
         [HttpGet("GetCustomer_1")]
         public Customer GetCustomer_1(int id)
         {
             return customerService.Get(id);
         }
 
-        [Route("GetCustomer_2")]
+
         [HttpGet("GetCustomer_2")]
         [Authorize]
         public Customer GetCustomer_2(string email, string password)
@@ -43,7 +43,7 @@ namespace ShopeeFood_WebAPI.Controllers
             return customerService.CheckLogin(email, password);
         }
 
-        [Route("GetCusByEmail")]
+
         [HttpGet("GetCusByEmail")]
         public Customer GetCusByEmail(string email)
         {
@@ -51,7 +51,7 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
         //string name, string address, string sex, string email, string phone, string password
-        [Route("AddCustomer")]
+
         [HttpPost("AddCustomer")]
         public bool AddCustomer(Customer customer)
         {
@@ -77,7 +77,7 @@ namespace ShopeeFood_WebAPI.Controllers
             }
         }
 
-        [Route("CheckExistedCustomer")]
+
         [HttpGet("CheckExistedCustomer")]
         public Customer IsCustomerExisted(string email)
         {
@@ -88,7 +88,7 @@ namespace ShopeeFood_WebAPI.Controllers
 
 
         //string name, string address, string sex, string phone, string email, int id
-        [Route("UpdateCustomer")]
+
         [HttpPut("UpdateCustomer")]
         public bool UpdateCustomer(Customer customer)
         {
@@ -115,7 +115,7 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
 
-        [Route("ResetPassword")]
+
         [HttpPut("ResetPassword")]
         public Customer ResetPassword(string email, string password)
         {

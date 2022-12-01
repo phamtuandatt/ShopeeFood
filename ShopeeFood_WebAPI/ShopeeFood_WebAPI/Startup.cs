@@ -45,6 +45,8 @@ namespace ShopeeFood_WebAPI
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly("OA_Data")));
 
+            services.AddSwaggerGen();
+
             services.AddScoped<ICityRepository, CityRepository>();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -102,6 +104,13 @@ namespace ShopeeFood_WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            });
 
             app.UseHttpsRedirection();
 

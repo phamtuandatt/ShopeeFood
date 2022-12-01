@@ -2,27 +2,20 @@
     ViewData["Title"] = "HomePageShopeeFood";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-*@
-@*<link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link> 
-<script src="Your jQuery source path"></script> 
-<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>*@
-
-@*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js"></script>
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js"></script>
-<link rel="Stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" />
-*@
-<script type="text/javascript" src="~/js/autocomplete.js" ></script>
-<script type="text/javascript" src="~/js/autocomplete.min.js" ></script>
-
 
 <style>
     .container-fluid {
         width: 100%;
         padding-left: 0;
         padding-right: 0;
+    }
+    .dialog-search {
+        width: 500px;
+        height: 500px;
+        background-color: red;
+        position: absolute;
+        top: 135px;
+        border-radius: 5px;
     }
 </style>
 
@@ -39,7 +32,7 @@
             {
                 <div class="form-search">
                     <div class="input-group">
-                        <input type="text" id="txtKeyword" name="condition" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
+                        <input type="text" id="txtSearchHome" name="condition" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
                         <button type="submit" class="btn btn-primary btn-search">
                             <svg xmlns="http://www.w3.org/20000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
                                 <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z" />
@@ -47,6 +40,8 @@
                             </svg>
                         </button>
                     </div>
+                </div>
+                <div id="search" style="display: none;" class="dialog-search">
                 </div>
             }
             <!-- List filter-->
@@ -149,42 +144,19 @@
 </div>
 
 @section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script>
-        $.noConflict();
-        $("#txtKeyword").autocomplete({
-            source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
+        $(document).ready(function () {
+            $("#txtSearchHome").keyup(function () {
+                var x = document.getElementById('search');
+                if ($(this).val() == "") {
+                    x.style.display = 'none';
+                } else {
+                    x.style.display = 'block';
+                }
+                console.log($("#txtSearchHome").val());
+            });
         });
-        //var common = {
-        //    init: function () {
-        //        common.registerEvent();
-        //    },
-        //    registerEvent: function () {
-        //        $('#txtKeyword').autocomplete({
-        //            source: function (request, respose) {
-        //                $.ajax({
-        //                    url: "/Shop/ListShopAsync",
-        //                    dataType: "json",
-        //                    data: { q: request.term },
-        //                    success: function (res) {
-        //                        respose(res.data);
-        //                    }
-        //                });
-        //            },
-        //            focus: function (event, ui) {
-        //                $('#txtKeyword').val(ui.item.label);
-        //                return false;
-        //            },
-        //            select: function (event, ui) {
-        //                $('#txtKeyword').val(ui.item.label);
-        //                return false;
-        //            }
-        //        })
-        //            .autocomplete("instance")._renderItem = function (ul, item) {
-        //                return $("<li>").append(" < a > " + item.label + " < /a>")
-        //                    };
-        //            }
-        //    }
-        //    common.init;
     </script>
 }
 

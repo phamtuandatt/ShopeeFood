@@ -53,7 +53,7 @@
 
     <!-- Product Category-->
     <div class="now-list-restaurant">
-        <div class="list-restaurant" id="list-restaurant">
+        <div class="list-restaurant" id="list-restaurant-search">
         </div>
     </div>
 
@@ -134,11 +134,11 @@
             spann_2.innerText = 'x';
             spann_2.onclick = function () {
                 $.ajax({
-                    url: "@Url.Action("ShopCategory", "Shop")",
+                    url: "@Url.Action("SearchShops", "Shop")",
                     type: "GET",
                     success: function (response) {
                         document.getElementById('widget-tag').remove();
-                        $('#list-restaurant').load('/Shop/PartialViewShopCategory')
+                        $('#list-restaurant-search').load('/Shop/SearchShopPartial')
                         $('.checkbox').each(function () { //loop through each checkbox
                             this.checked = false; //deselect all checkboxes with class "checkbox1"
                         });
@@ -164,16 +164,16 @@
             output.push(checkbox.value);
         });
         $.ajax({
-            url: "@Url.Action("PartialViewShopCategory", "Shop")",
+            url: "@Url.Action("SearchShopPartial", "Shop")",
             type: "POST",
             data: { 'check_district': output },
             success: function (response) {
-                $('#list-restaurant').load('/Shop/PartialViewShopCategory')
+                $('#list-restaurant-search').load('/Shop/SearchShopPartial')
             }
         })
     });
 </script>
 
 <script>
-    $('#list-restaurant').load('/Shop/PartialViewShopCategory')
+    $('#list-restaurant-search').load('/Shop/SearchShopPartial')
 </script>
