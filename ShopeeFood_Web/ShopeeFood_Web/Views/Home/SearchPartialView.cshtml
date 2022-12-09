@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.ShopModel>
+
+@foreach (var item in Model) {
+    <div class="item-ress">
+        <a class="item-content" href="~/Shop/ShopDetails?ShopId=@item.ShopId">
+            <div class="img-ress">
+                <img class="img-context" src="@item.ShopImage" alt="@item.ShopName" title="@item.ShopName">
+            </div>
+            <div class="info-restaurant">
+                <div class="name-ress">@item.ShopName</div>
+                <div class="address-ress">@item.Address</div>
+            </div>
+@*            <div class="opentime-status">
+                <span class="stt online" title="Mở cửa" style="color: rgb(35, 152, 57); background-color: rgb(35, 152, 57);"></span>
+            </div>*@
+        </a>
+    </div>
+}
+

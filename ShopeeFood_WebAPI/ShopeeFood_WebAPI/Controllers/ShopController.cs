@@ -33,24 +33,24 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
         // Get Shop when pass CityId and BussinessTypeId
-        [HttpGet("GetShops_City_BussinessType")]
-        public IEnumerable<Shop> GetShops_City_BussinessType(int cityId, int bussinessId)
+        [HttpGet("GetShopsCityBussinessType")]
+        public IEnumerable<Shop> GetShopsCityBussinessType(int cityId, int bussinessId)
         {
-            return shopService.GetShop_City_BussinessType(cityId, bussinessId);
+            return shopService.GetShopCityBussinessType(cityId, bussinessId);
         }
 
         // Get Shop by CityId
-        [HttpGet("Get_Shop_By_CityId")]
-        public IEnumerable<Shop> Get_Shop_By_CityId(int cityId)
+        [HttpGet("GetShopByCityId")]
+        public IEnumerable<Shop> GetShopByCityId(int cityId)
         {
-            return shopService.Get_Shop_By_CityId(cityId);
+            return shopService.GetShopByCityId(cityId);
         }
 
         // Get Shop by CityId_CityDistrictId
-        [HttpGet("Get_Shop_By_CityId_CityDistrictId")]
-        public IEnumerable<Shop> Get_Shop_By_CityId_CityDistrictId(int cityId, int cityDistrictId)
+        [HttpGet("GetShopByCityIdCityDistrictId")]
+        public IEnumerable<Shop> GetShopByCityIdCityDistrictId(int cityId, int cityDistrictId)
         {
-            return shopService.Get_Shop_By_CityId_CityDistrictId(cityId, cityDistrictId);
+            return shopService.GetShopByCityIdCityDistrictId(cityId, cityDistrictId);
         }
     }
 }

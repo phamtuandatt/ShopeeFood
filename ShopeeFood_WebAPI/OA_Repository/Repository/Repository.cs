@@ -25,7 +25,7 @@ namespace OA_Repository.Repository
             return entity.FirstOrDefault(_entity);
         }
 
-        public T Check_Existed(Func<T, bool> _entity)
+        public T CheckExisted(Func<T, bool> _entity)
         {
             return entity.FirstOrDefault(_entity);
         }
@@ -50,7 +50,7 @@ namespace OA_Repository.Repository
             return entity.FirstOrDefault(_entity);
         }
 
-        public IEnumerable<T> GetShop_City_BussinessType(Func<T, bool> _entity)
+        public IEnumerable<T> GetEntity(Func<T, bool> _entity)
         {
             return entity.Where(_entity).ToList();
         }
@@ -68,6 +68,16 @@ namespace OA_Repository.Repository
         public void Update(T Entity)
         {
             entity.Update(Entity);
+        }
+
+        public int GetMaxIdObject(Func<T, int> _entity)
+        {
+            return entity.Max(_entity);
+        }
+
+        public void Remove(T _entity)
+        {
+            entity.Remove(_entity);
         }
     }
 }

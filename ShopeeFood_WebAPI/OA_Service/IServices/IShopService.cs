@@ -21,11 +21,11 @@ namespace OA_Service.IServices
 
         void SaveChange();
 
-        IEnumerable<Shop> GetShop_City_BussinessType(int cityId, int bussinessId);
+        IEnumerable<Shop> GetShopCityBussinessType(int cityId, int bussinessId);
 
-        IEnumerable<Shop> Get_Shop_By_CityId(int cityId);
+        IEnumerable<Shop> GetShopByCityId(int cityId);
         
-        IEnumerable<Shop> Get_Shop_By_CityId_CityDistrictId(int cityId, int cityDistrictId);
+        IEnumerable<Shop> GetShopByCityIdCityDistrictId(int cityId, int cityDistrictId);
 
     }
 }

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.OrderDetailModel>
+
+@{
+    var cus = ViewData["InfoCustomer"] as CustomerModel;
+}
+
+<div style="background-color: #f8f9fa; height: 610px;" class="Cart">
+    <div class="header-cart">
+        <div>
+            <a href="~/Cart/DeleteCart?orderId=@ViewBag.OrderId" class="btn-header-cart" style="border: 0.5px solid red; color: red "> Reset </a>
+        </div>
+        <div>
+            <a href="~/Cart/UpdateQuantityCart" class="btn-header-cart" style="background-color: cornflowerblue; color: white"> Cập nhật </a>
+        </div>
+    </div>
+
+    <div class="item-cart">
+        <div style="background-color: #EBEBEF;margin: 3px;" class="user-cart">
+            <div class="row">
+                <img style="width: 65px;height: 40px;" class="avatar-circle" src="https://images.foody.vn/usr/g1825/18244862/avt/s200x200/beauty-upload-api-foody-avatar-2d03099d-e7ec-49cf-8e37-c2aa6c719c87-191126163011.jpg" alt="Đạt Phạm">
+                <div style="margin: 15px 0 0 25px; text-align:left" class="txt-bold font15 col">@cus.CustomerName</div>
+            </div>
+        </div>
+        <div id="cartItem" class="content-item-cart">
+            @foreach (var item in Model)
+            {
+                <div class="cart-item">
+                    <div class="name-item">
+                        <span style="display: inline-block;">
+                            <input class="updateQuantity" data-id="@item.ProductId" value="@item.OrderQuantity" aria-label="quantity" max="100" min="1" name="soluong" type="number" style="float:left; border: none; width: 45px; height: 17px;">
+                        </span>
+                        <span class="item-name">@item.ProductName -</span>
+                        <span class="notice"> </span>
+                    </div>
+                    <div class="price">
+                        <p style="margin-right: 10px;">@string.Format("{0:0,0}", @item.Price) đ</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="total-price-item">
+        <div style="float: left; margin:10px 0 0 10px;">Tổng tiền: </div>
+        <div style="float: right; font-weight: bold; margin: 10px 35px 0 0;">@ViewBag.TotalOrder đ</div>
+    </div>
+    <div class="ship-fee">
+        <div style="float: left; margin:10px 0 0 10px;">Phí vận chuyển: </div>
+        <div style="float: right; font-weight: bold; margin: 10px 35px 0 0;">100.000 đ/km</div>
+    </div>
+    <div class="total-price-cart">
+        <div style="border: 0.5px dotted #a99595;border-radius: 5px; color:black; background-color: antiquewhite; height: 50px; display: flex; text-align: center; align-items: center;">
+            <p style="color: red; margin: 0px 0 0 15px;">(*)</p> Nhập mã khuyến mãi ở bước hoàn tất
+        </div>
+        <div style="height: 50px; color: #6c757d;">
+            <div style="float: left; margin:10px 0 0 10px;">Tạm tính: </div>
+            <div style="float: right; font-weight: bold; margin: 10px 35px 0 0;">@ViewBag.TotalOrder đ</div>
+        </div>
+    </div>
+
+    <span style="cursor:pointer" data-id="@ViewBag.OrderId" data-bs-toggle="modal" data-bs-target="#modelDetailOrder" class="orderDetail btn-order-food" id="orderDetail">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+        </svg>ĐẶT TRƯỚC
+    </span>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- CHỈNH SỬA -->
+
+<div class="modal fade" id="modelDetailOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="partial_add_address" style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
+        <div style="width: 1000px" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:black">THÔNG TIN ĐƠN HÀNG</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="detailsPartial" class="modal-body">
+                <!-- OrderDetailParrtial-->
+            </div>
+            <div class="modal-footer">
+                @*href="~/Cart/Pay?orderId=@ViewBag.OrderId"*@
+                <a class="PassValue btn-order-food">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    </svg>ĐẶT MÓN
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pass value into Modal -->
+<script>
+    $(document).on("click", ".orderDetail", function () {
+        var eventId = $(this).data('id');
+
+        $.ajax({
+            url: "@Url.Action("ContentOrderDetailsPartial", "Cart")",
+            type: "GET",
+            data: { 'orderId': eventId },
+            success: function (response) {
+                $('#detailsPartial').load('/Cart/ContentOrderDetailsPartial')
+            }
+        });
+    });
+</script>
+
+<!-- Get Selected Value -->
+<script>
+    $(document).on("click", ".PassValue", function () {
+        var address = document.getElementById('address').innerText;
+        var orderId = @ViewBag.OrderId;
+
+        $.ajax({
+            url: "@Url.Action("Pay", "Cart")",
+            type: "GET",
+            data: { 'orderId': orderId, 'address': address },
+            success: function (response) {
+                @Url.Action("CustomerCart", "Cart"); 
+            }
+        });
+    });
+</script>

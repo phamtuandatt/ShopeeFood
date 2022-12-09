@@ -12,8 +12,8 @@ namespace OA_Data.Entities
     {
         public Customer()
         {
-            Orders = new HashSet<Order>();
-            RefreshTokens = new HashSet<RefreshToken>();
+            //Orders = new HashSet<Order>();
+            //RefreshTokens = new HashSet<RefreshToken>();
         }
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -41,8 +41,8 @@ namespace OA_Data.Entities
         public string Avata { get; set; }
 
         // References 
-        public ICollection<Order> Orders { get; set; }
+        //public ICollection<Order> Orders { get; set; }
 
-        public ICollection<RefreshToken> RefreshTokens { get; set; }
+        //public ICollection<RefreshToken>? RefreshTokens { get; set; }
     }
 }

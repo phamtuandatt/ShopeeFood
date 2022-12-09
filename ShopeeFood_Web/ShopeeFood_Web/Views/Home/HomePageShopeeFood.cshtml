@@ -32,7 +32,7 @@
             {
                 <div class="form-search">
                     <div class="input-group">
-                        <input type="text" id="txtSearchHome" name="condition" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
+                        <input autocomplete="off" type="text" id="txtSearchHome" name="condition" placeholder="Tìm địa điểm, món ăn, địa chỉ..." value="">
                         <button type="submit" class="btn btn-primary btn-search">
                             <svg xmlns="http://www.w3.org/20000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
                                 <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z" />
@@ -42,6 +42,7 @@
                     </div>
                 </div>
                 <div id="search" style="display: none;" class="dialog-search">
+                    <!--PartialViewSearch-->
                 </div>
             }
             <!-- List filter-->
@@ -145,8 +146,10 @@
 
 @section scripts {
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            event.preventDefault();
             $("#txtSearchHome").keyup(function () {
                 var x = document.getElementById('search');
                 if ($(this).val() == "") {
@@ -155,6 +158,15 @@
                     x.style.display = 'block';
                 }
                 console.log($("#txtSearchHome").val());
+
+                $.ajax({
+                    url: "@Url.Action("SearchPartialView", "Home")",
+                    type: "GET",
+                    data: { 'condition': $("#txtSearchHome").val() },
+                    success: function (response) {
+                        $('#search').load('/Home/SearchPartialView');
+                    }
+                })
             });
         });
     </script>

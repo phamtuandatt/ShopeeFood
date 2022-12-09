@@ -216,3 +216,6 @@ button, select {
 .pagination li:hover {
     border-bottom: 0.5px solid #ee4d2d;
 }
+a {
+    text-decoration: none;
+}

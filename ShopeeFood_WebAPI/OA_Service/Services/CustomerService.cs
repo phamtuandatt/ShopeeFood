@@ -20,7 +20,7 @@ namespace OA_Service.Services
 
         public Customer IsCustomerExisted(string email)
         {
-            return _customerRepository.Check_Existed(c => c.Email == email);
+            return _customerRepository.CheckExisted(c => c.Email == email);
         }
 
         public Customer CheckLogin(string email, string password)

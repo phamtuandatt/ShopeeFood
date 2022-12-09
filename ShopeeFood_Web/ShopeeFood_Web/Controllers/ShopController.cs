@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using NuGet.Protocol;
 using ShopeeFood_Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -17,7 +19,16 @@ namespace ShopeeFood_Web.Controllers
 {
     public class ShopController : Controller
     {
-        string baseUrl = "https://localhost:5001/api/Shop/GetShops_City_BussinessType";
+        private readonly IConfiguration _configuration;
+        private string _baseUrl;
+
+        public ShopController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _baseUrl = _configuration["CallAPI:BaseURL"];
+        }
+
+
         // ------------------------------------------------------------------------------------
         // --------------- VIEW ---------------------------------------------------------------
         // Show ShopCategory
@@ -179,9 +190,17 @@ namespace ShopeeFood_Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ShopDetails(int ShopId)
         {
+            if (ShopId == 0)
+            {
+                ShopId = int.Parse(HttpContext.Session.GetString("ShopId"));
+            }
+            else
+            {
+                HttpContext.Session.SetString("ShopId", ShopId + "");
+            }
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync($"https://localhost:5001/api/Shop/GetShop?ShopId={ShopId}");
+                string json = await client.GetStringAsync($"{_baseUrl}Shop/GetShop?ShopId={ShopId}");
                 var res = JsonConvert.DeserializeObject<ShopModel>(json);
 
                 ViewData["InfoShop"] = new ShopModel()
@@ -195,6 +214,8 @@ namespace ShopeeFood_Web.Controllers
                 };
 
                 var model = await GetShopMenu(ShopId);
+
+                ViewBag.Login = HttpContext.Session.GetString("customerId");
 
                 return View(model);
             }
@@ -304,9 +325,9 @@ namespace ShopeeFood_Web.Controllers
         // Get Shop when pass cityId, bussinessId
         public async Task<IEnumerable<ShopModel>> GetShops(int cityId, int bussinessId)
         {
-            var url = baseUrl;
             HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"{url}?cityId={cityId}&bussinessId={bussinessId}");
+            //string json = await client.GetStringAsync($"{_baseUrl}Shop/GetShopByCityIdCityDistrictId?cityId={cityId}&cityDistrictId={bussinessId}");
+            string json = await client.GetStringAsync($"{_baseUrl}Shop/GetShopsCityBussinessType?cityId={cityId}&bussinessId={bussinessId}");
             var res = JsonConvert.DeserializeObject<List<ShopModel>>(json).ToList();
             List<ShopModel> shopModels = new List<ShopModel>();
             int count = 0;
@@ -325,9 +346,8 @@ namespace ShopeeFood_Web.Controllers
         // Get Shop when pass cityId
         public async Task<IEnumerable<ShopModel>> GetShopByCity(int cityId)
         {
-            var url = baseUrl;
             HttpClient client = new HttpClient();
-            string json =  await client.GetStringAsync ($"https://localhost:5001/api/Shop/GetShopByCityId?cityId={cityId}");
+            string json =  await client.GetStringAsync ($"{_baseUrl}Shop/GetShopByCityId?cityId={cityId}");
             var res = JsonConvert.DeserializeObject<List<ShopModel>>(json).ToList();
 
             return res;
@@ -357,7 +377,7 @@ namespace ShopeeFood_Web.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync($"https://localhost:5001/api/ShopMenu/GetShopMenu?shopId={ShopId}");
+                string json = await client.GetStringAsync($"{_baseUrl}ShopMenu/GetShopMenu?shopId={ShopId}");
                 var res = JsonConvert.DeserializeObject<List<ShopMenuModel>>(json).ToList();
 
                 return res;
@@ -369,10 +389,7 @@ namespace ShopeeFood_Web.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                var config = "https://localhost:5001/api/";//get data from config
-                var endpoint = "CityDistrict/GetDistrictByCity?cityId=";
-
-                string json = await client.GetStringAsync($"https://localhost:5001/api/CityDistrict/GetDistrictByCity?cityId={cityId}");
+                string json = await client.GetStringAsync($"{_baseUrl}CityDistrict/GetDistrictByCity?cityId={cityId}");
                 var res = JsonConvert.DeserializeObject<List<CityDistrictModel>>(json).ToList();
 
                 return res;
@@ -381,20 +398,28 @@ namespace ShopeeFood_Web.Controllers
 
         public async Task<IEnumerable<ShopModel>> SearchShopNameAsync(string condition)
         {
-            HttpContext.Session.Remove("Condition");
-            HttpContext.Session.SetString("Condition", condition);
-            
+            if (condition != null)
+            {
+                HttpContext.Session.Remove("Condition");
+                HttpContext.Session.SetString("Condition", condition);
+            }
+            string con = HttpContext.Session.GetString("Condition");
             int cityId = int.Parse(HttpContext.Session.GetString("CityId"));
+            if (cityId == 0)
+            {
+                cityId = 1;
+            }        
 
             var res = await GetShopByCity(cityId);
 
             var lst_CityDistricts = await GetCityDistrict(cityId);
             ViewData["CityDistrict"] = lst_CityDistricts;
 
-            var list = res.Where(name => name.ShopName.ToUpper().Contains(condition.ToUpper())).ToList();
+            var list = res.Where(name => name.ShopName.ToUpper().Contains(con.ToUpper())).ToList();
 
             return list;
         }
+
 
     }
 }

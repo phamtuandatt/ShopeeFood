@@ -13,12 +13,16 @@ namespace OA_Service.IServices
 
         OrderDetail Get(int Id);
 
+        IEnumerable<OrderDetail> GetOrderDetails(int Id);
+
         void Insert(OrderDetail Entity);
 
-        void Delete(int Id);
+        void Remove(OrderDetail Entity);
 
         void Update(OrderDetail Entity);
 
         void SaveChange();
+
+        OrderDetail GetOrderDetail(int orderId, int productId);
     }
 }

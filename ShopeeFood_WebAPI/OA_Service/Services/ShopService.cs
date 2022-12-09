@@ -33,19 +33,19 @@ namespace OA_Service.Services
             return _shopRepository.GetAll();
         }
 
-        public IEnumerable<Shop> GetShop_City_BussinessType(int cityId, int bussinessId)
+        public IEnumerable<Shop> GetShopCityBussinessType(int cityId, int bussinessId)
         {
-            return _shopRepository.GetShop_City_BussinessType(shop => shop.CityId == cityId && shop.BusinessId == bussinessId).ToList();
+            return _shopRepository.GetEntity(shop => shop.CityId == cityId && shop.BusinessId == bussinessId).ToList();
         }
 
-        public IEnumerable<Shop> Get_Shop_By_CityId(int cityId)
+        public IEnumerable<Shop> GetShopByCityId(int cityId)
         {
-            return _shopRepository.GetShop_City_BussinessType(shop => shop.CityId == cityId).ToList();
+            return _shopRepository.GetEntity(shop => shop.CityId == cityId).ToList();
         }
 
-        public IEnumerable<Shop> Get_Shop_By_CityId_CityDistrictId(int cityId, int cityDistrictId)
+        public IEnumerable<Shop> GetShopByCityIdCityDistrictId(int cityId, int cityDistrictId)
         {
-            return _shopRepository.GetShop_City_BussinessType(shop => shop.CityId == cityId && shop.CityDistricId == cityDistrictId).ToList();
+            return _shopRepository.GetEntity(shop => shop.CityId == cityId && shop.CityDistricId == cityDistrictId).ToList();
         }
 
         public void Insert(Shop Entity)

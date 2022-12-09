@@ -17,6 +17,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>   
 
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <!-- Wrapper -->
@@ -210,13 +215,13 @@
 
     <!-- Show Partial View -->
     <script>
-        $('#myDIV').load('/City/Partial_CityDetial')
+        $('#myDIV').load('/City/PartialCityDetial')
 
-        $('#partial_zone').load('/City/Partial_Nav_menu')
+        $('#partial_zone').load('/City/PartialNavmenu')
 
-        $('#Login').load('/Home/Check_Login')
+        $('#Login').load('/Home/CheckLogin')
 
-        $('#flux').load("/Shop/ShopCategory_Home_By_City")
+        $('#flux').load("/Shop/ShopCategoryHomeByCity")
     </script>
 
     @RenderSection("Scripts", required: false)

@@ -18,9 +18,9 @@ namespace OA_Service.Services
             _orderDetailRepository = orderDetailRepository;
         }
 
-        public void Delete(int Id)
+        public void Remove(OrderDetail entity)
         {
-            _orderDetailRepository.Delete(Id);
+            _orderDetailRepository.Remove(entity);
         }
 
         public OrderDetail Get(int Id)
@@ -46,6 +46,16 @@ namespace OA_Service.Services
         public void Update(OrderDetail Entity)
         {
             _orderDetailRepository.Update(Entity);
+        }
+
+        public IEnumerable<OrderDetail> GetOrderDetails(int Id)
+        {
+            return _orderDetailRepository.GetEntity(or => or.OrderId == Id);
+        }
+
+        public OrderDetail GetOrderDetail(int orderId, int productId)
+        {
+            return _orderDetailRepository.GetObject(ord => ord.OrderId == orderId && ord.ProductId == productId);
         }
     }
 }

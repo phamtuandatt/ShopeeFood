@@ -673,3 +673,57 @@ body {
     .main-footer .registered img {
         width: 100%;
     }
+
+/* Search */
+.dialog-search {
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    position: absolute;
+    top: 135px;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.name-ress {
+    color: #464646;
+    text-decoration: none;
+    font-size: larger;
+    margin: 5px 0 0 0;
+    padding: 5px 0 0 0;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.address-ress {
+    color: #959595;
+    text-decoration: none;
+    font-size: small;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.item-ress {
+    height: 65px;
+    border-bottom: 1px solid #EBEBEB;
+}
+
+    .item-ress:hover {
+        background-color: #f1f1f1;
+    }
+
+.img-ress {
+    float: left;
+}
+
+.img-context {
+    width: 70px;
+    margin: 10px;
+}
+a {
+    text-decoration: none;
+}

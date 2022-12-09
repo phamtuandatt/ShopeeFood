@@ -68,7 +68,7 @@
                             <span data-id="@item.CustomerAddressId">@item.CustomerAddressId</span>
                         </td>
                         <td>
-                            <span data-id="@item.RemmemberName">@item.RemmemberName </span>
+                            <span data-id="@item.RemmemberName">@item.RemmemberName </span> 
                         </td>
                         <td>
                             <span data-id="@item.Name">@item.Name </span>
@@ -94,6 +94,8 @@
         </div>
     </div>
 </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <!-- CHỈNH SỬA -->
 @using (Html.BeginForm("EditCustomerAddressAsync", "Customer", FormMethod.Post))

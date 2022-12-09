@@ -7,12 +7,21 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace ShopeeFood_Web.Controllers
 {
     public class ProductController : Controller
     {
-        string baseUrl = "https://localhost:5001/api/Product/GetProducts";
+        private string _baseUrl;
+        private IConfiguration _configuration;
+
+        public ProductController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _baseUrl = _configuration["CallAPI:BaseURL"];
+        }
+
         public async Task<IActionResult> ProductCategory()
         {
             var model = await GetProducts();
@@ -28,7 +37,7 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IEnumerable<ProductModel>> GetProducts()
         {
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl;
+            var url = _baseUrl + "Product/GetProducts";
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string json = await client.GetStringAsync(url);

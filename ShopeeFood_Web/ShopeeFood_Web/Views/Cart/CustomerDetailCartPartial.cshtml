@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.OrderDetailModel>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                Tên sản phẩm
+            </th>
+            <th>
+                Số lượng đặt
+            </th>
+            <th>
+                Giá
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderQuantity)
+                </td>
+                <td>
+                    @string.Format("{0:0,0}", item.Price)
+                </td>
+                <td>
+                    @string.Format("{0:0,0}", item.Total_price)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

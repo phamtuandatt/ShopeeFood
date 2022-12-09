@@ -12,7 +12,7 @@ namespace OA_Data.Entities
     {
         public Order()
         {
-            OrderDetails = new HashSet<OrderDetail>();
+            //OrderDetails = new HashSet<OrderDetail>();
         }
 
         [Required]
@@ -35,15 +35,15 @@ namespace OA_Data.Entities
         public int ShopId { get; set; }
 
 
-        // Foreign Key
-        [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
+        //// Foreign Key
+        //[ForeignKey("CustomerId")]
+        //public Customer Customer { get; set; }
 
-        [ForeignKey("ShopId")]
-        public Shop Shop { get; set; }
+        //[ForeignKey("ShopId")]
+        //public Shop Shop { get; set; }
 
         // References
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        //public ICollection<OrderDetail> OrderDetails { get; set; }
 
 
     }

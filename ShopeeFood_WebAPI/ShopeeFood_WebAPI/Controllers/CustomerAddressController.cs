@@ -25,6 +25,13 @@ namespace ShopeeFood_WebAPI.Controllers
             return customerAddressService.GetAll(); 
         }
 
+        [HttpGet("Get")]
+        public IEnumerable<CustomerAddress> Get(int customerId)
+        {
+            return customerAddressService.GetAddresses(customerId);
+        }
+
+
         //string name, string address, string sex, string email, string phone, string password
 
         [HttpPost("AddCustomerAddress")]

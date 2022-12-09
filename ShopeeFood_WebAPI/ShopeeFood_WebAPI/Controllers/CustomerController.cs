@@ -29,16 +29,16 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
 
-        [HttpGet("GetCustomer_1")]
-        public Customer GetCustomer_1(int id)
+        [HttpGet("GetCustomer1")]
+        public Customer GetCustomer1(int id)
         {
             return customerService.Get(id);
         }
 
 
-        [HttpGet("GetCustomer_2")]
+        [HttpGet("GetCustomer2")]
         [Authorize]
-        public Customer GetCustomer_2(string email, string password)
+        public Customer GetCustomer2(string email, string password)
         {
             return customerService.CheckLogin(email, password);
         }
@@ -78,7 +78,7 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
 
-        [HttpGet("CheckExistedCustomer")]
+        [HttpGet("IsCustomerExisted")]
         public Customer IsCustomerExisted(string email)
         {
             Customer cus = customerService.IsCustomerExisted(email);

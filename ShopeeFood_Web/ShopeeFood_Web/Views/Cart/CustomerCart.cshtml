@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.CustomerCartModel>
+
+@{
+    ViewData["Title"] = "CustomerCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CustomerCart</h1>
+
+<div class="container" style="margin-top:50px;min-height: 500px;background-color:#fff;border-radius: 10px">
+    <h3 style="text-align:center;padding: 50px;">Lịch sử đơn hàng</h3>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>NGÀY ĐẶT</th>
+                    <th>ĐỊA CHỈ</th>
+                    <th>TÌNH TRẠNG</th>
+                    <th>TỔNG SỐ LƯỢNG</th>
+                    <th>TÊN CỬA HÀNG</th>
+                    <th>TỔNG TIỀN</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.OrderDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalOrderQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShopName)
+                        </td>
+                        <td>
+                            @string.Format("{0:0,0}", item.TotalOrderPrice)
+                        </td>
+                        <td>
+                            <span style="cursor:pointer" data-id="@item.OrderId" data-bs-toggle="modal" data-bs-target="#modelDetail" class="modelOrderDetail" id="modelOrderDetail">
+                                Chi tiết
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<div class="modal fade" id="modelDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="partial_add_address" style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
+        <div style="width: 1000px" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">CẬP NHẬT THÔNG TIN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="orderDetailPartial" class="modal-body">
+                <!-- OrderDetailParrtial-->
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pass value into Modal -->
+<script>
+    $(document).on("click", ".modelOrderDetail", function () {
+        var eventId = $(this).data('id');
+
+        $.ajax({
+            url: "@Url.Action("CustomerDetailCartPartial", "Cart")",
+            type: "GET",
+            data: { 'orderId' : eventId },
+            success: function (response) {
+                $('#orderDetailPartial').load('/Cart/CustomerDetailCartPartial')
+            }
+        });
+    });
+</script>

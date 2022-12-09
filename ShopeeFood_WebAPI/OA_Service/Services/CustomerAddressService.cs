@@ -28,6 +28,11 @@ namespace OA_Service.Services
             return _customerAddressRepository.Get(Id);
         }
 
+        public IEnumerable<CustomerAddress> GetAddresses(int customerId)
+        {
+            return _customerAddressRepository.GetEntity(ad => ad.CustomerId == customerId);
+        }
+
         public IEnumerable<CustomerAddress> GetAll()
         {
             return _customerAddressRepository.GetAll();

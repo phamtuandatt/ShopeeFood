@@ -17,16 +17,20 @@ namespace OA_Repository.IRepository
 
         void Delete(int Id);
 
+        void Remove(T Entity);
+
         void Update(T Entity);
 
         void SaveChange();
 
         T CheckLogin(Func<T, bool> entity);
 
-        IEnumerable<T> GetShop_City_BussinessType(Func<T, bool> entity);
+        IEnumerable<T> GetEntity(Func<T, bool> entity);
 
-        T Check_Existed(Func<T, bool> entity);
+        T CheckExisted(Func<T, bool> entity);
 
         T GetObject(Func<T, bool> entity);
+
+        int GetMaxIdObject(Func<T, int> entity);
     }
 }

@@ -1,0 +1,60 @@
+﻿@using ShopeeFood_Web.Models
+@model IEnumerable<ShopeeFood_Web.Models.OrderDetailModel>
+
+
+
+<div class="row">
+    <div class="col-5">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1959.6977493463517!2d106.70496832472143!3d10.780990321459603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f492b78ffff%3A0xdf1209cdf8c48b63!2sShopeefood!5e0!3m2!1svi!2s!4v1667898560169!5m2!1svi!2s"
+                width="350" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        <!--Create selecttion choose địa chỉ giao hàng-->
+        <select name="address" id="address" class="form-select">
+            @foreach (var add in ViewData["CusAdd"] as IEnumerable<CustomerAddressModel>)
+            {
+                <option value="@add.Address">@add.Address</option>
+            }
+        </select>
+    </div>
+    <div class="col-7">
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>
+                        Tên sản phẩm
+                    </th>
+                    <th>
+                        Số lượng đặt
+                    </th>
+                    <th>
+                        Giá
+                    </th>
+                    <th>
+                        Tổng tiền
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderQuantity)
+                        </td>
+                        <td>
+                            @string.Format("{0:0,0}", item.Price)
+                        </td>
+                        <td>
+                            @string.Format("{0:0,0}", item.Total_price)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

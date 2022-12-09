@@ -264,3 +264,6 @@ a {
     align-items: stretch;
     width: 100%;
 }
+a {
+    text-decoration: none;
+}

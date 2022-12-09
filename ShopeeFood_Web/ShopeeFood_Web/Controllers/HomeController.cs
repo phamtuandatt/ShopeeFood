@@ -9,17 +9,23 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Threading.Tasks; 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace ShopeeFood_Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration  _configuration;
         public const string SessionKeyName = "_Name";
+        public string _baseUrl;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
+            _baseUrl = _configuration["CallAPI:BaseURL"];
         }
 
         public IActionResult HomePageShopeeFood(int cityId, int bussinessId)
@@ -30,10 +36,11 @@ namespace ShopeeFood_Web.Controllers
             return View();
         }
 
-        public IActionResult Check_Login()
+        public IActionResult CheckLogin()
         {
             ViewBag.UserName = HttpContext.Session.GetString("username");
             ViewBag.Image = HttpContext.Session.GetString("image");
+            ViewBag.CustomerId = HttpContext.Session.GetString("customerId");
 
             return PartialView();
         }
@@ -47,13 +54,8 @@ namespace ShopeeFood_Web.Controllers
             // Get BussinessType
             using (var client = new HttpClient())
             {
-                // Get link of API
-                client.BaseAddress = new Uri("https://localhost:5001/");
-
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 // Access API
-                HttpResponseMessage response = await client.GetAsync("api/CityDetail/GetAll");
+                HttpResponseMessage response = await client.GetAsync(_baseUrl + "CityDetail/GetAll");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -76,6 +78,42 @@ namespace ShopeeFood_Web.Controllers
                     return NotFound("No found");
                 }
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchPartialView(string condition)
+        {
+            var shops = await SearchShopNameAsync(condition);
+            return PartialView(shops);
+        }
+
+        public async Task<IEnumerable<ShopModel>> SearchShopNameAsync(string condition)
+        {
+            if (condition != null)
+            {
+                HttpContext.Session.Remove("Condition");
+                HttpContext.Session.SetString("Condition", condition);
+            }
+            string con = HttpContext.Session.GetString("Condition");
+            int cityId = int.Parse(HttpContext.Session.GetString("CityId"));
+            if (cityId == 0)
+            {
+                cityId = 1;
+            }
+            var res = await GetShopByCity(cityId);
+
+            var list = res.Where(name => name.ShopName.ToUpper().Contains(con.ToUpper())).ToList();
+
+            return list;
+        }
+
+        public async Task<IEnumerable<ShopModel>> GetShopByCity(int cityId)
+        {
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync($"{_baseUrl}Shop/GetShopByCityId?cityId={cityId}");
+            var res = JsonConvert.DeserializeObject<List<ShopModel>>(json).ToList();
+
+            return res;
         }
     }
 }

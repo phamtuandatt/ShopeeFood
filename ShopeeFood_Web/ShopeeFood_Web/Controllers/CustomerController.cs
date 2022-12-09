@@ -33,13 +33,14 @@ namespace ShopeeFood_Web.Controllers
 {
     public class CustomerController : Controller
     {
-        private IConfiguration _config;
-        string baseUrl = "https://localhost:5001/api/Customer/GetCustomers";
+        private IConfiguration _configuration;
+        private string _baseUrl;
         readonly SendMailService sendMailService;
 
         public CustomerController(IConfiguration configuration, SendMailService sendMailService)
         {
-            _config = configuration;
+            _configuration = configuration;
+            _baseUrl = _configuration["CallAPI:BaseURL"];
             this.sendMailService = sendMailService;
         }
 
@@ -57,7 +58,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync("https://localhost:5001/api/Token/", content))
+                using (var response = await httpClient.PostAsync($"{_baseUrl}Token/", content))
                 {
                     string token = await response.Content.ReadAsStringAsync();
                     if (token == "Invalid credentials")
@@ -90,7 +91,11 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IActionResult> Profile()
         {
             HttpContext.Session.Remove("Status");
-            ViewBag.Status_account = HttpContext.Session.GetString("Status_account");
+            if (HttpContext.Session.GetString("Status_account") != null)
+            {
+                ViewBag.Status_account = HttpContext.Session.GetString("Status_account");
+            }
+            
             var email = HttpContext.Session.GetString("email");
             var pw = HttpContext.Session.GetString("password");
 
@@ -127,7 +132,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync($"https://localhost:5001/api/Customer/UpdateCustomer?id={cusId}&", content))
+                using (var response = await httpClient.PostAsync($"{_baseUrl}Customer/UpdateCustomer?id={cusId}&", content))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -167,7 +172,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync($"https://localhost:5001/api/Customer/UpdateCustomer/", content))
+                using (var response = await httpClient.PutAsync($"{_baseUrl}Customer/UpdateCustomer/", content))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -179,7 +184,6 @@ namespace ShopeeFood_Web.Controllers
                 }
             }
         }
-
 
         [HttpGet]
         public async Task<IActionResult> CustomerAddress()
@@ -198,7 +202,7 @@ namespace ShopeeFood_Web.Controllers
             // GetAssync -> Get status when excute API
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"https://localhost:5001/api/CustomerAddress/DeleteCustomerAddress?CustomerAddressId={CustomerAddressId}"))
+                using (var response = await httpClient.DeleteAsync($"{_baseUrl}CustomerAddress/DeleteCustomerAddress?CustomerAddressId={CustomerAddressId}"))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -222,7 +226,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync("https://localhost:5001/api/CustomerAddress/UpdateCustomerAddress/", content))
+                using (var response = await httpClient.PutAsync($"{_baseUrl}CustomerAddress/UpdateCustomerAddress/", content))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -246,7 +250,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync("https://localhost:5001/api/CustomerAddress/AddCustomerAddress/", content))
+                using (var response = await httpClient.PostAsync($"{_baseUrl}CustomerAddress/AddCustomerAddress/", content))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -283,7 +287,7 @@ namespace ShopeeFood_Web.Controllers
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                         Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync("https://localhost:5001/api/Customer/AddCustomer/", content))
+                    using (var response = await httpClient.PostAsync($"{_baseUrl}Customer/AddCustomer/", content))
                     {
                         if (response.IsSuccessStatusCode)
                         {
@@ -313,7 +317,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(cus),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync("https://localhost:5001/api/Token/", content))
+                using (var response = await httpClient.PostAsync($"{_baseUrl}Token/", content))
                 {
                     token = await response.Content.ReadAsStringAsync();
 
@@ -353,14 +357,19 @@ namespace ShopeeFood_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(string email, string password)
         {
-            HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/ResetPassword?email={email}&password={password}");
-            var res = JsonConvert.DeserializeObject<CustomerModel>(json);
-            if (res != null)
+            using (var httpClient = new HttpClient())
             {
-                return RedirectToAction("Login", "Customer");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(""),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PutAsync($"{_baseUrl}Customer/ResetPassword?email={email}&password={password}", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Login", "Customer");
+                    }
+                    return View();
+                }
             }
-            return View();
         }
 
         [HttpGet]
@@ -372,6 +381,7 @@ namespace ShopeeFood_Web.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("Status_account");
             return RedirectToAction("HomePageShopeeFood", "Home");
         }
 
@@ -381,7 +391,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync("https://localhost:5001/api/Token/", content))
+                using (var response = await httpClient.PostAsync($"{_baseUrl}Token/", content))
                 {
                     string token = await response.Content.ReadAsStringAsync();
 
@@ -394,7 +404,7 @@ namespace ShopeeFood_Web.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/IsCustomerExistedtomer?email={email}");
+                string json = await client.GetStringAsync($"{_baseUrl}Customer/IsCustomerExistedtomer?email={email}");
                 var res = JsonConvert.DeserializeObject<CustomerModel>(json);
 
                 if (res != null)
@@ -413,7 +423,7 @@ namespace ShopeeFood_Web.Controllers
                 clients.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 // Access API
-                HttpResponseMessage response = await clients.GetAsync($"https://localhost:5001/api/Customer/GetCustomer_2?email={email}&password={password}");
+                HttpResponseMessage response = await clients.GetAsync($"{_baseUrl}Customer/GetCustomer2?email={email}&password={password}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -444,7 +454,7 @@ namespace ShopeeFood_Web.Controllers
             using (var clients = new HttpClient())
             {
                 var accessToken = HttpContext.Session.GetString("JWToken");
-                var url = baseUrl;
+                var url = $"{_baseUrl}Customer/GetCustomers";
                 clients.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 // Access API
@@ -471,9 +481,9 @@ namespace ShopeeFood_Web.Controllers
 
         public async Task<CustomerModel> GetCusByEmail(string email)
         {
-            var url = baseUrl;
+
             HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/GetCusByEmail?email={email}");
+            string json = await client.GetStringAsync($"{_baseUrl}Customer/GetCusByEmail?email={email}");
             var res = JsonConvert.DeserializeObject<CustomerModel>(json);
 
             return res;
@@ -481,9 +491,8 @@ namespace ShopeeFood_Web.Controllers
 
         public async Task<CustomerModel> GetCusById(int id)
         {
-            var url = baseUrl;
             HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"https://localhost:5001/api/Customer/GetCustomer_1?id={id}");
+            string json = await client.GetStringAsync($"{_baseUrl}Customer/GetCustomer1?id={id}");
             var res = JsonConvert.DeserializeObject<CustomerModel>(json);
 
             return res;
@@ -491,9 +500,8 @@ namespace ShopeeFood_Web.Controllers
 
         public async Task<IEnumerable<CustomerAddressModel>> GetCusAddressById(int id)
         {
-            var url = baseUrl;
             HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"https://localhost:5001/api/CustomerAddress/GetAll");
+            string json = await client.GetStringAsync($"{_baseUrl}CustomerAddress/GetAll");
             var res = JsonConvert.DeserializeObject<IEnumerable<CustomerAddressModel>>(json).ToList();
 
             var model = res.Where(adr => adr.CustomerId == id).ToList();

@@ -20,5 +20,7 @@ namespace OA_Service.IServices
         void Update(CustomerAddress Entity);
 
         void SaveChange();
+
+        IEnumerable<CustomerAddress> GetAddresses(int customerId);
     }
 }

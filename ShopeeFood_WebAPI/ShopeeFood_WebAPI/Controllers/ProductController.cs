@@ -24,5 +24,11 @@ namespace ShopeeFood_WebAPI.Controllers
         {
             return productService.GetAll();
         }
+
+        [HttpGet("GetProduct")]
+        public Product GetProduct(int productId)
+        {
+            return productService.Get(productId);
+        }
     }
 }

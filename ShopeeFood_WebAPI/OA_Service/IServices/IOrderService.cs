@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OA_Service.IServices
 {
-    public interface IOrderService
+    public interface IOrderService 
     {
         IEnumerable<Order> GetAll();
 
@@ -20,5 +20,13 @@ namespace OA_Service.IServices
         void Update(Order Entity);
 
         void SaveChange();
+
+        int GetMaxId();
+
+        int GetMaxIdOrder(int customerId, int shopId);
+
+        Order OrderIsExisted(int customerId, int shopId);
+
+        IEnumerable<Order> GetOrderByCustomer(int customerID);
     }
 }

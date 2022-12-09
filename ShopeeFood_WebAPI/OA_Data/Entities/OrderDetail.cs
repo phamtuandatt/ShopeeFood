@@ -20,11 +20,11 @@ namespace OA_Data.Entities
 
         public double Total_price { get; set; }
 
-        // Foreign Key
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; }
+        //// Foreign Key
+        //[ForeignKey("OrderId")]
+        //public Order Order { get; set; }
 
-        [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        //[ForeignKey("ProductId")]
+        //public Product Product { get; set; }
     }
 }

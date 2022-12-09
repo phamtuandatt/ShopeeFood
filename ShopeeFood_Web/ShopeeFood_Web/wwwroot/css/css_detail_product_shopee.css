@@ -608,3 +608,6 @@
     .btn-order-food:hover {
         background-color: #f05d5d;
     }
+a{
+    text-decoration:none;
+}
