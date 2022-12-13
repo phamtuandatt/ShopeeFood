@@ -46,18 +46,19 @@
                 </div>
             }
             <!-- List filter-->
+            <!-- int businessId, int cityid -->
             <div class="category-list-filter">
-                <a href="~/Shop/ShopCategory">
+                <a href="~/Shop/ShopCategory?cityid=@ViewBag.cyId">
                     <span class="category-item ">All</span>
                 </a>
-                <a href="~/Shop/ShopCategory?businessId=1">
+                <a href="~/Shop/ShopCategory?businessId=1&cityid=@ViewBag.cyId">
                     <span class="category-item ">Thực phẩm</span>
                 </a>
-                <a href="~/Shop/ShopCategory?businessId=2">
+                <a href="~/Shop/ShopCategory?businessId=2&cityid=@ViewBag.cyId">
                     <span class="category-item ">Đồ ăn</span>
                 </a>
                 <a href="~/Shop/ShopCategory">
-                    <span class="category-item ">Đồ uống</span>
+                    <span class="category-item">Đồ uống</span>
                 </a>
                 <a href="~/Shop/ShopCategory">
                     <span class="category-item ">Đồ chay</span>

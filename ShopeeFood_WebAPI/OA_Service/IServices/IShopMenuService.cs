@@ -20,5 +20,7 @@ namespace OA_Service.IServices
         void Update(ShopMenu Entity);
 
         void SaveChange();
+
+        IEnumerable<ShopMenu> GetProductTypeShop(int shopId);
     }
 }

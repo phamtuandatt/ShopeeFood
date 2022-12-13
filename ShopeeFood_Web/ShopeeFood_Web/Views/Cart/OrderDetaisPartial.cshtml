@@ -44,10 +44,12 @@
         <div style="float: left; margin:10px 0 0 10px;">Tổng tiền: </div>
         <div style="float: right; font-weight: bold; margin: 10px 35px 0 0;">@ViewBag.TotalOrder đ</div>
     </div>
+
     <div class="ship-fee">
         <div style="float: left; margin:10px 0 0 10px;">Phí vận chuyển: </div>
         <div style="float: right; font-weight: bold; margin: 10px 35px 0 0;">100.000 đ/km</div>
     </div>
+
     <div class="total-price-cart">
         <div style="border: 0.5px dotted #a99595;border-radius: 5px; color:black; background-color: antiquewhite; height: 50px; display: flex; text-align: center; align-items: center;">
             <p style="color: red; margin: 0px 0 0 15px;">(*)</p> Nhập mã khuyến mãi ở bước hoàn tất
@@ -66,9 +68,8 @@
 </div>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- CHỈNH SỬA -->
 
+<!-- CHỈNH SỬA -->
 <div class="modal fade" id="modelDetailOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div id="partial_add_address" style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
         <div style="width: 1000px" class="modal-content">
@@ -81,7 +82,7 @@
             </div>
             <div class="modal-footer">
                 @*href="~/Cart/Pay?orderId=@ViewBag.OrderId"*@
-                <a class="PassValue btn-order-food">
+                <a class="passValue btn-order-food">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                     </svg>ĐẶT MÓN
@@ -91,6 +92,8 @@
     </div>
 </div>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Pass value into Modal -->
 <script>
     $(document).on("click", ".orderDetail", function () {
@@ -109,17 +112,21 @@
 
 <!-- Get Selected Value -->
 <script>
-    $(document).on("click", ".PassValue", function () {
-        var address = document.getElementById('address').innerText;
+    $(document).on("click", ".passValue", function () {
+        var ad = document.getElementById('address');
+        var address = ad.options[ad.selectedIndex].text;
         var orderId = @ViewBag.OrderId;
+
+        console.log(address + " - " + orderId);
 
         $.ajax({
             url: "@Url.Action("Pay", "Cart")",
             type: "GET",
             data: { 'orderId': orderId, 'address': address },
             success: function (response) {
-                @Url.Action("CustomerCart", "Cart"); 
+                window.location = "@Url.Action("CustomerCart", "Cart")";
             }
         });
     });
 </script>
+

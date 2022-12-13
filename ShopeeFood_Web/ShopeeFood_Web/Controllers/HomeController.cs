@@ -28,10 +28,22 @@ namespace ShopeeFood_Web.Controllers
             _baseUrl = _configuration["CallAPI:BaseURL"];
         }
 
-        public IActionResult HomePageShopeeFood(int cityId, int bussinessId)
+        public IActionResult HomePageShopeeFood(int cityId)
         {
-            HttpContext.Session.SetString("CityId", cityId + "");
-            HttpContext.Session.SetString("BusinessId", bussinessId + "");
+            if (cityId != 0)
+            {
+                HttpContext.Session.SetString("CityId", cityId + "");
+                ViewBag.cyId = cityId;
+                return View();
+            }
+            if (HttpContext.Session.GetString("CityId") != null)
+            {
+                ViewBag.cyId = int.Parse(HttpContext.Session.GetString("CityId").ToString());
+                return View();
+            }
+
+            ViewBag.cyId = 1;
+            HttpContext.Session.SetString("CityId", 1 + "");
 
             return View();
         }
@@ -95,11 +107,9 @@ namespace ShopeeFood_Web.Controllers
                 HttpContext.Session.SetString("Condition", condition);
             }
             string con = HttpContext.Session.GetString("Condition");
+
             int cityId = int.Parse(HttpContext.Session.GetString("CityId"));
-            if (cityId == 0)
-            {
-                cityId = 1;
-            }
+
             var res = await GetShopByCity(cityId);
 
             var list = res.Where(name => name.ShopName.ToUpper().Contains(con.ToUpper())).ToList();

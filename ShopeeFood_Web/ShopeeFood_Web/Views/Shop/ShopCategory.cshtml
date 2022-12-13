@@ -97,8 +97,6 @@
             element.classList.add("show");
         } else {
             element.classList.remove("show");
-
-
         }
     }
 
@@ -138,6 +136,7 @@
                 $.ajax({
                     url: "@Url.Action("ShopCategory", "Shop")",
                     type: "GET",
+                    data: { 'businessId': @ViewBag.bId, 'cityid': @ViewBag.cId },
                     success: function (response) {
                         document.getElementById('widget-tag').remove();
                         $('#list-restaurant').load('/Shop/PartialViewShopCategory')

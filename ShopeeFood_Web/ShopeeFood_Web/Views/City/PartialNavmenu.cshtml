@@ -1,11 +1,23 @@
 ﻿@model IEnumerable<ShopeeFood_Web.Models.CityModel>
 
+<option hidden value="dropdown-item">TP.HCM</option>
 @foreach (var item in Model)
 {
     @*<a class="dropdown-item" href="~/Shop/ShopCategory_Home?cityId=@item.CityId">@item.CityName</a>*@
 
-    <a class="dropdown-item" href="~/Home/HomePageShopeeFood?cityId=@item.CityId&bussinessId=0">@item.CityName</a>
+    @*<a class="dropdown-item" href="~/Home/HomePageShopeeFood?cityId=@item.CityId&bussinessId=0">@item.CityName</a>*@
+    
+    @*<a class="passCityId dropdown-item" data-id="@item.CityId">@item.CityName</a>*@
+
+    <option class="dropdown-item" value="@item.CityId">@item.CityName</option>
+    
 }
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Get Selected Value -->
+<script>
+    $('#partial_zone').val(@ViewBag.id);
+</script>
 
 

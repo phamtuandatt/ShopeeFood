@@ -60,6 +60,7 @@ namespace ShopeeFood_Web.Controllers
                         if (respones.IsSuccessStatusCode)
                         {
                             HttpContext.Session.SetString("ShopId", shopId + "");
+                            HttpContext.Session.SetString("ResetCart", "Insert");
                             return RedirectToAction("ShopDetails", "Shop");
                         }
                     }
@@ -110,6 +111,7 @@ namespace ShopeeFood_Web.Controllers
                                 if (respones2.IsSuccessStatusCode)
                                 {
                                     HttpContext.Session.SetString("ShopId", shopId + "");
+                                    HttpContext.Session.SetString("ResetCart", "Insert");
                                     return RedirectToAction("ShopDetails", "Shop");
                                 }
                             }
@@ -141,6 +143,7 @@ namespace ShopeeFood_Web.Controllers
                         if (respones.IsSuccessStatusCode)
                         {
                             HttpContext.Session.SetString("ShopId", shopId + "");
+                            HttpContext.Session.SetString("ResetCart", "Insert");
                             return RedirectToAction("ShopDetails", "Shop");
                         }
                     }
@@ -202,6 +205,7 @@ namespace ShopeeFood_Web.Controllers
                 {
                     if (respones.IsSuccessStatusCode)
                     {
+                        HttpContext.Session.SetString("ResetCart", "Delete");
                         return RedirectToAction("ShopDetails", "Shop");
                     }
                 }
@@ -229,6 +233,7 @@ namespace ShopeeFood_Web.Controllers
                     if (respones.IsSuccessStatusCode)
                     {
                         HttpContext.Session.SetString("ShopId", shopId + "");
+                        HttpContext.Session.SetString("ResetCart", "Update");
                         return RedirectToAction("ShopDetails", "Shop");
                     }
                 }
@@ -236,6 +241,7 @@ namespace ShopeeFood_Web.Controllers
             return RedirectToAction("ShopDetails", "Shop");
         }
 
+        [HttpGet]
         public async Task<IActionResult> Pay(int orderId, string address)
         {
             // Get Order
@@ -258,6 +264,7 @@ namespace ShopeeFood_Web.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         HttpContext.Session.SetString("OrderStatus", "Orders successful !");
+                        HttpContext.Session.SetString("ResetCart", "Pay");
                         return RedirectToAction("CustomerCart", "Cart");
                     }
                     HttpContext.Session.SetString("OrderStatus", "Orders unsuccessful !");

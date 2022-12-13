@@ -14,11 +14,13 @@ namespace ShopeeFood_WebAPI.Controllers
     {
         private readonly IShopMenuService shopMenuService;
         private readonly IProductService productService;
+        private readonly IProductTypeService productTypeService;
 
-        public ShopMenuController(IShopMenuService shopMenuService, IProductService productService)
+        public ShopMenuController(IShopMenuService shopMenuService, IProductService productService, IProductTypeService productTypeService)
         {
             this.shopMenuService = shopMenuService;
             this.productService = productService;
+            this.productTypeService = productTypeService;
         }
 
         [HttpGet("GetShopMenus")]

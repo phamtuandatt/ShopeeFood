@@ -15,7 +15,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
     <style>
         a {
@@ -35,14 +35,16 @@
                 </a>
                 <!-- DROPDOWN -->
                 <div style="margin: 0 0 0 200px" class="dropdown">
-                    <!-- Show Partial City -->
-                    <button type="button" class="btn btn-outline dropdown-toggle" data-toggle="dropdown">
-                        TP.HCM
-                    </button>
-                    <div id="partial_zone" class="dropdown-menu"></div>
+
+                    <select id="partial_zone" onchange="genderChanged(this)" class="form-select" style="width:150px; display:inline">
+                        <!-- Show Partial City -->
+                    </select>
+
 
                     <!-- NAVARBAR LEFT -->
-                    <div id="myDIV" class="main-nav col-auto"></div>
+                    <div id="myDIV" class="main-nav col-auto">
+                        <!-- Show Partial Business City -->
+                    </div>
                     <!-- Open The Modal -->
                     <span style="margin-top: 35px;" class="icon icon-search-dark" id="myBtn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -221,8 +223,34 @@
 
         $('#Login').load('/Home/CheckLogin')
 
-        $('#flux').load("/Shop/ShopCategoryHomeByCity")
+        //$('#flux').load("/Shop/ShopCategoryHomeByCity")
+        $('#flux').load("/Shop/ShopCategoryHomeCity")
     </script>
+
+    <!-- Showw Shops when click city -->
+    <script>
+        function genderChanged(obj) {
+            
+            var cityId = obj.value;
+
+            console.log(cityId);
+
+            $.ajax({
+                url: "@Url.Action("PartialCityDetial", "City")",
+                type: "GET",
+                data: { 'cityId': cityId },
+                success: function (response) {
+
+                    $('#myDIV').load('/City/PartialCityDetial');
+
+                    window.location = "@Url.Action("HomePageShopeeFood", "Home")?cityId=" + cityId;
+
+                    //$('#flux').load("/Shop/ShopCategoryHomeCity");
+                }
+            });
+        }
+    </script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

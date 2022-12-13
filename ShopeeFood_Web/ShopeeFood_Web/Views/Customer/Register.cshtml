@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -28,24 +27,24 @@
 
     .btn-gmail
     .btn-facebook:hover {
-        
     }
 
     .contents {
         background-color: #fff;
         width: 850px;
     }
+
     .information {
         width: 750px;
-        margin:auto;
+        margin: auto;
     }
 </style>
 @{
     if (ViewBag.Existed != null)
     {
-        <script>
-            alert("TÀI KHOẢN EMAIL ĐÃ ĐƯỢC SỬ DỤNG\nHÃY SỬ DỤNG TÀI KHOẢN EMAIL KHÁC")
-        </script>
+    <script>
+                                alert("TÀI KHOẢN EMAIL ĐÃ ĐƯỢC SỬ DỤNG\nHÃY SỬ DỤNG TÀI KHOẢN EMAIL KHÁC")
+    </script>
     }
 }
 @using (Html.BeginForm())
@@ -135,7 +134,7 @@
                                 <a style="width: 150px;" class="btn btn-secondary" href="~/User/Login">HỦY</a>
                             </div>
                             <div class="form-group" style="margin-right:10px; margin-bottom:10px; float: right;">
-                                <input style="width: 150px" class="btn btn-danger" type="submit" value="ĐĂNG KÝ">
+                                <input onclick="Validate()" style="width: 150px" class="btn btn-danger" type="submit" value="ĐĂNG KÝ">
                             </div>
                         </div>
                     </div>
@@ -143,6 +142,34 @@
             </div>
         </div>
     </div>
-
 }
+
+
+<!-- Validate -->
+<script>
+    function Validate() {
+        var name = document.getElementById('UserName').value.trim();
+        var address = document.getElementById('Address').value.trim();
+        var phone = document.getElementById('Phone').value.trim();
+        var email = document.getElementById('Email').value.trim();
+        var pw = document.getElementById('Password').value.trim();
+
+        if (phone != '' && !/^[0-9]{10}$/.test(phone)) {
+            alert('Vui lòng kiểm tra lại SỐ ĐIỆN THOẠI');
+            return;
+        }
+
+        var mailformat = /^\w+([\.-]?\w+)*\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!mailformat.test(email)) {
+            alert('Vui lòng kiểm tra lại EMAIL');
+            return;
+        }
+
+        if (pw == '' || pw.length < 6) {
+            alert('Mật khẩu phải dài tối thiểu 6 ký tự');
+            return;
+        }
+
+    }
+</script>
 

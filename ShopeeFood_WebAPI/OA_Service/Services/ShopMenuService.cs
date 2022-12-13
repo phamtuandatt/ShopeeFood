@@ -33,6 +33,11 @@ namespace OA_Service.Services
             return _shopMenuRepository.GetAll();
         }
 
+        public IEnumerable<ShopMenu> GetProductTypeShop(int shopId)
+        {
+            return _shopMenuRepository.GetEntity(id => id.ShopId == shopId);
+        }
+
         public void Insert(ShopMenu Entity)
         {
             _shopMenuRepository.Insert(Entity);

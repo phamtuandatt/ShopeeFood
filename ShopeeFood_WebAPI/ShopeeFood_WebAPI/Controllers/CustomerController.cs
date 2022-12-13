@@ -29,16 +29,16 @@ namespace ShopeeFood_WebAPI.Controllers
         }
 
 
-        [HttpGet("GetCustomer1")]
+        [HttpGet("Cus/{id}")]
         public Customer GetCustomer1(int id)
         {
             return customerService.Get(id);
         }
 
 
-        [HttpGet("GetCustomer2")]
+        [HttpGet("CheckLogin")]
         [Authorize]
-        public Customer GetCustomer2(string email, string password)
+        public Customer CheckLogin(string email, string password)
         {
             return customerService.CheckLogin(email, password);
         }

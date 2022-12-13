@@ -338,7 +338,7 @@ namespace ShopeeFood_Web.Controllers
             MailText = MailText.Replace("[_link_content]", urls);
 
             MailContent mailContent = new MailContent();
-            mailContent.To = "phamtuandat16072001@gmail.com";
+            mailContent.To = email;
             mailContent.Title = "RESET PASSOWRD";
             mailContent.Content = MailText;
 
@@ -382,6 +382,7 @@ namespace ShopeeFood_Web.Controllers
         {
             HttpContext.Session.Remove("username");
             HttpContext.Session.Remove("Status_account");
+            HttpContext.Session.Remove("customerId");
             return RedirectToAction("HomePageShopeeFood", "Home");
         }
 
@@ -404,12 +405,19 @@ namespace ShopeeFood_Web.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync($"{_baseUrl}Customer/IsCustomerExistedtomer?email={email}");
-                var res = JsonConvert.DeserializeObject<CustomerModel>(json);
+                // Access API
+                HttpResponseMessage response = await client.GetAsync($"{_baseUrl}Customer/IsCustomerExisted?email={email}");
 
-                if (res != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    // Read data
+                    var res = response.Content.ReadAsAsync<CustomerModel>().Result;
+
+                    if (res != null)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
                 return false;
             }
@@ -423,7 +431,7 @@ namespace ShopeeFood_Web.Controllers
                 clients.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 // Access API
-                HttpResponseMessage response = await clients.GetAsync($"{_baseUrl}Customer/GetCustomer2?email={email}&password={password}");
+                HttpResponseMessage response = await clients.GetAsync($"{_baseUrl}Customer/CheckLogin?email={email}&password={password}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -492,10 +500,18 @@ namespace ShopeeFood_Web.Controllers
         public async Task<CustomerModel> GetCusById(int id)
         {
             HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"{_baseUrl}Customer/GetCustomer1?id={id}");
-            var res = JsonConvert.DeserializeObject<CustomerModel>(json);
+            //string json = await client.GetStringAsync($"{_baseUrl}/Customer/Cus/{id}");
+            HttpResponseMessage response = await client.GetAsync($"{_baseUrl}Customer/Cus/{id}");
 
-            return res;
+            if (response.IsSuccessStatusCode)
+            {
+                // Read data
+                var details = response.Content.ReadAsAsync<CustomerModel>().Result;
+
+                return details;
+            }
+
+            return null;
         }
 
         public async Task<IEnumerable<CustomerAddressModel>> GetCusAddressById(int id)
