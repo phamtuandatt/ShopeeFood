@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopeeFood_Web.Models;
 using System.Collections.Generic;
@@ -273,6 +273,10 @@ namespace ShopeeFood_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(CustomerModel customer)
         {
+            if (customer.Email == null)
+            {
+                return RedirectToAction("Register", "Customer");
+            }
             if (await IsCustomerExisted(customer.Email))
             {
                 // Customer Existed
@@ -450,15 +454,6 @@ namespace ShopeeFood_Web.Controllers
 
         public async Task<List<CustomerModel>> GetCustomers()
         {
-            //var accessToken = HttpContext.Session.GetString("JWToken");
-            //var url = baseUrl;
-            //HttpClient client = new HttpClient();
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            //string json = await client.GetStringAsync(url);
-            //var res = JsonConvert.DeserializeObject<List<CustomerModel>>(json).ToList();
-
-            //return res;
-
             using (var clients = new HttpClient())
             {
                 var accessToken = HttpContext.Session.GetString("JWToken");

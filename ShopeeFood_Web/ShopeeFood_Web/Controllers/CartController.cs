@@ -377,11 +377,20 @@ namespace ShopeeFood_Web.Controllers
 
         public async Task<CustomerModel> GetCusByIdAsync(int customerId)
         {
-            HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync($"{_baseUrl}Customer/GetCustomer1?id={customerId}");
-            var res = JsonConvert.DeserializeObject<CustomerModel>(json);
+            using (var clients = new HttpClient())
+            {
+                // Access API
+                HttpResponseMessage response = await clients.GetAsync($"{_baseUrl}Customer/Cus/{customerId}");
 
-            return res;
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read data
+                    var model = response.Content.ReadAsAsync<CustomerModel>().Result;
+
+                    return model;
+                }
+                return null;
+            }
         }
 
         public async Task<OrderDetailModel> GetOrderItemAsync(int productId, int customerId, int shopId)

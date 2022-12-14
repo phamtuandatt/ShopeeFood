@@ -43,7 +43,7 @@
     if (ViewBag.Existed != null)
     {
     <script>
-                                alert("TÀI KHOẢN EMAIL ĐÃ ĐƯỢC SỬ DỤNG\nHÃY SỬ DỤNG TÀI KHOẢN EMAIL KHÁC")
+        alert("TÀI KHOẢN EMAIL ĐÃ ĐƯỢC SỬ DỤNG\nHÃY SỬ DỤNG TÀI KHOẢN EMAIL KHÁC")
     </script>
     }
 }
@@ -113,7 +113,7 @@
                             <div class="form-group" style="margin-bottom:10px">
                                 <label style="padding: 5px 0 5px 20px;" class="control-label" for="Email">Email</label>
                                 <div class="col">
-                                    <input type="text" class="form-control" id="Email" name="Email" placeholder="Email">
+                                    <input type="email" class="form-control" id="Email" name="Email" placeholder="Email">
                                 </div>
                             </div>
                         </div>
@@ -154,22 +154,30 @@
         var email = document.getElementById('Email').value.trim();
         var pw = document.getElementById('Password').value.trim();
 
-        if (phone != '' && !/^[0-9]{10}$/.test(phone)) {
-            alert('Vui lòng kiểm tra lại SỐ ĐIỆN THOẠI');
+        if (name == '' || name.length < 6) {
+            alert('HÃY ĐIỀN TÊN ĐĂNG NHẬP !');
             return;
         }
 
-        var mailformat = /^\w+([\.-]?\w+)*\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (!mailformat.test(email)) {
-            alert('Vui lòng kiểm tra lại EMAIL');
+        if (address == '' || address.length < 6) {
+            alert('ĐỊA CHỈ KHÔNG ĐƯỢC CHỨA KÝ TỰ ĐẶC BIỆT !');
+            return;
+        }
+
+        if (phone == '' || !/^[0-9]{10}$/.test(phone)) {
+            alert('VUI LÒNG KIỂM TRA LẠI SỐ ĐIỆN THOẠI !');
+            return;
+        }
+
+        if (email == '' || email.length < 6) {
+            alert('HÃY ĐIỀN CHÍNH XÁC EMAIL  ĐƯỢC SỬ DỤNG!');
             return;
         }
 
         if (pw == '' || pw.length < 6) {
-            alert('Mật khẩu phải dài tối thiểu 6 ký tự');
+            alert('MẬT KHẨU PHẢI DÀI TỐI THIỂU 6 KÝ TỰ');
             return;
         }
-
     }
 </script>
 

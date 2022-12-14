@@ -113,15 +113,12 @@
                     <div style="border-radius: 10px;" class="menu-restaurant-category">
                         <div class="list-category">
                             <div class="scrollbar-container ps">
-                                <div class="item">
-                                    <span id="" title="Món Đang Giảm" class="item-link ">Món Đang Giảm</span>
-                                </div>
-                                <div class="item">
-                                    <span id="" title="Combo tặng nàng 20.10" class="item-link ">Combo tặng nàng 20.10</span>
-                                </div>
-                                <div class="item">
-                                    <span id="" title="Combo tặng nàng 20.10" class="item-link ">Combo tặng nàng 20.10</span>
-                                </div>
+                                @foreach (var item in ViewData["ProductTypeShop"] as IEnumerable<ProductTypeModel>)
+                                {
+                                    <div class="item">
+                                        <a href="#@item.ProductTypeId" title="@item.ProductTypeName" class="item-link ">@item.ProductTypeName</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -138,43 +135,15 @@
                                     <svg style="position: absolute;margin: 12px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                     </svg>
-                                    <input type="search" name="searchKey" placeholder="Tìm món" value="">
+                                    <input autocomplete="off" type="text" id="txtSearchProduct" name="con" placeholder="Tìm món..." value="">
                                 </p>
                             </div>
                             <div class="restaurant-item">
                                 <div aria-label="grid" aria-readonly="true" role="grid" tabindex="0" style="box-sizing: border-box; direction: ltr; height: auto; position: relative; width: 558px; will-change: transform; outline: none;">
-                                    <div role="rowgroup" style="width: auto; max-width: 558px; position: relative;">
-                                        <div style="height: 55px; left: 0px; width: 100%; margin:10px 0 0 0" class="menu-group" id="section-group-menu-2354610">
-                                            <div class="title-menu">Món chính</div>
-                                        </div>
+                                    <div id="searchProductShop" role="rowgroup" style="width: auto; max-width: 558px; position: relative;">
 
-                                        @foreach (var item in Model)
-                                        {
-                                            <div class="item-restaurant-row" style="height: 85px; left: 0px; width: 100%;">
-                                                <div class="row">
-                                                    <div style="padding:0 15px 15px 15px" class="item-restaurant-img col-2">
-                                                        <button class="inline">
-                                                            <img src="https://images.foody.vn/res/g100004/1000036575/s120x120/0982396e-0b87-4276-8669-f8d98f1b-9dc8310f-211105162312.jpeg" alt="@item.ProductName" width="60" height="60">
-                                                        </button>
-                                                    </div>
-                                                    <div class="col item-restaurant-info col-7">
-                                                        <h2 class="item-restaurant-name">@item.ProductName</h2>
-                                                        <div class="item-restaurant-desc">@item.ProductDescription</div>
-                                                        <div class="item-restaurant-total">Đã được đặt<span class="txt-bold">&nbsp;100+&nbsp;</span>lần&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;4</div>
-                                                    </div>
-                                                    <div style="padding:0 15px 15px 15px" class="item-restaurant-more col-3">
-                                                        <div class="row ">
-                                                            <div class="col-auto product-price">
-                                                                <div class="current-price">@item.Price<span style="font-weight: 400;position: relative;top: -9px;font-size: 10px;right: 0;">đ</span></div>
-                                                            </div>
-                                                            <div class="col-auto adding-food-cart txt-right">
-                                                                <a class="" href="~/Cart/AddItemCart?productId=@item.ProductId&shopId=@item.ShopId"> + </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
+                                        <!-- PartialView SearchProduct -->
+
                                     </div>
                                 </div>
                             </div>
@@ -287,15 +256,12 @@ else
                     <div style="border-radius: 10px;" class="menu-restaurant-category">
                         <div class="list-category">
                             <div class="scrollbar-container ps">
-                                <div class="item">
-                                    <span id="" title="Món Đang Giảm" class="item-link ">Món Đang Giảm</span>
-                                </div>
-                                <div class="item">
-                                    <span id="" title="Combo tặng nàng 20.10" class="item-link ">Combo tặng nàng 20.10</span>
-                                </div>
-                                <div class="item">
-                                    <span id="" title="Combo tặng nàng 20.10" class="item-link ">Combo tặng nàng 20.10</span>
-                                </div>
+                                @foreach (var item in ViewData["ProductTypeShop"] as IEnumerable<ProductTypeModel>)
+                                {
+                                    <div class="item">
+                                        <span id="@item.ProductTypeId" title="@item.ProductTypeName" class="item-link ">@item.ProductTypeName</span>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -312,43 +278,15 @@ else
                                     <svg style="position: absolute;margin: 12px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                     </svg>
-                                    <input type="search" name="searchKey" placeholder="Tìm món" value="">
+                                    <input autocomplete="off" type="text" id="txtSearchProduct" name="con" placeholder="Tìm món..." value="">
                                 </p>
                             </div>
                             <div class="restaurant-item">
                                 <div aria-label="grid" aria-readonly="true" role="grid" tabindex="0" style="box-sizing: border-box; direction: ltr; height: auto; position: relative; width: 558px; will-change: transform; outline: none;">
-                                    <div role="rowgroup" style="width: auto; max-width: 558px; position: relative;">
-                                        <div style="height: 55px; left: 0px; width: 100%; margin:10px 0 0 0" class="menu-group" id="section-group-menu-2354610">
-                                            <div class="title-menu">Món chính</div>
-                                        </div>
+                                    <div id="searchProductShop" role="rowgroup" style="width: auto; max-width: 558px; position: relative;">
 
-                                        @foreach (var item in Model)
-                                        {
-                                            <div class="item-restaurant-row" style="height: 85px; left: 0px; width: 100%;">
-                                                <div class="row">
-                                                    <div style="padding:0 15px 15px 15px" class="item-restaurant-img col-2">
-                                                        <button class="inline">
-                                                            <img src="https://images.foody.vn/res/g100004/1000036575/s120x120/0982396e-0b87-4276-8669-f8d98f1b-9dc8310f-211105162312.jpeg" alt="@item.ProductName" width="60" height="60">
-                                                        </button>
-                                                    </div>
-                                                    <div class="col item-restaurant-info col-7">
-                                                        <h2 class="item-restaurant-name">@item.ProductName</h2>
-                                                        <div class="item-restaurant-desc">@item.ProductDescription</div>
-                                                        <div class="item-restaurant-total">Đã được đặt<span class="txt-bold">&nbsp;100+&nbsp;</span>lần&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;4</div>
-                                                    </div>
-                                                    <div style="padding:0 15px 15px 15px" class="item-restaurant-more col-3">
-                                                        <div class="row ">
-                                                            <div class="col-auto product-price">
-                                                                <div class="current-price">@item.Price<span style="font-weight: 400;position: relative;top: -9px;font-size: 10px;right: 0;">đ</span></div>
-                                                            </div>
-                                                            <div class="col-auto adding-food-cart txt-right">
-                                                                <a class="" href="~/Cart/AddItemCart?productId=@item.ProductId&shopId=@item.ShopId"> + </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
+                                        <!-- PartialView SearchProduct -->
+
                                     </div>
                                 </div>
                             </div>
@@ -364,8 +302,10 @@ else
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+
 @section scripts{
-    <!--  -->
+    <!-- Add Item Cart -->
     <script>
         $(document).on("click", ".add-product", function () {
             // Get Id Product
@@ -382,12 +322,14 @@ else
             alert(eventId);
         });
     </script>
-    
+
     <!-- Show PartialView -->
     <script>
         $('#QRcode').load('/Cart/OrderDetaisPartial')
+        $('#searchProductShop').load('/Shop/SearchProductShopPartial')
     </script>
 
+    <!-- Upadte Item Quantity  -->
     <script>
         $(document).on('change keyup', '.updateQuantity', function () {
             var productId = $(this).data('id');
@@ -402,6 +344,26 @@ else
                 success: function (response) {
                     $('#QRcode').load('/Cart/OrderDetaisPartial')
                 }
+            });
+        });
+    </script>
+
+    <!-- Search ShopMenu  -->
+    <script>
+        $(document).ready(function () {
+            event.preventDefault();
+            $("#txtSearchProduct").keyup(function () {
+
+                console.log($("#txtSearchProduct").val());
+
+                $.ajax({
+                    url: "@Url.Action("SearchProductShopPartial", "Shop")",
+                    type: "GET",
+                    data: { 'condition': $("#txtSearchProduct").val() },
+                    success: function (response) {
+                        $('#searchProductShop').load('/Shop/SearchProductShopPartial')
+                    }
+                })
             });
         });
     </script>

@@ -5,6 +5,7 @@ using OA_Service.IServices;
 using OA_Service.Services;
 using ShopeeFood_WebAPI.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopeeFood_WebAPI.Controllers
 {
@@ -57,6 +58,30 @@ namespace ShopeeFood_WebAPI.Controllers
 
             return shopMenuModels;
         }
+
+        [HttpGet("GetProductTypeShop")]
+        public IEnumerable<ProductTypeModel> GetProductTypeShop(int shopId)
+        {
+            var prodType = new List<ProductTypeModel>();
+
+            var shopMenus = shopMenuService.GetProductTypeShop(shopId);
+            foreach (var item in shopMenus)
+            {
+                var product = productService.Get(item.ProductId);
+                var productType = productTypeService.Get(item.ProductTypeId);
+
+                var productTypeModel = new ProductTypeModel();
+                productTypeModel.ProductTypeId = product.ProductTypeId;
+                productTypeModel.ProductTypeName = productType.ProducTypeName;
+
+                prodType.Add(productTypeModel);
+            }
+
+            var productTypes = prodType.DistinctBy(p => p.ProductTypeId);
+
+            return productTypes;
+        }
+     
     }
 }
 

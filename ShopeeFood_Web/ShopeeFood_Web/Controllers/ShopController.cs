@@ -9,6 +9,7 @@ using ShopeeFood_Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -79,7 +80,7 @@ namespace ShopeeFood_Web.Controllers
                     {
                         var busId = int.Parse(HttpContext.Session.GetString("business"));
                         var cId = int.Parse(HttpContext.Session.GetString("CityId"));
-         
+
                         ViewBag.cityId = cId;
                         ViewBag.busId = busId;
 
@@ -98,7 +99,7 @@ namespace ShopeeFood_Web.Controllers
                     }
                 }
             }
-            
+
             var idCity = int.Parse(HttpContext.Session.GetString("CityId"));
             var idBus = int.Parse(HttpContext.Session.GetString("business"));
             ViewBag.cityId = idCity;
@@ -184,6 +185,7 @@ namespace ShopeeFood_Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ShopDetails(int ShopId)
         {
+            HttpContext.Session.Remove("ConditionSearchItem");
             if (ShopId == 0)
             {
                 ShopId = int.Parse(HttpContext.Session.GetString("ShopId"));
@@ -196,7 +198,6 @@ namespace ShopeeFood_Web.Controllers
             {
                 string json = await client.GetStringAsync($"{_baseUrl}Shop/GetShop?ShopId={ShopId}");
                 var res = JsonConvert.DeserializeObject<ShopModel>(json);
-
                 ViewData["InfoShop"] = new ShopModel()
                 {
                     ShopId = res.ShopId,
@@ -207,24 +208,25 @@ namespace ShopeeFood_Web.Controllers
                     ShopImage = res.ShopImage,
                 };
 
-                var model = await GetShopMenu(ShopId);
+                var prodTypeShop = await GetProductTypeShopAsync(ShopId);
+                ViewData["ProductTypeShop"] = prodTypeShop;
+
+                //var model = await GetShopMenuAsync(ShopId);
 
                 ViewBag.Login = HttpContext.Session.GetString("customerId");
                 var tt = HttpContext.Session.GetString("ResetCart");
                 if (tt != null)
                 {
-                    if (tt.Equals("Delete")) 
+                    if (tt.Equals("Delete"))
                     {
-                        ViewBag.ResetCart = HttpContext.Session.GetString("ResetCart"); 
+                        ViewBag.ResetCart = HttpContext.Session.GetString("ResetCart");
                     }
                     else
                     {
-                        HttpContext.Session.Remove("ResetCart"); 
+                        HttpContext.Session.Remove("ResetCart");
                     }
                 }
-                
-
-                return View(model);
+                return View();
             }
         }
 
@@ -276,7 +278,7 @@ namespace ShopeeFood_Web.Controllers
 
                 return View(lstShop);
             }
-            
+
         }
 
         public async Task<IActionResult> SearchShopPartial(string[] check_district)
@@ -287,7 +289,7 @@ namespace ShopeeFood_Web.Controllers
             string condition = HttpContext.Session.GetString("Condition");
 
             var lstShop = await SearchShopNameAsync(condition);
-            
+
             var lst_checked = "";
             for (int i = 0; i < check_district.Length; i++)
             {
@@ -322,6 +324,72 @@ namespace ShopeeFood_Web.Controllers
             }
         }
 
+        public async Task<IActionResult> SearchProductShopPartial(string condition)
+        {
+            var ShopId = int.Parse(HttpContext.Session.GetString("ShopId"));
+            var prodTypeShop = await GetProductTypeShopAsync(ShopId);
+            
+
+            if (condition == null)
+            {
+                if (HttpContext.Session.GetString("ConditionSearchItem") != null)
+                {
+                    var prodShop = await SearchProductShopAsync(HttpContext.Session.GetString("ConditionSearchItem").ToString());
+                    var prdType = GetProductTypeByCondition(prodTypeShop, prodShop);
+                    ViewData["ProductTypeShop"] = prdType;
+
+                    var status = HttpContext.Session.GetString("ResetCart");
+                    if (status != null)
+                    {
+                        if (status.Equals("Delete"))
+                        {
+                            ViewBag.ResetCart = HttpContext.Session.GetString("ResetCart");
+                        }
+                        else
+                        {
+                            HttpContext.Session.Remove("ResetCart");
+                        }
+                    }
+                    return PartialView(prodShop);
+                }
+
+                var model = await GetShopMenuAsync(ShopId);
+                ViewData["ProductTypeShop"] = prodTypeShop;
+
+                var tt = HttpContext.Session.GetString("ResetCart");
+                if (tt != null)
+                {
+                    if (tt.Equals("Delete"))
+                    {
+                        ViewBag.ResetCart = HttpContext.Session.GetString("ResetCart");
+                    }
+                    else
+                    {
+                        HttpContext.Session.Remove("ResetCart");
+                    }
+                }
+                return PartialView(model);
+            }
+
+            var prodShops = await SearchProductShopAsync(condition);
+            var prdTypes = GetProductTypeByCondition(prodTypeShop, prodShops);
+            ViewData["ProductTypeShop"] = prdTypes;
+
+            var sta = HttpContext.Session.GetString("ResetCart");
+            if (sta != null)
+            {
+                if (sta.Equals("Delete"))
+                {
+                    ViewBag.ResetCart = HttpContext.Session.GetString("ResetCart");
+                }
+                else
+                {
+                    HttpContext.Session.Remove("ResetCart");
+                }
+            }
+
+            return PartialView(prodShops);
+        }
 
 
         // ------------------------------------------------------------------------------------
@@ -337,7 +405,7 @@ namespace ShopeeFood_Web.Controllers
             int count = 0;
             foreach (var item in res)
             {
-                if(count < 6)
+                if (count < 6)
                 {
                     shopModels.Add(item);
                 }
@@ -351,7 +419,7 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IEnumerable<ShopModel>> GetShopByCityAsync(int cityId)
         {
             HttpClient client = new HttpClient();
-            string json =  await client.GetStringAsync ($"{_baseUrl}Shop/GetShopByCityId?cityId={cityId}");
+            string json = await client.GetStringAsync($"{_baseUrl}Shop/GetShopByCityId?cityId={cityId}");
             var res = JsonConvert.DeserializeObject<List<ShopModel>>(json).ToList();
 
             return res;
@@ -376,7 +444,7 @@ namespace ShopeeFood_Web.Controllers
         }
 
         // Get ShopMenu
-        public async Task<IEnumerable<ShopMenuModel>> GetShopMenu(int ShopId)
+        public async Task<IEnumerable<ShopMenuModel>> GetShopMenuAsync(int ShopId)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -420,6 +488,51 @@ namespace ShopeeFood_Web.Controllers
             return list;
         }
 
+        public async Task<IEnumerable<ShopMenuModel>> SearchProductShopAsync(string condition)
+        {
+            if (condition != null)
+            {
+                HttpContext.Session.Remove("ConditionSearchItem");
+                HttpContext.Session.SetString("ConditionSearchItem", condition);
+            }
 
+            string con = HttpContext.Session.GetString("ConditionSearchItem").ToString();
+
+            int shopId = int.Parse(HttpContext.Session.GetString("ShopId"));
+            var shopMenu = await GetShopMenuAsync(shopId);
+
+            var lst = shopMenu.Where(name => name.ProductName.ToUpper().Contains(con.ToUpper())).ToList();
+
+            return lst;
+        }
+
+        public IEnumerable<ProductTypeModel> GetProductTypeByCondition(IEnumerable<ProductTypeModel> shopTypeMenu, IEnumerable<ShopMenuModel> shopMenuCondition)
+        {
+            var sMenu = new List<ProductTypeModel>();
+            foreach (var item in shopMenuCondition)
+            {
+                var items = shopTypeMenu.FirstOrDefault(t => t.ProductTypeId == item.ProductTypeId);
+                sMenu.Add(items);
+            }
+            
+            return sMenu.DistinctBy(t => t.ProductTypeId);
+        }
+
+        public async Task<IEnumerable<ProductTypeModel>> GetProductTypeShopAsync(int shopId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync($"{_baseUrl}ShopMenu/GetProductTypeShop?shopId={shopId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read data
+                    var productTypeShop = response.Content.ReadAsAsync<List<ProductTypeModel>>().Result;
+
+                    return productTypeShop;
+                }
+            }
+            return null;
+        }
     }
 }
