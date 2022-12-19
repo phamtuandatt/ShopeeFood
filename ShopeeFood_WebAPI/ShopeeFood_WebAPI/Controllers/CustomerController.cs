@@ -100,6 +100,7 @@ namespace ShopeeFood_WebAPI.Controllers
             cus.Phone = customer.Phone;
             cus.Email = customer.Email;
             cus.Password = customer.Password;
+            cus.Avata = customer.Avata;
 
             customerService.Update(cus);
             try
@@ -113,8 +114,6 @@ namespace ShopeeFood_WebAPI.Controllers
                 throw;
             }
         }
-
-
 
         [HttpPut("ResetPassword")]
         public Customer ResetPassword(string email, string password)

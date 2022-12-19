@@ -1,4 +1,4 @@
-﻿ using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopeeFood_Web.Models;
 using System.Collections.Generic;
@@ -28,6 +28,9 @@ using ShopeeFood_Web.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Encodings.Web;
 using System.IO;
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Hosting;
+using static System.Net.WebRequestMethods;
 
 namespace ShopeeFood_Web.Controllers
 {
@@ -35,13 +38,15 @@ namespace ShopeeFood_Web.Controllers
     {
         private IConfiguration _configuration;
         private string _baseUrl;
-        readonly SendMailService sendMailService;
+        private readonly SendMailService sendMailService;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public CustomerController(IConfiguration configuration, SendMailService sendMailService)
+        public CustomerController(IConfiguration configuration, SendMailService sendMailService, IWebHostEnvironment hostEnvironment)
         {
             _configuration = configuration;
             _baseUrl = _configuration["CallAPI:BaseURL"];
             this.sendMailService = sendMailService;
+            this._hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -95,7 +100,7 @@ namespace ShopeeFood_Web.Controllers
             {
                 ViewBag.Status_account = HttpContext.Session.GetString("Status_account");
             }
-            
+
             var email = HttpContext.Session.GetString("email");
             var pw = HttpContext.Session.GetString("password");
 
@@ -112,7 +117,7 @@ namespace ShopeeFood_Web.Controllers
                 HttpContext.Session.SetString("JWToken", refreshToken);
 
                 var cusNew = await GetCustomer(email, pw);
-                
+
 
                 return View(cusNew);
             }
@@ -147,7 +152,7 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IActionResult> CustomerAccountPartial()
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
-            var cus =  await GetCusById(id);
+            var cus = await GetCusById(id);
 
             return PartialView(cus);
         }
@@ -186,12 +191,60 @@ namespace ShopeeFood_Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult CustomerImagePartial()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CustomerImagePartial([Bind("Image")] ImageModel imagemodel)
+        {
+            // Get customer
+            var cusId = int.Parse(HttpContext.Session.GetString("customerId"));
+            var cus = await GetCusById(cusId);
+
+            if (cus != null)
+            {
+                string imageName = "";
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(imagemodel.Image.FileName);
+                string extension = Path.GetExtension(imagemodel.Image.FileName);
+                imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + @"\Image\", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await imagemodel.Image.CopyToAsync(fileStream);
+                }
+
+                cus.Avata = @"../Image/" + imageName;
+            }
+
+            // Update image
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(cus),
+                    Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PutAsync($"{_baseUrl}Customer/UpdateCustomer/", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpContext.Session.SetString("Status", "Update Image successful !");
+                        
+                    }
+                    HttpContext.Session.SetString("Status", "Update unsuccessful !");
+                 
+                }
+            }
+            return View("Profile");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CustomerAddress()
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
             var cus = await GetCusAddressById(id);
             ViewBag.Status = HttpContext.Session.GetString("Status");
-     
+
             return View(cus);
         }
 
@@ -241,7 +294,7 @@ namespace ShopeeFood_Web.Controllers
 
         [HttpPost]
         [ActionName("AddCustomerAddressAsync")]
-        public async Task<IActionResult> AddCustomerAddressAsync(CustomerAddressModel customer) 
+        public async Task<IActionResult> AddCustomerAddressAsync(CustomerAddressModel customer)
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
             customer.CustomerId = id;

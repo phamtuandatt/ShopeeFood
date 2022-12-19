@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </a>
-            <a id="address" onclick="ReloadPartial(1)" class="item-navigation"  style="text-decoration: none; color:black" title="Cập nhật tài khoản" href="~/Customer/CustomerAddress">
+            <a id="address" onclick="ReloadPartial(1)" class="item-navigation" style="text-decoration: none; color:black" title="Cập nhật tài khoản" href="~/Customer/CustomerAddress">
                 <div class="row">
                     <div class="col-2">
                         <svg class="fas" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
@@ -159,19 +159,6 @@
 </script>
 
 <script>
-    function chooseFile(fileInput) {
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#avatar_user').attr('src', e.target.result);
-                $('#choose_file').attr('value', e.target.result);
-            }
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    }
-</script>
-
-<script>
     var msg = "@((string)ViewBag.Status_account)";
 
     if (msg != null && msg != "") {
@@ -182,3 +169,5 @@
         });
     }
 </script>
+
+

@@ -1,0 +1,14 @@
+﻿@model ShopeeFood_Web.Models.ImageModel
+
+<form asp-action="CustomerImagePartial" enctype="multipart/form-data">
+    <div class="form-group">
+        <span>Tải lên từ</span>
+        <div class="custom-file-image">
+            <input asp-for="Image" accept="image/*" hidden onchange="chooseFile(this)" />
+            <label class="label-custom" for="Image" >Chọn</label>
+            <span class="font-italic font13">Chấp nhận GIF, JPEG, PNG, BMP với kích thước tối đa 5.0 MB</span>
+        </div>
+    </div>
+    <button type="submit" id="btnUpload" class="btn btn-blue-4">Cập nhật</button>
+</form>
+
