@@ -1,16 +1,30 @@
 ﻿@model IEnumerable<ShopeeFood_Web.Models.ShopModel>
 
-@foreach (var item in Model) {
-    <div class="item-ress">
-        <a class="item-content" href="~/Shop/ShopDetails?ShopId=@item.ShopId">
-            <div class="img-ress">
-                <img class="img-context" src="@item.ShopImage" alt="@item.ShopName" title="@item.ShopName">
+@if (Model.Count() <= 0){
+    <div class="item-local">
+        <div class="row align-item-center" style="cursor: pointer; width: 100%; margin:0">
+            <img src="https://shopeefood.vn/app/assets/img/no-results.png?7aafd0b598221e54f8ef4a4bd1b38297" style="margin:100px auto 0 auto; height: 115px; width: 130px;" />
+            <div>
+                <div class="no-data-text" style="text-align: center; padding: 17px 0px; font-size: 18px; color: lightslategray;">
+                    Không tìm thấy cửa hàng nào !.
+                </div>
             </div>
-            <div class="info-restaurant">
-                <div class="name-ress">@item.ShopName</div>
-                <div class="address-ress">@item.Address</div>
-            </div>
-        </a>
+        </div>
     </div>
 }
-
+else {
+    @foreach (var item in Model)
+    {
+        <div class="item-ress">
+            <a class="item-content" href="~/Shop/ShopDetails?ShopId=@item.ShopId">
+                <div class="img-ress">
+                    <img class="img-context" src="@item.ShopImage" alt="@item.ShopName" title="@item.ShopName">
+                </div>
+                <div class="info-restaurant">
+                    <div class="name-ress">@item.ShopName</div>
+                    <div class="address-ress">@item.Address</div>
+                </div>
+            </a>
+        </div>
+    }
+}

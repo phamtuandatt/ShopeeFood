@@ -27,6 +27,7 @@
                 <h1 class="title">Đặt Đồ ăn, giao hàng từ 20'...</h1>
                 <div class="local">có 73337 địa điểm ở TP. HCM từ 00:00 - 23:59</div>
             </div>
+
             <!-- Search -->
             @using (Html.BeginForm("SearchShops", "Shop", FormMethod.Get))
             {
@@ -45,8 +46,8 @@
                     <!--PartialViewSearch-->
                 </div>
             }
+
             <!-- List filter-->
-            <!-- int businessId, int cityid -->
             <div class="category-list-filter">
                 <a href="~/Shop/ShopCategory?cityid=@ViewBag.cyId">
                     <span class="category-item ">All</span>
@@ -94,6 +95,7 @@
                     <span class="category-item ">Cơm hộp</span>
                 </a>
             </div>
+            
             <!-- Footer -->
             <div>
                 <div style="margin-top: 30px; font-size:1.3rem !important">
@@ -109,7 +111,9 @@
 
 <div class="contain-main-home clearfix">
     <div class="container">
-        <div class="main-right-home" id="flux"></div>
+        <div class="main-right-home" id="flux">
+            <!-- Partial View -->
+        </div>
     </div>
 </div>
 
@@ -144,6 +148,7 @@
     </div>
     <br>
 </div>
+
 
 @section scripts {
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>

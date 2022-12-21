@@ -59,6 +59,7 @@ namespace ShopeeFood_Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ShopCategoryHomeCity(int cityId, int bussinessId)
         {
+            var s = await GetShopsAsync(1, 1);
             if (cityId != 0 && bussinessId != 0)
             {
                 HttpContext.Session.SetString("CityId", cityId + "");
@@ -66,14 +67,20 @@ namespace ShopeeFood_Web.Controllers
             }
             else
             {
+
                 if (cityId == 0 && bussinessId == 0)
                 {
                     if (HttpContext.Session.GetString("CityId") == null
                         && HttpContext.Session.GetString("business") == null)
                     {
-                        var shops1 = await GetShopsAsync(1, 1);
+                        var shopTypeOne = await GetShopsAsync(1, 1);
+                        var shopTypeTwo = await GetShopsAsync(1, 2);
 
-                        return PartialView(shops1);
+                        ViewData["ShopTypeTwo"] = shopTypeTwo;
+                        ViewBag.Address = HttpContext.Session.GetString("Address");
+
+
+                        return PartialView(shopTypeOne);
                     }
                     else if (HttpContext.Session.GetString("CityId") != null
                         && HttpContext.Session.GetString("business") != null)
@@ -85,6 +92,16 @@ namespace ShopeeFood_Web.Controllers
                         ViewBag.busId = busId;
 
                         var shopHomes = await GetShopsAsync(cId, busId);
+                        var shopTypeTwo = await GetShopsAsync(cId, 2);
+
+                        ViewData["ShopTypeTwo"] = shopTypeTwo;
+                        ViewBag.Address = HttpContext.Session.GetString("Address");
+
+                        if (shopHomes.Count() <= 0)
+                        {
+                            ViewBag.shop = "Do not have item !";
+                            return PartialView(s);
+                        }
 
                         return PartialView(shopHomes);
                     }
@@ -93,7 +110,18 @@ namespace ShopeeFood_Web.Controllers
                         var cId = int.Parse(HttpContext.Session.GetString("CityId"));
                         ViewBag.cityId = cId;
                         ViewBag.busId = 1;
+
                         var shopHomes = await GetShopsAsync(cId, 1);
+                        var shopTypeTwo = await GetShopsAsync(cId, 2);
+
+                        ViewData["ShopTypeTwo"] = shopTypeTwo;
+                        ViewBag.Address = HttpContext.Session.GetString("Address");
+
+                        if (shopHomes.Count() <= 0)
+                        {
+                            ViewBag.shop = "Do not have item !";
+                            return PartialView(s);
+                        }
 
                         return PartialView(shopHomes);
                     }
@@ -106,8 +134,34 @@ namespace ShopeeFood_Web.Controllers
             ViewBag.busId = idBus;
 
             var shops = await GetShopsAsync(idCity, idBus);
+            var shopTyTwo = await GetShopsAsync(idCity, 2);
+
+            ViewData["ShopTypeTwo"] = shopTyTwo;
+            ViewBag.Address = HttpContext.Session.GetString("Address");
+
+            if (shops.Count() <= 0)
+            {
+                ViewBag.shop = "Do not have item !";
+                return PartialView(s);
+            }
 
             return PartialView(shops);
+        }
+
+        public async Task<IActionResult> CusAddressHome(int cusId)
+        {
+            // Get CustomerAddress
+            var id = int.Parse(HttpContext.Session.GetString("customerId"));
+            var cus = await GetCusAddressById(id);
+
+            return PartialView(cus);
+        }
+
+        public IActionResult SetCusAddressHome(string address)
+        {
+            HttpContext.Session.SetString("Address", address);
+
+            return RedirectToAction("ShopCategoryHomeCity", "Shop");
         }
 
         public async Task<IActionResult> PartialViewShopCategory(string[] check_district)
@@ -145,6 +199,12 @@ namespace ShopeeFood_Web.Controllers
                             lstShopDistrictAll.Add(item);
                         }
                     }
+                    if (lstShopDistrictAll.Count <= 0)
+                    {
+                        ViewBag.St = "There are no stores in the area !";
+                        // Return Shop by BusinessType
+                        return PartialView(lstShopAll);
+                    }
                     return PartialView(lstShopDistrictAll);
                 }
 
@@ -164,6 +224,11 @@ namespace ShopeeFood_Web.Controllers
                         shopDistrictsBus.Add(item);
                     }
                 }
+                if (shopDistrictsBus.Count <= 0)
+                {
+                    ViewBag.St = "There are no stores in the area !";
+                    return PartialView(lstShopBus);
+                }
                 return PartialView(shopDistrictsBus);
             }
             else
@@ -176,6 +241,11 @@ namespace ShopeeFood_Web.Controllers
                     return PartialView(lstShopCity);
                 }
                 var lstShopCityBus = await GetShopByCityBusAsync(cityId, busnessId);
+
+                if (lstShopCityBus.Count() <= 0)
+                {
+                    ViewBag.St = "There are no stores in the area !";
+                }
 
                 return PartialView(lstShopCityBus);
             }
@@ -229,7 +299,7 @@ namespace ShopeeFood_Web.Controllers
                 return View();
             }
         }
-
+         
         // Show Shop in CityId = 1
         public async Task<IActionResult> ShopCategoryHomeByCity()
         {
@@ -533,6 +603,17 @@ namespace ShopeeFood_Web.Controllers
                 }
             }
             return null;
+        }
+
+        public async Task<IEnumerable<CustomerAddressModel>> GetCusAddressById(int id)
+        {
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync($"{_baseUrl}CustomerAddress/GetAll");
+            var res = JsonConvert.DeserializeObject<IEnumerable<CustomerAddressModel>>(json).ToList();
+
+            var model = res.Where(adr => adr.CustomerId == id).ToList();
+
+            return model;
         }
     }
 }

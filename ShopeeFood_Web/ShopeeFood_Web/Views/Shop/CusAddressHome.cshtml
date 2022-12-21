@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ShopeeFood_Web.Models.CustomerAddressModel>
+
+    <style>
+    .list-address:hover {
+        background-color: #ebebeb;
+    }
+    </style>
+
+@foreach (var item in Model)
+{
+    <div class="list-address" data-id="@item.Address">
+        <div class="location-item">
+            <div class="item-local" style="border-bottom: solid 1px #ebebeb;">
+                <div class="row" style="cursor: pointer; padding: 10px 0 10px 0">
+                    <div class="icon col-1" style="padding: 15px 0 0 35px;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="col-11" style="">
+                        <div class="txt-dark txt-bold" style="font-size:16px;">
+                            @item.Name
+                        </div>
+                        <div  class="txt-gray" style="font-size:13px;">
+                            @item.Address
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    // When click address -> reload page and show address
+    $(document).on("click", ".list-address", function () {
+        var address = $(this).data('id');
+        console.log(address);
+
+        $.ajax({
+            url: "@Url.Action("SetCusAddressHome", "Shop")",
+            type: "GET",
+            data: { 'address': address },
+            success: function (response) {
+                window.location = "@Url.Action("HomePageShopeeFood", "Home")";
+            }
+        });
+    });
+</script>

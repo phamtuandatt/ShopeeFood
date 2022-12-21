@@ -16,6 +16,6 @@ namespace Repo.IRepo
 
         Task<T> UpdateObjectAsync(string URL, T entity);
 
-        Task<bool> DeleteObjectAsync(string URL, T entity);
+        Task<bool> DeleteObjectAsync(string URL, int Id);
     }
 }

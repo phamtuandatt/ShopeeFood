@@ -30,7 +30,7 @@ namespace Repo.Repo
             }
         }
 
-        public async Task<bool> DeleteObjectAsync(string URL, T entity)
+        public async Task<bool> DeleteObjectAsync(string URL, int Id)
         {
             using (var httpClient = new HttpClient())
             {

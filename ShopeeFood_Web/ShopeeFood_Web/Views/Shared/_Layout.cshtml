@@ -45,27 +45,6 @@
                         <!-- Show Partial Business City -->
                     </div>
 
-                    <!-- Open The Modal -->
-                    <span style="margin-top: 35px;" class="icon icon-search-dark" id="myBtn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                    </span>
-
-                    <!-- The Modal -->
-                    <div id="myModal" class="modal">
-                        <!-- Modal content -->
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <div class="modal-search-form">
-                                <span class="sub-title">Đặt Đồ ăn, giao hàng từ 20'... có 73298 địa điểm ở TP. HCM từ 00:00 - 23:59</span>
-                                <form>
-                                    <input type="text" class="search-input" name="search-input" autocomplete="off" autofocus>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- DROPDOWN RIGHT --> <!-- - LOGIN - REGISTER - USE PARTIAL VIEW -->
                     <div id="Login" style="display: inline-block;position: absolute;margin-left: 25px;margin-top: 10px;padding: 0;">
                         <!-- Show Partial UserProfile -->
@@ -159,30 +138,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <!-- Show modal -->
-    <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-        // Get the <span> element that closes the modal
-        span = document.getElementsByClassName("close")[0];
-        // When the user clicks the button, open the modal
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
 
     <!-- Active nav -->
     <script>

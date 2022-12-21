@@ -5,39 +5,57 @@
 
 <!-- Check what Type are there in ViewData  -->
 <!-- Type avaible is show Type  -->
-@foreach (var type in ViewData["ProductTypeShop"] as IEnumerable<ProductTypeModel>)
+@if (Model.Count() <= 0)
 {
-    <div style="height: 55px; left: 0px; width: 100%; margin:10px 0 0 0" class="menu-group" id="@type.ProductTypeId">
-        <div class="title-menu">@type.ProductTypeName</div>
+    <div class="item-local">
+        <div class="row align-item-center" style="cursor: pointer; width: 100%; margin:0">
+            <img src="https://shopeefood.vn/app/assets/img/no-results.png?7aafd0b598221e54f8ef4a4bd1b38297" style="margin:100px auto 0 auto; height: 115px; width: 130px;" />
+            <div>
+                <div class="no-data-text" style="text-align: center; padding: 17px 0px; font-size: 18px; color: lightslategray;">
+                    Hiện quán không có món ăn !.
+                </div>
+            </div>
+        </div>
     </div>
-    @foreach (var item in Model)
+}
+else
+{
+    @foreach (var type in ViewData["ProductTypeShop"] as IEnumerable<ProductTypeModel>)
     {
-        if (item.ProductTypeId == type.ProductTypeId)
+        <div style="height: 55px; left: 0px; width: 100%; margin:10px 0 0 0" class="menu-group" id="@type.ProductTypeId">
+            <div class="title-menu">@type.ProductTypeName</div>
+        </div>
+        @foreach (var item in Model)
         {
-            <div class="item-restaurant-row" style="height: 85px; left: 0px; width: 100%;">
-                <div class="row">
-                    <div style="padding:0 15px 15px 15px" class="item-restaurant-img col-2">
-                        <button class="inline">
-                            <img src="@item.ProductImage" alt="@item.ProductName" width="60" height="60">
-                        </button>
-                    </div>
-                    <div class="col item-restaurant-info col-7">
-                        <h2 class="item-restaurant-name">@item.ProductName</h2>
-                        <div class="item-restaurant-desc">@item.ProductDescription</div>
-                        <div class="item-restaurant-total">Đã được đặt<span class="txt-bold">&nbsp;100+&nbsp;</span>lần&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;4</div>
-                    </div>
-                    <div style="padding:0 15px 15px 15px" class="item-restaurant-more col-3">
-                        <div class="row ">
-                            <div class="col-auto product-price">
-                                <div class="current-price">@item.Price<span style="font-weight: 400;position: relative;top: -9px;font-size: 10px;right: 0;">đ</span></div>
-                            </div>
-                            <div class="col-auto adding-food-cart txt-right">
-                                <a class="" href="~/Cart/AddItemCart?productId=@item.ProductId&shopId=@item.ShopId"> + </a>
+            if (item.ProductTypeId == type.ProductTypeId)
+            {
+                <div class="item-restaurant-row" style="height: 85px; left: 0px; width: 100%;">
+                    <div class="row">
+                        <div style="padding:0 15px 15px 15px" class="item-restaurant-img col-2">
+                            <button class="inline">
+                                <img src="@item.ProductImage" alt="@item.ProductName" width="60" height="60">
+                            </button>
+                        </div>
+                        <div class="col item-restaurant-info col-7">
+                            <h2 class="item-restaurant-name">@item.ProductName</h2>
+                            <div class="item-restaurant-desc">@item.ProductDescription</div>
+                            <div class="item-restaurant-total">Đã được đặt<span class="txt-bold">&nbsp;100+&nbsp;</span>lần&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;4</div>
+                        </div>
+                        <div style="padding:0 15px 15px 15px" class="item-restaurant-more col-3">
+                            <div class="row ">
+                                <div class="col-auto product-price">
+                                    <div class="current-price">@item.Price<span style="font-weight: 400;position: relative;top: -9px;font-size: 10px;right: 0;">đ</span></div>
+                                </div>
+                                <div class="col-auto adding-food-cart txt-right">
+                                    <a class="" href="~/Cart/AddItemCart?productId=@item.ProductId&shopId=@item.ShopId"> + </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     }
+
 }
+

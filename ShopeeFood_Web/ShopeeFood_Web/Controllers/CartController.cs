@@ -167,6 +167,7 @@ namespace ShopeeFood_Web.Controllers
             if (order == null)
             {
                 var md = new OrderDetailModel();
+                ViewBag.Img = HttpContext.Session.GetString("image");
                 return PartialView(md);
             }
 
@@ -184,6 +185,7 @@ namespace ShopeeFood_Web.Controllers
             foreach (var item in model)
             {
                 ViewBag.OrderId = item.OrderId;
+                ViewBag.Img = HttpContext.Session.GetString("image");
                 break;
             }
 
@@ -192,6 +194,8 @@ namespace ShopeeFood_Web.Controllers
             ViewBag.TotalOrder = string.Format("{0:0,0}", totalOrder);
 
             ViewBag.OrderId = order.OrderId;
+
+            ViewBag.Img = HttpContext.Session.GetString("image");
 
             return PartialView(model);
         }

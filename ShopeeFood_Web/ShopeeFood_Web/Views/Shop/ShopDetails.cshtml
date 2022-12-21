@@ -259,7 +259,7 @@ else
                                 @foreach (var item in ViewData["ProductTypeShop"] as IEnumerable<ProductTypeModel>)
                                 {
                                     <div class="item">
-                                        <span id="@item.ProductTypeId" title="@item.ProductTypeName" class="item-link ">@item.ProductTypeName</span>
+                                        <a href="#@item.ProductTypeId" title="@item.ProductTypeName" class="item-link ">@item.ProductTypeName</a>
                                     </div>
                                 }
                             </div>

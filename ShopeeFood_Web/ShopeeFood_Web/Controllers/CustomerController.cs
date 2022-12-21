@@ -118,9 +118,13 @@ namespace ShopeeFood_Web.Controllers
 
                 var cusNew = await GetCustomer(email, pw);
 
+                ViewBag.Imag = HttpContext.Session.GetString("image");
 
                 return View(cusNew);
             }
+
+            ViewBag.Imag = HttpContext.Session.GetString("image");
+
             return View(customer);
         }
 
@@ -244,6 +248,8 @@ namespace ShopeeFood_Web.Controllers
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
             var cus = await GetCusAddressById(id);
             ViewBag.Status = HttpContext.Session.GetString("Status");
+            ViewBag.Imag = HttpContext.Session.GetString("image");
+            ViewBag.Name = HttpContext.Session.GetString("username");
 
             return View(cus);
         }

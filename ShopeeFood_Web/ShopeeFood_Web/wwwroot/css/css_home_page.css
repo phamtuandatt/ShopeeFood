@@ -1,6 +1,4 @@
 ﻿body {
-}
-body {
     margin: 0;
     padding: 0;
 }
@@ -64,90 +62,6 @@ body {
         font-weight: bold;
     }
 
-/* ICON SEARCH */
-.icon {
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
-}
-
-.icon-search-dark {
-    width: 24px;
-    height: 24px;
-    margin-top: 35px;
-    position: absolute;
-    cursor: pointer;
-    background-image: url(/Image/search-dark.svg);
-    background-size: cover;
-}
-
-    .icon-search-dark:hover {
-        width: 26px;
-        height: 26px;
-    }
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.644); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.92); /* Black w/ opacity */
-    transition: all .5s ease;
-}
-/* Modal Content */
-.modal-content {
-    margin: auto;
-    padding: 20px;
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0); /* Fallback color */
-}
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-    .close:hover, .close:focus {
-        color: #f1f1f1;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-.modal-search-form {
-    text-align: center;
-    background-image: url("https://shopeefood.vn/app/assets/img/bg-search.png?40df121cbb04a250ef2bd237a1e621b1");
-    background-position: top;
-    background-repeat: no-repeat;
-    padding-top: 140px;
-}
-
-    .modal-search-form .sub-title {
-        color: #fff;
-        font-size: 16px;
-        text-align: center;
-    }
-
-    .modal-search-form .search-input {
-        color: #fff;
-        text-align: center;
-        width: 100%;
-        margin-top: 10px;
-        border: 0;
-        border-bottom: 2px solid #6d6f71;
-        background-color: transparent;
-        transition: all .2s;
-    }
-
 /* Dropdown right */
 .image {
     width: 200px;
@@ -187,8 +101,8 @@ body {
     width: 470px;
     z-index: 2;
     position: absolute;
-    top: 45%;
-    left: 70px;
+    top: 40%;
+    left: 20px;
     transform: translateY(-50%);
     margin-top: -30px;
 }
@@ -267,7 +181,7 @@ body {
 
 .contain-main-home .main-right-home {
     float: right;
-    width: 615px;
+    width: 570px;
     margin-top: 150px;
     position: relative;
     z-index: auto;
@@ -449,7 +363,12 @@ body {
     float: left;
 }
 
+a {
+    text-decoration:none;
+}
+
 .now-list-restaurant .item-content {
+    text-decoration:none;
     cursor: pointer;
     border-radius: 6px;
     background-color: #fff;
@@ -709,7 +628,6 @@ a:hover {
 
 .item-ress {
     height: 65px;
-    border-bottom: 1px solid #EBEBEB;
 }
 
     .item-ress:hover {
@@ -723,7 +641,4 @@ a:hover {
 .img-context {
     width: 70px;
     margin: 10px;
-}
-a {
-    text-decoration: none;
 }
