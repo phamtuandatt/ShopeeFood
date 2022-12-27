@@ -27,7 +27,7 @@ namespace ShopeeFood_Web.Controllers
         {
             _configuration = configuration;
             _baseUrl = _configuration["CallAPI:BaseURL"];
-        }
+        } 
 
 
         // ------------------------------------------------------------------------------------
@@ -151,6 +151,11 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IActionResult> CusAddressHome(int cusId)
         {
             // Get CustomerAddress
+            if (HttpContext.Session.GetString("customerId") == null)
+            {
+                var cusTomer = new List<CustomerAddressModel>();
+                return PartialView(cusTomer);
+            }
             var id = int.Parse(HttpContext.Session.GetString("customerId"));
             var cus = await GetCusAddressById(id);
 

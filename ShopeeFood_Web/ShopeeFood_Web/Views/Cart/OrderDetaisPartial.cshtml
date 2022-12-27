@@ -9,7 +9,6 @@
         <div>
             <a href="~/Cart/DeleteCart?orderId=@ViewBag.OrderId" class="btn-header-cart" style="border: 0.5px solid red; color: red "> Reset </a>
         </div>
-
     </div>
 
     <div class="item-cart">
@@ -111,20 +110,27 @@
 <!-- Get Selected Value -->
 <script>
     $(document).on("click", ".passValue", function () {
-        var ad = document.getElementById('address');
-        var address = ad.options[ad.selectedIndex].text;
-        var orderId = @ViewBag.OrderId;
+        
+        if ($('#address').has('option').length <= 0) {
+            console.log("HÃY THÊM ĐỊA CHỈ !");
+            alert("HÃY THÊM ĐỊA CHỈ GIAO HÀNG !");
+        }
+        else {
+            var ad = document.getElementById('address');
+            var address = ad.options[ad.selectedIndex].text;
+            var orderId = @ViewBag.OrderId;
 
-        console.log(address + " - " + orderId);
+            console.log(address + " - " + orderId);
 
-        $.ajax({
-            url: "@Url.Action("Pay", "Cart")",
-            type: "GET",
-            data: { 'orderId': orderId, 'address': address },
-            success: function (response) {
-                window.location = "@Url.Action("CustomerCart", "Cart")";
-            }
-        });
+            $.ajax({
+                url: "@Url.Action("Pay", "Cart")",
+                type: "GET",
+                data: { 'orderId': orderId, 'address': address },
+                success: function (response) {
+                    window.location = "@Url.Action("CustomerCart", "Cart")";
+                }
+            });
+        }
     });
 </script>
 

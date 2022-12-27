@@ -138,7 +138,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
+     
     <!-- Active nav -->
     <script>
         var header = document.getElementById("myDIV");
@@ -200,8 +200,10 @@
                 data: { 'cityId': cityId },
                 success: function (response) {
 
+                    // Reload Nav menu
                     $('#myDIV').load('/City/PartialCityDetial');
 
+                    // Reload HomePage with CityId
                     window.location = "@Url.Action("HomePageShopeeFood", "Home")?cityId=" + cityId;
 
                     //$('#flux').load("/Shop/ShopCategoryHomeCity");

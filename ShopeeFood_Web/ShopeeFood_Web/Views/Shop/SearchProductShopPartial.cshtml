@@ -12,7 +12,7 @@
             <img src="https://shopeefood.vn/app/assets/img/no-results.png?7aafd0b598221e54f8ef4a4bd1b38297" style="margin:100px auto 0 auto; height: 115px; width: 130px;" />
             <div>
                 <div class="no-data-text" style="text-align: center; padding: 17px 0px; font-size: 18px; color: lightslategray;">
-                    Hiện quán không có món ăn !.
+                    Hiện quán không có món ăn !
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@ else
                         <div style="padding:0 15px 15px 15px" class="item-restaurant-more col-3">
                             <div class="row ">
                                 <div class="col-auto product-price">
-                                    <div class="current-price">@item.Price<span style="font-weight: 400;position: relative;top: -9px;font-size: 10px;right: 0;">đ</span></div>
+                                    <div class="current-price">@string.Format("{0:0,0}", item.Price)<span style="font-weight: 400;position: relative;top: -9px;font-size: 10px;right: 0;">đ</span></div>
                                 </div>
                                 <div class="col-auto adding-food-cart txt-right">
                                     <a class="" href="~/Cart/AddItemCart?productId=@item.ProductId&shopId=@item.ShopId"> + </a>

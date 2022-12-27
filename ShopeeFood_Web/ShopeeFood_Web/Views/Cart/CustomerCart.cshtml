@@ -8,14 +8,14 @@
 <h1>CustomerCart</h1>
 
 <div class="container" style="margin-top:50px;min-height: 500px;background-color:#fff;border-radius: 10px">
-    <h3 style="text-align:center;padding: 50px;">Lịch sử đơn hàng</h3>
+    <h3 style="text-align:center;padding: 50px;color:#ee4d2d">Lịch sử đơn hàng</h3>
     <div>
         <table class="table">
             <thead>
-                <tr>
+                <tr style="color:#ee4d2d">
                     <th>NGÀY ĐẶT</th>
                     <th>ĐỊA CHỈ</th>
-                    <th>TÌNH TRẠNG</th>
+                    
                     <th>TỔNG SỐ LƯỢNG</th>
                     <th>TÊN CỬA HÀNG</th>
                     <th>TỔNG TIỀN</th>
@@ -32,9 +32,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.TotalOrderQuantity)
                         </td>
@@ -62,7 +60,7 @@
     <div id="partial_add_address" style="margin:50px auto 0 auto; display: table;" class="modal-dialog">
         <div style="width: 1000px" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">CẬP NHẬT THÔNG TIN</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #ee4d2d">CHI TIẾT ĐƠN HÀNG</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div id="orderDetailPartial" class="modal-body">

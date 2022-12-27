@@ -6,7 +6,7 @@
             <img src="https://shopeefood.vn/app/assets/img/no-results.png?7aafd0b598221e54f8ef4a4bd1b38297" style="margin:100px auto 0 auto; height: 115px; width: 130px;" />
             <div>
                 <div class="no-data-text" style="text-align: center; padding: 17px 0px; font-size: 18px; color: lightslategray;">
-                    Không tìm thấy cửa hàng nào !.
+                    Không tìm thấy cửa hàng nào !
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@ else {
     @foreach (var item in Model)
     {
         <div class="item-ress">
-            <a class="item-content" href="~/Shop/ShopDetails?ShopId=@item.ShopId">
+            <a style="text-decoration: none;" class="item-content" target="_blank" href="~/Shop/ShopDetails?ShopId=@item.ShopId">
                 <div class="img-ress">
                     <img class="img-context" src="@item.ShopImage" alt="@item.ShopName" title="@item.ShopName">
                 </div>

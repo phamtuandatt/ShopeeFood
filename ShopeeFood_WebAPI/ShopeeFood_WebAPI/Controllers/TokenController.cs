@@ -52,7 +52,7 @@ namespace ShopeeFood_WebAPI.Controllers
                     issuer: _configuration["Jwt:Issure"],
                     audience: _configuration["Jwt:Audience"],
                     claim,
-                    expires: DateTime.Now.AddMinutes(1),
+                    expires: DateTime.Now.AddMinutes(45),
                     signingCredentials: credentials
                 );
 

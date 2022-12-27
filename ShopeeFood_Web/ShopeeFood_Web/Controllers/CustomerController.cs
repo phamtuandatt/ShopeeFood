@@ -58,6 +58,9 @@ namespace ShopeeFood_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(CustomerModel customer)
         {
+            string encryptPW = EncryptPW(customer.Password);
+            customer.Password = encryptPW;
+
             // Call ShopeeFood_WebAPI
             using (var httpClient = new HttpClient())
             {
@@ -84,6 +87,14 @@ namespace ShopeeFood_Web.Controllers
                     HttpContext.Session.SetString("customerId", cus.CustomerId + "");
                     HttpContext.Session.SetString("email", cus.Email);
                     HttpContext.Session.SetString("password", cus.Password);
+                    if (cus.Avata != null)
+                    {
+                        HttpContext.Session.SetString("image", cus.Avata);
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("image", "https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png");
+                    }
 
                     return RedirectToAction("HomePageShopeeFood", "Home");
                 }
@@ -96,6 +107,11 @@ namespace ShopeeFood_Web.Controllers
         public async Task<IActionResult> Profile()
         {
             HttpContext.Session.Remove("Status");
+            if (HttpContext.Session.GetString("StatusImage") != null)
+            {
+                ViewBag.Status_account = HttpContext.Session.GetString("StatusImage");
+            }
+
             if (HttpContext.Session.GetString("Status_account") != null)
             {
                 ViewBag.Status_account = HttpContext.Session.GetString("Status_account");
@@ -119,11 +135,15 @@ namespace ShopeeFood_Web.Controllers
                 var cusNew = await GetCustomer(email, pw);
 
                 ViewBag.Imag = HttpContext.Session.GetString("image");
+                HttpContext.Session.Remove("StatusImage");
+                HttpContext.Session.Remove("Status_account");
 
                 return View(cusNew);
             }
 
             ViewBag.Imag = HttpContext.Session.GetString("image");
+            HttpContext.Session.Remove("StatusImage");
+            HttpContext.Session.Remove("Status_account");
 
             return View(customer);
         }
@@ -135,6 +155,9 @@ namespace ShopeeFood_Web.Controllers
             var cus = await GetCusById(cusId);
             customer.CustomerAddress = cus.CustomerAddress;
             customer.Phone = cus.Phone;
+            // Encode Password When Store Database
+            string encryptPW = EncryptPW(customer.Password);
+            customer.Password = encryptPW;
 
             // Customer Not Existed
             using (var httpClient = new HttpClient())
@@ -157,6 +180,7 @@ namespace ShopeeFood_Web.Controllers
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
             var cus = await GetCusById(id);
+            ViewBag.Sex = cus.Sex;
 
             return PartialView(cus);
         }
@@ -166,6 +190,8 @@ namespace ShopeeFood_Web.Controllers
         {
             int id = int.Parse(HttpContext.Session.GetString("customerId"));
             customer.CustomerId = id;
+            customer.Avata = HttpContext.Session.GetString("image");
+
             if (customer.Password == null)
             {
                 string pas = HttpContext.Session.GetString("password");
@@ -186,6 +212,9 @@ namespace ShopeeFood_Web.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         HttpContext.Session.SetString("Status_account", "Update information successful !");
+                        HttpContext.Session.SetString("email", customer.Email);
+                        HttpContext.Session.SetString("password", customer.Password);
+
                         return RedirectToAction("Profile", "Customer");
                     }
                     HttpContext.Session.SetString("Status_account", "Update unsuccessful !");
@@ -232,14 +261,15 @@ namespace ShopeeFood_Web.Controllers
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        HttpContext.Session.SetString("Status", "Update Image successful !");
-                        
+                        HttpContext.Session.SetString("StatusImage", "Update Image successful !");
+                        HttpContext.Session.SetString("image", cus.Avata);
+
+                        return RedirectToAction("Profile", "Customer");
                     }
-                    HttpContext.Session.SetString("Status", "Update unsuccessful !");
-                 
+                    HttpContext.Session.SetString("StatusImage", "Update unsuccessful !");
                 }
             }
-            return View("Profile");
+            return RedirectToAction("Profile", "Customer");
         }
 
         [HttpGet]
@@ -345,7 +375,11 @@ namespace ShopeeFood_Web.Controllers
             }
             else
             {
-                // Customer Not Existed
+                // Encode Password When Store Database
+                string encryptPW = EncryptPW(customer.Password);
+                customer.Password = encryptPW;
+                customer.Avata = "https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png";
+
                 using (var httpClient = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(customer),
@@ -422,9 +456,12 @@ namespace ShopeeFood_Web.Controllers
         {
             using (var httpClient = new HttpClient())
             {
+                // Encode Password When Store Database
+                string encryptPW = EncryptPW(password);
+
                 StringContent content = new StringContent(JsonConvert.SerializeObject(""),
                     Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PutAsync($"{_baseUrl}Customer/ResetPassword?email={email}&password={password}", content))
+                using (var response = await httpClient.PutAsync($"{_baseUrl}Customer/ResetPassword?email={email}&password={encryptPW}", content))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -445,6 +482,7 @@ namespace ShopeeFood_Web.Controllers
         {
             HttpContext.Session.Remove("username");
             HttpContext.Session.Remove("Status_account");
+            HttpContext.Session.Remove("StatusImage");
             HttpContext.Session.Remove("customerId");
             return RedirectToAction("HomePageShopeeFood", "Home");
         }
@@ -577,6 +615,34 @@ namespace ShopeeFood_Web.Controllers
             var model = res.Where(adr => adr.CustomerId == id).ToList();
 
             return model;
+        }
+
+        public string EncryptPW(string password)
+        {
+            try
+            {
+                byte[] encData_byte = new byte[password.Length];
+                encData_byte = System.Text.Encoding.UTF8.GetBytes(password);
+                string encodedData = Convert.ToBase64String(encData_byte);
+                return encodedData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in base64Encode" + ex.Message);
+            }
+        }
+        //this function Convert to Decord your Password
+        public string DecryptPW(string encodedData)
+        {
+            System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
+            System.Text.Decoder utf8Decode = encoder.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encodedData);
+            int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            string result = new String(decoded_char);
+
+            return result;
         }
     }
 }

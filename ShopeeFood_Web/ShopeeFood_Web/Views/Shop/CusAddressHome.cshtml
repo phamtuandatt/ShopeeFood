@@ -1,32 +1,48 @@
 ﻿@model IEnumerable<ShopeeFood_Web.Models.CustomerAddressModel>
 
-    <style>
+<style>
     .list-address:hover {
         background-color: #ebebeb;
     }
-    </style>
+</style>
 
-@foreach (var item in Model)
+@if (Model.Count() <= 0)
 {
-    <div class="list-address" data-id="@item.Address">
-        <div class="location-item">
-            <div class="item-local" style="border-bottom: solid 1px #ebebeb;">
-                <div class="row" style="cursor: pointer; padding: 10px 0 10px 0">
-                    <div class="icon col-1" style="padding: 15px 0 0 35px;">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="col-11" style="">
-                        <div class="txt-dark txt-bold" style="font-size:16px;">
-                            @item.Name
+    <div class="item-local">
+        <div class="row align-item-center" style="cursor: pointer; width: 100%; margin:0">
+            <img src="https://shopeefood.vn/app/assets/img/no-results.png?7aafd0b598221e54f8ef4a4bd1b38297" style="margin:0 auto 0 auto; height: 115px; width: 130px;" />
+            <div>
+                <div class="no-data-text" style="text-align: center; padding: 17px 0px; font-size: 18px; color: lightslategray;">
+                    Hãy đăng nhập hoặc hãy thêm địa chỉ bạn nhé !
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div class="list-address" data-id="@item.Address">
+            <div class="location-item">
+                <div class="item-local" style="border-bottom: solid 1px #ebebeb;">
+                    <div class="row" style="cursor: pointer; padding: 10px 0 10px 0">
+                        <div class="icon col-1" style="padding: 15px 0 0 35px;">
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <div  class="txt-gray" style="font-size:13px;">
-                            @item.Address
+                        <div class="col-11" style="">
+                            <div class="txt-dark txt-bold" style="font-size:16px;">
+                                @item.Name
+                            </div>
+                            <div class="txt-gray" style="font-size:13px;">
+                                @item.Address
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

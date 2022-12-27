@@ -64,6 +64,7 @@ namespace ShopeeFood_WebAPI.Controllers
                 cus.Email = customer.Email;
                 cus.Phone = customer.Phone;
                 cus.Password = customer.Password;
+                cus.Avata = customer.Avata;
 
                 customerService.Insert(cus);
                 customerService.SaveChange();

@@ -69,6 +69,12 @@
 <script>
     $('#cusImage').load('/Customer/CustomerImagePartial')
 </script>
+
+<!-- Get Selected Value -->
+<script>
+    $('#Sex').val(@ViewBag.Sex);
+</script>
+
 <script>
     function chooseFile(fileInput) {
         if (fileInput.files && fileInput.files[0]) {
