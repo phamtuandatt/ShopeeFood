@@ -191,6 +191,8 @@ namespace ShopeeFood_Web.Controllers
 
             double totalOrder = model.Sum(t => t.Total_price);
 
+            HttpContext.Session.SetString("TotalOrder", totalOrder + "");
+
             ViewBag.TotalOrder = string.Format("{0:0,0}", totalOrder);
 
             ViewBag.OrderId = order.OrderId;
@@ -295,6 +297,10 @@ namespace ShopeeFood_Web.Controllers
             
             var orderDetail = await GetOrderDetailsAsync(id);
 
+            double totalOrder = orderDetail.Sum(t => t.Total_price);
+
+            ViewBag.TotalOrder = string.Format("{0:0,0}", totalOrder);
+
             return PartialView(orderDetail);
         }
 
@@ -314,6 +320,10 @@ namespace ShopeeFood_Web.Controllers
             int id = int.Parse(HttpContext.Session.GetString("OrderIdCart"));
 
             var orderDetail = await GetOrderDetailsAsync(id);
+
+            var tt = HttpContext.Session.GetString("TotalOrder");
+
+            ViewBag.TotalOrder = string.Format("{0:0,0}", int.Parse(tt));
 
             return PartialView(orderDetail);
         }
