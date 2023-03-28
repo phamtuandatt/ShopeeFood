@@ -2,7 +2,7 @@
 
 @foreach (var item in Model)
 {
-    <a class="passCityIdBusinessId" style="text-decoration: none; padding: 25px; color: black; margin-left: 10px;" data-id="@item.CityId" data-bus="@item.BusinesId"> @item.BusinessName </a>
+    <a class="passCityIdBusinessId nav-item" data-id="@item.CityId" data-bus="@item.BusinesId"> @item.BusinessName </a>
     @*<a class="nav-item" href="~/Home/HomePageShopeeFood?bussinessId=@item.BusinesId">@item.BusinessName</a>*@
 }
 
@@ -16,14 +16,14 @@
 
         console.log(cityId + " " + busId);
 
-        //$.ajax({
-        //    url: "@Url.Action("ShopCategoryHomeCity", "Shop")",
-        //    type: "GET",
-        //    data: { 'cityId': cityId, 'bussinessId': busId },
-        //    success: function (response) {
-        //        window.location = "@Url.Action("HomePageShopeeFood", "Home")";
-        //    }
-        //});
+        $.ajax({
+            url: "@Url.Action("ShopCategoryHomeCity", "Shop")",
+            type: "GET",
+            data: { 'cityId': cityId, 'bussinessId' : busId },
+            success: function (response) {
+                window.location = "@Url.Action("HomePageShopeeFood", "Home")";
+            }
+        });
     });
 </script>
 

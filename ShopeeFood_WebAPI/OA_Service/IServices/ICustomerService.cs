@@ -1,5 +1,4 @@
 ﻿using OA_Data.Entities;
-using OA_Service.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace OA_Service.IServices
 
         Customer Get(int Id);
 
-        void Insert(CreateCustomerRequest Entity);
+        void Insert(Customer Entity);
 
         void Delete(int Id);
 
