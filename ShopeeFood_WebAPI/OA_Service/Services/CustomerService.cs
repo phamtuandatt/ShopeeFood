@@ -1,6 +1,7 @@
 ﻿using OA_Data.Entities;
 using OA_Repository.IRepository;
 using OA_Service.IServices;
+using OA_Service.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace OA_Service.Services
 
         public Customer Get(int Id)
         {
+
             return _customerRepository.Get(Id);
         }
 
@@ -50,6 +52,17 @@ namespace OA_Service.Services
 
         public void Insert(Customer Entity)
         {
+            Customer cus = new Customer();
+            //cus.CustomerName = customer.CustomerName;
+            //cus.CustomerAddress = customer.CustomerAddress;
+            //cus.Sex = customer.Sex;
+            //cus.Email = customer.Email;
+            //cus.Phone = customer.Phone;
+            //cus.Password = customer.Password;
+            //cus.Avata = customer.Avata;
+
+
+
             _customerRepository.Insert(Entity); 
         }
 
@@ -61,6 +74,11 @@ namespace OA_Service.Services
         public void Update(Customer Entity)
         {
             _customerRepository.Update(Entity);
+        }
+
+        public void Insert(CreateCustomerRequest Entity)
+        {
+            
         }
     }
 }

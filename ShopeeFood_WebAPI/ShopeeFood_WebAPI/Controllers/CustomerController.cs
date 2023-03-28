@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OA_Data.Entities;
 using OA_Service.IServices;
+using OA_Service.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -53,20 +54,12 @@ namespace ShopeeFood_WebAPI.Controllers
         //string name, string address, string sex, string email, string phone, string password
 
         [HttpPost("AddCustomer")]
-        public bool AddCustomer(Customer customer)
+        public bool AddCustomer(CreateCustomerRequest customerRequest)
         {
+            // var dtoUser = _mapper.Map<Customer, DtoCustomer>(dbCustoerm)
             try
             {
-                Customer cus = new Customer();
-                cus.CustomerName = customer.CustomerName;
-                cus.CustomerAddress = customer.CustomerAddress;
-                cus.Sex = customer.Sex;
-                cus.Email = customer.Email;
-                cus.Phone = customer.Phone;
-                cus.Password = customer.Password;
-                cus.Avata = customer.Avata;
-
-                customerService.Insert(cus);
+                customerService.Insert(customerRequest);
                 customerService.SaveChange();
 
                 return true;

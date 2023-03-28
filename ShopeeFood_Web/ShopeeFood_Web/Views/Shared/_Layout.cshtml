@@ -21,6 +21,14 @@
         a {
             text-decoration: none;
         }
+
+        .passCityIdBusinessId:hover {
+            border-bottom: 5px solid #ee4d2d;
+            color: #ee4d2d;
+            cursor: pointer;
+            color: #ee4d2d;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -142,7 +150,13 @@
     <!-- Active nav -->
     <script>
         var header = document.getElementById("myDIV");
-        var btns = header.getElementsByClassName("nav-item");
+
+        console.log(header);
+
+        var btns = header.getElementsByClassName("passCityIdBusinessId");
+        
+        console.log(btns.length);
+
         for (var i = 0; i < btns.length; i++) {
             btns[i].addEventListener("click", function () {
                 var current = document.getElementsByClassName("active");
